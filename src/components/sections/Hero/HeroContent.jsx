@@ -19,11 +19,13 @@ export default function HeroContent() {
 
 
 
-  if (loading || !settings) {
+  if (loading) {
+  return <h1>Chargement...</h1>;
+}
 
-    return null;
-
-  }
+if (!settings) {
+  return <h1 style={{ color: "red" }}>SETTINGS = NULL</h1>;
+}
 
 
 
