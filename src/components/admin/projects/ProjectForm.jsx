@@ -4,6 +4,9 @@ import Select from "../ui/Select";
 import Checkbox from "../ui/Checkbox";
 import Divider from "../ui/Divider";
 
+import ImageUploader from "../upload/ImageUploader";
+import TechnologySelector from "./TechnologySelector";
+
 const categoryOptions = [
   { value: "Web", label: "Web" },
   { value: "Mobile", label: "Mobile" },
@@ -23,6 +26,7 @@ const statusOptions = [
 export default function ProjectForm({
   project,
   onChange,
+  onUploadImage,
 }) {
   return (
     <div className="space-y-10">
@@ -52,8 +56,8 @@ export default function ProjectForm({
 
         <Input
           label="Année"
-          name="year"
           type="number"
+          name="year"
           value={project.year}
           onChange={onChange}
         />
@@ -96,8 +100,8 @@ export default function ProjectForm({
 
         <Input
           label="Ordre d'affichage"
-          name="display_order"
           type="number"
+          name="display_order"
           value={project.display_order}
           onChange={onChange}
         />
@@ -121,25 +125,42 @@ export default function ProjectForm({
 
       <Divider title="Liens" />
 
-      <Input
-        label="GitHub"
-        name="github_url"
-        value={project.github_url}
-        onChange={onChange}
-      />
+      <div className="space-y-6">
+        <Input
+          label="GitHub"
+          name="github_url"
+          value={project.github_url}
+          onChange={onChange}
+        />
 
-      <Input
-        label="Démo"
-        name="demo_url"
-        value={project.demo_url}
-        onChange={onChange}
-      />
-
-      <Divider title="Image principale" />
-
-      <div className="rounded-2xl border-2 border-dashed border-zinc-700 p-10 text-center text-zinc-400">
-        Upload de l'image (étape suivante)
+        <Input
+          label="Démo"
+          name="demo_url"
+          value={project.demo_url}
+          onChange={onChange}
+        />
       </div>
+
+
+
+      <Divider title="Technologies" />
+
+        <TechnologySelector
+        selected={project.technologies || []}
+        onChange={(values) =>
+            onChange({
+            target: {
+                name: "technologies",
+                value: values,
+            },
+            })
+        }
+        />
+
+      <ImageUploader
+        value={project.cover_image}
+        onUpload={onUploadImage}
+      />
     </div>
   );
 }

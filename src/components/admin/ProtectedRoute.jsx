@@ -5,8 +5,21 @@ export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <p>Chargement...</p>;
-  }
+    return (
+        <div
+        className="
+            flex
+            min-h-screen
+            items-center
+            justify-center
+            bg-zinc-950
+            text-zinc-400
+        "
+        >
+        Chargement...
+        </div>
+    );
+    }
 
   if (!user) {
     return <Navigate to="/admin/login" replace />;

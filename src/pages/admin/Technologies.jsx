@@ -5,30 +5,27 @@ import { toast } from "sonner";
 import SectionTitle from "../../components/admin/ui/SectionTitle";
 import Button from "../../components/admin/ui/Button";
 
-import ExperienceList from "../../components/admin/experiences/ExperienceList";
-import ExperienceDrawer from "../../components/admin/experiences/ExperienceDrawer";
+import TechnologyList from "../../components/admin/technologies/TechnologyList";
+import TechnologyDrawer from "../../components/admin/technologies/TechnologyDrawer";
 
 import {
-  getExperiences,
-  deleteExperience,
-} from "../../services/experiences.service";
+  getTechnologies,
+  deleteTechnology,
+} from "../../services/technologies.service";
 
 
 
+export default function Technologies() {
 
-export default function Experiences() {
 
-
-  const [experiences, setExperiences] = useState([]);
+  const [technologies, setTechnologies] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const [selectedExperience, setSelectedExperience] =
+  const [selectedTechnology, setSelectedTechnology] =
     useState(null);
-
-
 
 
 
@@ -37,7 +34,7 @@ export default function Experiences() {
 
   useEffect(() => {
 
-    loadExperiences();
+    loadTechnologies();
 
   }, []);
 
@@ -47,35 +44,30 @@ export default function Experiences() {
 
 
 
-
-
-  async function loadExperiences() {
-
+  async function loadTechnologies() {
 
     try {
-
 
       setLoading(true);
 
 
       const data =
-        await getExperiences();
+        await getTechnologies();
 
 
-      setExperiences(data);
+      setTechnologies(data);
 
 
 
-    } catch(error) {
+    } catch (error) {
 
 
       console.error(error);
 
 
       toast.error(
-        "Impossible de charger les expériences."
+        "Impossible de charger les technologies."
       );
-
 
 
     } finally {
@@ -85,7 +77,6 @@ export default function Experiences() {
 
 
     }
-
 
   }
 
@@ -99,11 +90,9 @@ export default function Experiences() {
 
   function handleCreate() {
 
-
-    setSelectedExperience(null);
+    setSelectedTechnology(null);
 
     setDrawerOpen(true);
-
 
   }
 
@@ -113,18 +102,13 @@ export default function Experiences() {
 
 
 
+  function handleEdit(technology) {
 
-
-  function handleEdit(experience) {
-
-
-    setSelectedExperience(
-      experience
+    setSelectedTechnology(
+      technology
     );
 
-
     setDrawerOpen(true);
-
 
   }
 
@@ -134,22 +118,17 @@ export default function Experiences() {
 
 
 
-
-
-  async function handleDelete(experience) {
+  async function handleDelete(technology) {
 
 
     const confirmed = window.confirm(
-      `Supprimer "${experience.role}" chez ${experience.company} ?`
+      `Supprimer "${technology.name}" ?`
     );
 
 
     if (!confirmed) {
-
       return;
-
     }
-
 
 
 
@@ -158,41 +137,31 @@ export default function Experiences() {
     try {
 
 
-
-      await deleteExperience(
-        experience.id
+      await deleteTechnology(
+        technology.id
       );
 
 
 
-
-
-      setExperiences((prev) =>
-
+      setTechnologies((prev) =>
         prev.filter(
           (item) =>
-            item.id !== experience.id
+            item.id !== technology.id
         )
-
       );
-
-
 
 
 
       toast.success(
-        "Expérience supprimée."
+        "Technologie supprimée."
       );
 
 
 
-
-    } catch(error) {
-
+    } catch (error) {
 
 
       console.error(error);
-
 
 
       toast.error(
@@ -200,9 +169,7 @@ export default function Experiences() {
       );
 
 
-
     }
-
 
   }
 
@@ -214,36 +181,29 @@ export default function Experiences() {
 
 
 
-  function handleSaved(experience) {
+  function handleSaved(technology) {
 
 
-    setExperiences((prev) => {
-
+    setTechnologies((prev) => {
 
 
       const exists =
         prev.find(
           (item) =>
-            item.id === experience.id
+            item.id === technology.id
         );
-
 
 
 
       if (exists) {
 
 
-
         return prev.map(
           (item) =>
-
-            item.id === experience.id
-
-              ? experience
-
+            item.id === technology.id
+              ? technology
               : item
         );
-
 
 
       }
@@ -251,17 +211,10 @@ export default function Experiences() {
 
 
 
-
-
       return [
-
         ...prev,
-
-        experience,
-
+        technology,
       ];
-
-
 
     });
 
@@ -275,17 +228,11 @@ export default function Experiences() {
 
 
 
-
   if (loading) {
-
 
     return (
 
-      <div
-        className="
-          text-zinc-400
-        "
-      >
+      <div className="text-zinc-400">
 
         Chargement...
 
@@ -293,9 +240,7 @@ export default function Experiences() {
 
     );
 
-
   }
-
 
 
 
@@ -314,8 +259,6 @@ export default function Experiences() {
 
 
 
-
-
       <div
         className="
           flex
@@ -328,21 +271,17 @@ export default function Experiences() {
 
         <SectionTitle
 
-          title="Experiences"
+          title="Technologies"
 
-          description="Gère ton parcours professionnel."
+          description="Gère les technologies utilisées dans tes projets."
 
         />
 
 
 
 
-
-
         <Button
-
           onClick={handleCreate}
-
         >
 
           <span
@@ -356,7 +295,6 @@ export default function Experiences() {
             <Plus size={18}/>
 
             Nouvelle
-
 
           </span>
 
@@ -373,11 +311,9 @@ export default function Experiences() {
 
 
 
+      <TechnologyList
 
-
-      <ExperienceList
-
-        experiences={experiences}
+        technologies={technologies}
 
         onEdit={handleEdit}
 
@@ -392,24 +328,20 @@ export default function Experiences() {
 
 
 
-
-      <ExperienceDrawer
+      <TechnologyDrawer
 
 
         open={drawerOpen}
 
 
-        experience={selectedExperience}
+        technology={selectedTechnology}
 
 
         onClose={() => {
 
-
           setDrawerOpen(false);
 
-
-          setSelectedExperience(null);
-
+          setSelectedTechnology(null);
 
         }}
 
@@ -418,9 +350,7 @@ export default function Experiences() {
         onSaved={handleSaved}
 
 
-
       />
-
 
 
 

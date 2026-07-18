@@ -1,20 +1,18 @@
 import ProjectCard from "./ProjectCard";
+import EmptyProjects from "./EmptyProjects";
 
 export default function ProjectList({
-  projects,
+  projects = [],
   onEdit,
   onDelete,
 }) {
   if (!projects.length) {
-    return (
-      <p className="text-zinc-400">
-        Aucun projet.
-      </p>
-    );
+    return <EmptyProjects />;
   }
 
+
   return (
-    <div className="space-y-4">
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {projects.map((project) => (
         <ProjectCard
           key={project.id}

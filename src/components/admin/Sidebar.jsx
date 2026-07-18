@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 const links = [
   { to: "/admin", label: "Dashboard" },
   { to: "/admin/projects", label: "Projects" },
+  { to: "/admin/technologies", label: "Technologies" },
   { to: "/admin/settings", label: "Settings" },
   { to: "/admin/skills", label: "Skills" },
   { to: "/admin/experiences", label: "Experiences" },
