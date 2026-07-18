@@ -1,11 +1,25 @@
 import {
+  useState,
+} from "react";
+
+
+import {
   motion,
+  AnimatePresence,
 } from "framer-motion";
+
+
+import {
+  Menu,
+  X,
+} from "lucide-react";
+
 
 import Container from "../../ui/Container";
 import Button from "../../ui/Button";
 
 import usePortfolio from "../../../hooks/usePortfolio";
+
 
 
 const navigation = [
@@ -33,6 +47,7 @@ const navigation = [
 
 
 
+
 export default function Navbar() {
 
 
@@ -42,8 +57,23 @@ export default function Navbar() {
 
 
 
+  const [open,setOpen] = useState(false);
+
+
+
+
+  function closeMenu(){
+
+    setOpen(false);
+
+  }
+
+
+
+
 
   return (
+
 
     <motion.header
 
@@ -65,7 +95,6 @@ export default function Navbar() {
       }}
 
 
-
       className="
         fixed
         inset-x-0
@@ -73,26 +102,19 @@ export default function Navbar() {
         z-50
       "
 
+
     >
 
 
-
-      <Container
-        className="
-          flex
-          justify-center
-        "
-      >
-
+      <Container>
 
 
         <nav
 
-
           className="
+            mx-auto
             flex
             h-16
-            w-full
             max-w-5xl
             items-center
             justify-between
@@ -104,7 +126,6 @@ export default function Navbar() {
             shadow-[0_15px_50px_rgba(0,0,0,.08)]
             backdrop-blur-xl
           "
-
 
         >
 
@@ -129,8 +150,10 @@ export default function Navbar() {
 
             {
               settings?.first_name
-                ? `${settings.first_name.charAt(0)}${settings.last_name?.charAt(0) || ""}.`
-                : "IA."
+                ?
+                `${settings.first_name.charAt(0)}${settings.last_name?.charAt(0) || ""}.`
+                :
+                "IA."
             }
 
 
@@ -142,8 +165,7 @@ export default function Navbar() {
 
 
 
-
-          {/* NAVIGATION */}
+          {/* DESKTOP */}
 
 
           <ul
@@ -157,14 +179,11 @@ export default function Navbar() {
 
           >
 
-
             {
               navigation.map(
                 (item)=>(
 
-                  <li
-                    key={item.label}
-                  >
+                  <li key={item.label}>
 
                     <a
 
@@ -182,9 +201,7 @@ export default function Navbar() {
 
                       {item.label}
 
-
                     </a>
-
 
                   </li>
 
@@ -202,7 +219,7 @@ export default function Navbar() {
 
 
 
-          {/* CV */}
+          {/* DESKTOP CV */}
 
 
           {
@@ -216,22 +233,15 @@ export default function Navbar() {
 
                 rel="noreferrer"
 
+                className="hidden lg:block"
+
               >
 
-                <Button
-
-                  className="
-                    hidden
-                    lg:inline-flex
-                  "
-
-                >
+                <Button>
 
                   Télécharger mon CV
 
-
                 </Button>
-
 
               </a>
 
@@ -241,16 +251,223 @@ export default function Navbar() {
 
 
 
+
+
+
+          {/* MOBILE BUTTON */}
+
+
+          <button
+
+            onClick={()=>setOpen(!open)}
+
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-neutral-200
+              lg:hidden
+            "
+
+          >
+
+            {
+              open
+                ?
+                <X size={20}/>
+                :
+                <Menu size={20}/>
+            }
+
+
+          </button>
+
+
+
         </nav>
+
+
+
+
+
+
+
+
+        {/* MOBILE MENU */}
+
+
+
+        <AnimatePresence>
+
+
+          {
+            open && (
+
+
+              <motion.div
+
+
+                initial={{
+                  opacity:0,
+                  y:-15,
+                  scale:.95,
+                }}
+
+
+                animate={{
+                  opacity:1,
+                  y:0,
+                  scale:1,
+                }}
+
+
+                exit={{
+                  opacity:0,
+                  y:-15,
+                  scale:.95,
+                }}
+
+
+
+                transition={{
+                  duration:.25,
+                }}
+
+
+                className="
+                  mt-4
+                  rounded-[32px]
+                  border
+                  border-neutral-200
+                  bg-white/90
+                  p-6
+                  shadow-[0_20px_60px_rgba(0,0,0,.12)]
+                  backdrop-blur-xl
+                  lg:hidden
+                "
+
+
+              >
+
+
+
+
+                <ul
+
+                  className="
+                    flex
+                    flex-col
+                    gap-5
+                  "
+
+                >
+
+                  {
+                    navigation.map(
+                      (item)=>(
+
+
+                        <li key={item.label}>
+
+
+                          <a
+
+                            href={item.href}
+
+                            onClick={closeMenu}
+
+                            className="
+                              block
+                              text-lg
+                              font-medium
+                              text-neutral-700
+                              transition
+                              hover:text-black
+                            "
+
+                          >
+
+                            {item.label}
+
+
+                          </a>
+
+
+                        </li>
+
+
+                      )
+                    )
+                  }
+
+
+
+                </ul>
+
+
+
+
+
+
+                {
+                  settings?.cv_url && (
+
+
+                    <a
+
+                      href={settings.cv_url}
+
+                      target="_blank"
+
+                      rel="noreferrer"
+
+                      className="mt-6 block"
+
+                    >
+
+                      <Button
+
+                        className="
+                          w-full
+                        "
+
+                      >
+
+                        Télécharger mon CV
+
+
+                      </Button>
+
+
+                    </a>
+
+
+                  )
+                }
+
+
+
+              </motion.div>
+
+
+            )
+          }
+
+
+        </AnimatePresence>
 
 
 
       </Container>
 
 
-
     </motion.header>
+
 
   );
 
-} 
+}
