@@ -1,19 +1,94 @@
+import {
+  motion,
+} from "framer-motion";
+
 import Container from "../../ui/Container";
 import Button from "../../ui/Button";
 
+import usePortfolio from "../../../hooks/usePortfolio";
+
+
 const navigation = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  {
+    label:"About",
+    href:"#about",
+  },
+  {
+    label:"Experience",
+    href:"#experience",
+  },
+  {
+    label:"Skills",
+    href:"#skills",
+  },
+  {
+    label:"Projects",
+    href:"#projects",
+  },
+  {
+    label:"Contact",
+    href:"#contact",
+  },
 ];
 
+
+
 export default function Navbar() {
+
+
+  const {
+    settings,
+  } = usePortfolio();
+
+
+
+
   return (
-    <header className="fixed inset-x-0 top-5 z-50">
-      <Container className="flex justify-center">
+
+    <motion.header
+
+
+      initial={{
+        opacity:0,
+        y:-20,
+      }}
+
+
+      animate={{
+        opacity:1,
+        y:0,
+      }}
+
+
+      transition={{
+        duration:.6,
+      }}
+
+
+
+      className="
+        fixed
+        inset-x-0
+        top-5
+        z-50
+      "
+
+    >
+
+
+
+      <Container
+        className="
+          flex
+          justify-center
+        "
+      >
+
+
+
         <nav
+
+
           className="
             flex
             h-16
@@ -23,47 +98,159 @@ export default function Navbar() {
             justify-between
             rounded-full
             border
-            border-neutral-200/80
-            bg-white/80
+            border-neutral-200/70
+            bg-white/75
             px-6
-            shadow-lg
+            shadow-[0_15px_50px_rgba(0,0,0,.08)]
             backdrop-blur-xl
           "
+
+
         >
-          {/* Logo */}
+
+
+
+
+          {/* LOGO */}
+
+
           <a
+
             href="/"
-            className="text-lg font-semibold tracking-tight"
+
+            className="
+              text-lg
+              font-semibold
+              tracking-tight
+              text-neutral-950
+            "
+
           >
-            IA.
+
+            {
+              settings?.first_name
+                ? `${settings.first_name.charAt(0)}${settings.last_name?.charAt(0) || ""}.`
+                : "IA."
+            }
+
+
           </a>
 
-          {/* Navigation desktop */}
-          <ul className="hidden items-center gap-8 lg:flex">
-            {navigation.map((item) => (
-              <li key={item.label}>
-                <a
-                  href={item.href}
-                  className="
-                    text-sm
-                    text-neutral-600
-                    transition-colors
-                    duration-300
-                    hover:text-black
-                  "
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+
+
+
+
+
+
+
+          {/* NAVIGATION */}
+
+
+          <ul
+
+            className="
+              hidden
+              items-center
+              gap-8
+              lg:flex
+            "
+
+          >
+
+
+            {
+              navigation.map(
+                (item)=>(
+
+                  <li
+                    key={item.label}
+                  >
+
+                    <a
+
+                      href={item.href}
+
+                      className="
+                        text-sm
+                        font-medium
+                        text-neutral-500
+                        transition
+                        hover:text-black
+                      "
+
+                    >
+
+                      {item.label}
+
+
+                    </a>
+
+
+                  </li>
+
+                )
+              )
+            }
+
+
           </ul>
 
-          {/* CTA */}
-          <Button className="hidden lg:inline-flex">
-            Télécharger mon CV
-          </Button>
+
+
+
+
+
+
+
+          {/* CV */}
+
+
+          {
+            settings?.cv_url && (
+
+              <a
+
+                href={settings.cv_url}
+
+                target="_blank"
+
+                rel="noreferrer"
+
+              >
+
+                <Button
+
+                  className="
+                    hidden
+                    lg:inline-flex
+                  "
+
+                >
+
+                  Télécharger mon CV
+
+
+                </Button>
+
+
+              </a>
+
+            )
+          }
+
+
+
+
         </nav>
+
+
+
       </Container>
-    </header>
+
+
+
+    </motion.header>
+
   );
-}
+
+} 

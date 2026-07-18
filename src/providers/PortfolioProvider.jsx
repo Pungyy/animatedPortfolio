@@ -6,6 +6,7 @@ import { getSettings } from "../services/settings.service";
 import { getProjects } from "../services/projects.service";
 import { getExperiences } from "../services/experiences.service";
 import { getTechnologies } from "../services/technologies.service";
+import { getSkills } from "../services/skills.service";
 
 
 
@@ -22,11 +23,14 @@ export default function PortfolioProvider({
 
   const [technologies, setTechnologies] = useState([]);
 
+  const [skills, setSkills] = useState([]);
 
 
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState(null);
+
+
 
 
 
@@ -45,6 +49,7 @@ export default function PortfolioProvider({
           projectsData,
           experiencesData,
           technologiesData,
+          skillsData,
         ] = await Promise.all([
 
           getSettings(),
@@ -54,6 +59,8 @@ export default function PortfolioProvider({
           getExperiences(),
 
           getTechnologies(),
+
+          getSkills()
 
         ]);
 
@@ -67,6 +74,8 @@ export default function PortfolioProvider({
         setExperiences(experiencesData);
 
         setTechnologies(technologiesData);
+
+        setSkills(skillsData);
 
 
 
@@ -115,6 +124,8 @@ export default function PortfolioProvider({
     experiences,
 
     technologies,
+
+    skills,
 
     loading,
 
