@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
-
 import usePortfolio from "../../../hooks/usePortfolio";
 
 import Heading from "../../ui/Heading";
+import AnimatedSection from "../../ui/AnimatedSection";
 
 import AboutCard from "./AboutCard";
 import TechStack from "./TechStack";
+
 
 
 export default function About() {
@@ -18,9 +18,11 @@ export default function About() {
 
 
 
+
   if (loading || !settings) {
     return null;
   }
+
 
 
 
@@ -51,23 +53,31 @@ export default function About() {
 
 
 
-        <Heading
+        <AnimatedSection>
 
-          eyebrow="À PROPOS"
 
-          title={
-            settings.about_title ||
-            "Créer des expériences numériques."
-          }
+          <Heading
 
-          description="
-            Mon parcours, ma vision et les
-            technologies qui m'accompagnent.
-          "
+            eyebrow="À PROPOS"
 
-          align="center"
+            title={
+              settings.about_title ||
+              "Créer des expériences numériques."
+            }
 
-        />
+
+            description="
+              Mon parcours, ma vision et les
+              technologies qui m'accompagnent.
+            "
+
+
+            align="center"
+
+          />
+
+
+        </AnimatedSection>
 
 
 
@@ -91,110 +101,89 @@ export default function About() {
 
 
 
+
           {/* TEXTE */}
 
-          <motion.div
+
+          <AnimatedSection>
 
 
-            initial={{
-              opacity:0,
-              x:-40,
-            }}
+            <div>
 
 
-            whileInView={{
-              opacity:1,
-              x:0,
-            }}
+              <h3
+
+                className="
+                  text-5xl
+                  font-semibold
+                  leading-tight
+                  tracking-tight
+                  text-neutral-950
+                "
+
+              >
+
+                Développer.
+                <br />
+
+                Imaginer.
+                <br />
+
+                Construire.
 
 
-            viewport={{
-              once:true,
-              margin:"-100px",
-            }}
-
-
-            transition={{
-              duration:.8,
-            }}
-
-
-
-          >
-
-
-
-
-            <h3
-
-              className="
-                text-5xl
-                font-semibold
-                leading-tight
-                tracking-tight
-                text-neutral-950
-              "
-
-            >
-
-              Développer.
-              <br />
-
-              Imaginer.
-              <br />
-
-              Construire.
-
-
-            </h3>
+              </h3>
 
 
 
 
 
+              <p
 
-            <p
+                className="
+                  mt-8
+                  max-w-xl
+                  text-lg
+                  leading-9
+                  text-neutral-500
+                "
 
-              className="
-                mt-8
-                max-w-xl
-                text-lg
-                leading-9
-                text-neutral-500
-              "
+              >
 
-            >
-
-              {
-                settings.about_description ||
-                settings.hero_description
-              }
+                {
+                  settings.about_description ||
+                  settings.hero_description
+                }
 
 
-            </p>
+              </p>
 
 
 
 
 
 
-            <div
 
-              className="
-                mt-12
-              "
+              <div
 
-            >
+                className="
+                  mt-12
+                "
 
-              <TechStack />
+              >
+
+                <TechStack />
+
+
+              </div>
 
 
             </div>
 
 
+          </AnimatedSection>
 
 
-          </motion.div>
 
 
 
@@ -204,7 +193,17 @@ export default function About() {
 
           {/* CARTE */}
 
-          <AboutCard />
+
+          <AnimatedSection>
+
+
+            <AboutCard />
+
+
+          </AnimatedSection>
+
+
+
 
 
         </div>

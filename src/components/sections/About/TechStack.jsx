@@ -1,4 +1,7 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
+
 
 import usePortfolio from "../../../hooks/usePortfolio";
 
@@ -10,8 +13,16 @@ export default function TechStack() {
 
 
   const {
-    technologies,
+    skills,
+    loading,
   } = usePortfolio();
+
+
+
+
+  if (loading || !skills?.length) {
+    return null;
+  }
 
 
 
@@ -28,91 +39,102 @@ export default function TechStack() {
 
     >
 
+
       {
-        technologies
-        ?.slice(0,8)
-        .map((tech,index)=>(
+        skills.slice(0,8).map(
+          (skill,index)=>(
 
 
-          <motion.div
+            <motion.div
 
 
-            key={tech.id}
+              key={skill.id}
 
 
-            initial={{
-              opacity:0,
-              y:20,
-            }}
+              initial={{
+                opacity:0,
+                y:20,
+              }}
 
 
-            whileInView={{
-              opacity:1,
-              y:0,
-            }}
+              whileInView={{
+                opacity:1,
+                y:0,
+              }}
 
 
-            viewport={{
-              once:true,
-            }}
+              viewport={{
+                once:true,
+              }}
 
 
-            transition={{
-              delay:index * .08,
-            }}
-
-
-
-            className="
-              flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              px-5
-              py-2.5
-              text-sm
-              font-medium
-              transition
-              hover:-translate-y-1
-            "
+              transition={{
+                delay:index * .08,
+                duration:.5,
+              }}
 
 
 
-            style={{
-
-              backgroundColor:
-                `${tech.color}12`,
-
-              borderColor:
-                `${tech.color}40`,
-
-              color:
-                tech.color,
-
-            }}
-
-
-          >
-
-
-            <TechnologyIcon
-
-              name={tech.icon}
-
-              size={15}
-
-            />
-
-
-            {tech.name}
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                px-5
+                py-2
+                text-sm
+                font-medium
+              "
 
 
 
-          </motion.div>
+              style={{
+
+                backgroundColor:
+                  `${skill.color}12`,
+
+                borderColor:
+                  `${skill.color}40`,
+
+                color:
+                  skill.color,
+
+              }}
 
 
-        ))
+
+            >
+
+
+
+              {
+                skill.icon && (
+
+                  <TechnologyIcon
+
+                    name={skill.icon}
+
+                    size={15}
+
+                  />
+
+                )
+              }
+
+
+
+
+
+              {skill.name}
+
+
+
+            </motion.div>
+
+
+          )
+        )
       }
 
 

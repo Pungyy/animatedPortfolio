@@ -3,9 +3,11 @@ import {
 } from "framer-motion";
 
 
-import Badge from "../../ui/Badge";
-
 import usePortfolio from "../../../hooks/usePortfolio";
+
+import TechnologyIcon from "../../ui/TechnologyIcon";
+
+import heroImage from "../../../assets/hero/developer-setup.png";
 
 
 
@@ -13,50 +15,108 @@ export default function HeroVisual() {
 
 
   const {
-    settings,
+    skills,
   } = usePortfolio();
+
+
+
+
+  const featuredSkills = skills?.slice(0,4) || [];
 
 
 
 
   return (
 
-    <motion.div
-
-
-      initial={{
-        opacity:0,
-        scale:0.95,
-      }}
-
-
-      animate={{
-        opacity:1,
-        scale:1,
-      }}
-
-
-      transition={{
-        duration:1,
-        ease:"easeOut",
-      }}
-
-
+    <div
 
       className="
+        relative
         flex
         justify-center
         lg:justify-end
       "
 
-
     >
 
 
 
+      {/* HALO PRINCIPAL */}
 
 
-      <div
+      <motion.div
+
+        animate={{
+
+          scale:[
+            1,
+            1.08,
+            1,
+          ],
+
+          opacity:[
+            .35,
+            .5,
+            .35,
+          ],
+
+        }}
+
+
+        transition={{
+
+          duration:6,
+
+          repeat:Infinity,
+
+          ease:"easeInOut",
+
+        }}
+
+
+        className="
+          absolute
+          -inset-20
+          rounded-full
+          bg-gradient-to-br
+          from-neutral-200
+          via-white
+          to-neutral-100
+          blur-3xl
+        "
+
+      />
+
+
+
+
+
+
+
+
+      {/* CARTE */}
+
+
+      <motion.div
+
+
+        initial={{
+          opacity:0,
+          y:40,
+        }}
+
+
+        animate={{
+          opacity:1,
+          y:0,
+        }}
+
+
+        transition={{
+          duration:.8,
+        }}
+
+
 
         className="
           relative
@@ -64,69 +124,100 @@ export default function HeroVisual() {
           max-w-[520px]
         "
 
+
       >
 
 
 
 
-        {/* Image */}
 
         <motion.div
 
 
-          whileHover={{
-            scale:1.02,
+          animate={{
+
+            y:[
+              0,
+              -12,
+              0,
+            ],
+
           }}
 
 
           transition={{
-            duration:0.4,
+
+            duration:5,
+
+            repeat:Infinity,
+
+            ease:"easeInOut",
+
           }}
 
 
 
           className="
+            relative
             overflow-hidden
             rounded-[48px]
             border
             border-neutral-200
-            bg-neutral-100
-            shadow-[0_40px_100px_rgba(0,0,0,0.12)]
+            bg-white
+            shadow-[0_40px_120px_rgba(0,0,0,.12)]
           "
+
 
         >
 
 
-          {
-            settings?.profile_image ? (
 
-              <img
+          <div
 
-                src={settings.profile_image}
+            className="
+              aspect-[4/5]
+              bg-neutral-100
+            "
 
-                alt="Profil"
+          >
 
-                className="
-                  aspect-[4/5]
-                  h-full
-                  w-full
-                  object-cover
-                "
 
-              />
+            <img
 
-            ) : (
+              src={heroImage}
 
-              <div
+              alt="Developer workspace"
 
-                className="
-                  aspect-[4/5]
-                "
+              className="
+                h-full
+                w-full
+                object-cover
+              "
 
-              />
+            />
 
-            )
-          }
+
+          </div>
+
+
+
+
+          {/* REFLET */}
+
+
+          <div
+
+            className="
+              absolute
+              inset-0
+              bg-gradient-to-tr
+              from-white/30
+              via-transparent
+              to-transparent
+              pointer-events-none
+            "
+
+          />
 
 
 
@@ -138,139 +229,132 @@ export default function HeroVisual() {
 
 
 
-        {/* Floating badges */}
 
 
+        {/* BADGES */}
 
-        <FloatingBadge
 
-          text="React"
 
-          className="
-            -left-6
-            top-12
-          "
+        {
+          featuredSkills.map(
+            (skill,index)=>(
 
-          delay={0}
 
-        />
+              <motion.div
 
 
+                key={skill.id}
 
-        <FloatingBadge
 
-          text="Supabase"
+                animate={{
 
-          className="
-            -right-6
-            top-32
-          "
+                  y:[
+                    0,
+                    -8,
+                    0,
+                  ],
 
-          delay={1}
+                }}
 
-        />
 
 
+                transition={{
 
-        <FloatingBadge
+                  duration:
+                    3 + index,
 
-          text="Laravel"
+                  repeat:Infinity,
 
-          className="
-            -left-4
-            bottom-24
-          "
+                  ease:"easeInOut",
 
-          delay={2}
+                }}
 
-        />
 
 
+                className={`
+                  absolute
+                  flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  bg-white/90
+                  px-4
+                  py-2
+                  text-sm
+                  font-medium
+                  shadow-lg
+                  backdrop-blur
 
-        <FloatingBadge
+                  ${
+                    index === 0
+                    ? "-left-6 top-10"
+                    :
+                    index === 1
+                    ? "-right-6 top-28"
+                    :
+                    index === 2
+                    ? "-left-5 bottom-24"
+                    :
+                    "right-0 bottom-10"
+                  }
 
-          text="TypeScript"
+                `}
 
-          className="
-            right-0
-            bottom-12
-          "
 
-          delay={3}
 
-        />
+                style={{
 
+                  borderColor:
+                    `${skill.color}50`,
 
+                  color:
+                    skill.color,
 
+                }}
 
 
-      </div>
 
+              >
 
 
-    </motion.div>
 
-  );
+                {
+                  skill.icon && (
 
-}
+                    <TechnologyIcon
 
+                      name={skill.icon}
 
+                      size={14}
 
+                    />
 
+                  )
+                }
 
 
 
+                {skill.name}
 
-function FloatingBadge({
-  text,
-  className,
-  delay,
-}) {
 
+              </motion.div>
 
-  return (
 
-    <motion.div
+            )
+          )
+        }
 
 
-      animate={{
-        y:[
-          0,
-          -10,
-          0,
-        ],
-      }}
 
 
 
-      transition={{
+      </motion.div>
 
-        duration:4,
 
-        repeat:Infinity,
 
-        delay,
 
-      }}
-
-
-
-      className={`
-        absolute
-        ${className}
-      `}
-
-
-    >
-
-      <Badge>
-
-        {text}
-
-      </Badge>
-
-
-    </motion.div>
+    </div>
 
   );
 

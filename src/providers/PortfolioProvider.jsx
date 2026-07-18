@@ -1,18 +1,40 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
 
 import PortfolioContext from "../contexts/PortfolioContext";
 
-import { getSettings } from "../services/settings.service";
-import { getProjects } from "../services/projects.service";
-import { getExperiences } from "../services/experiences.service";
-import { getTechnologies } from "../services/technologies.service";
-import { getSkills } from "../services/skills.service";
+
+import {
+  getSettings,
+} from "../services/settings.service";
+
+import {
+  getProjects,
+} from "../services/projects.service";
+
+import {
+  getExperiences,
+} from "../services/experiences.service";
+
+import {
+  getTechnologies,
+} from "../services/technologies.service";
+
+import {
+  getSkills,
+} from "../services/skills.service";
+
+
 
 
 
 export default function PortfolioProvider({
   children,
 }) {
+
 
 
   const [settings, setSettings] = useState(null);
@@ -24,6 +46,7 @@ export default function PortfolioProvider({
   const [technologies, setTechnologies] = useState([]);
 
   const [skills, setSkills] = useState([]);
+
 
 
   const [loading, setLoading] = useState(true);
@@ -60,7 +83,7 @@ export default function PortfolioProvider({
 
           getTechnologies(),
 
-          getSkills()
+          getSkills(),
 
         ]);
 
@@ -83,7 +106,7 @@ export default function PortfolioProvider({
 
 
         console.error(
-          "Portfolio loading error :",
+          "Portfolio loading error:",
           err
         );
 
@@ -115,21 +138,30 @@ export default function PortfolioProvider({
 
 
 
+
   const value = {
+
 
     settings,
 
+
     projects,
+
 
     experiences,
 
+
     technologies,
+
 
     skills,
 
+
     loading,
 
+
     error,
+
 
   };
 
@@ -138,7 +170,9 @@ export default function PortfolioProvider({
 
 
 
+
   return (
+
 
     <PortfolioContext.Provider
       value={value}
@@ -146,7 +180,9 @@ export default function PortfolioProvider({
 
       {children}
 
+
     </PortfolioContext.Provider>
+
 
   );
 
