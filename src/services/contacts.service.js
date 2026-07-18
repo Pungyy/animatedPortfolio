@@ -7,8 +7,10 @@ import { supabase } from "../lib/supabase";
  */
 export async function getContacts() {
 
-
-  const { data, error } = await supabase
+  const {
+    data,
+    error,
+  } = await supabase
 
     .from("contacts")
 
@@ -39,12 +41,66 @@ export async function getContacts() {
 
 
 /**
- * Modifier un contact
+ * Envoyer un message depuis le portfolio public
+ */
+export async function createContact(contact) {
+
+
+  const {
+    data,
+    error,
+  } = await supabase
+
+    .from("contacts")
+
+    .insert({
+
+      name: contact.name,
+
+      email: contact.email,
+
+      message: contact.message,
+
+      read: false,
+
+    })
+
+    .select()
+
+    .single();
+
+
+
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+
+  return data;
+
+}
+
+
+
+
+
+
+
+/**
+ * Modifier le statut d'un message
  */
 export async function updateContact(contact) {
 
 
-  const { data, error } = await supabase
+  const {
+    data,
+    error,
+  } = await supabase
 
     .from("contacts")
 
@@ -62,6 +118,8 @@ export async function updateContact(contact) {
     .select()
 
     .single();
+
+
 
 
 
@@ -89,7 +147,9 @@ export async function updateContact(contact) {
 export async function deleteContact(id) {
 
 
-  const { error } = await supabase
+  const {
+    error,
+  } = await supabase
 
     .from("contacts")
 
@@ -99,6 +159,8 @@ export async function deleteContact(id) {
       "id",
       id
     );
+
+
 
 
 

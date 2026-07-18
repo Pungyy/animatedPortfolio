@@ -1,26 +1,220 @@
-import Container from "../../ui/Container";
+import { motion } from "framer-motion";
+
+import usePortfolio from "../../../hooks/usePortfolio";
+
 import Heading from "../../ui/Heading";
+
 import AboutCard from "./AboutCard";
 import TechStack from "./TechStack";
 
+
 export default function About() {
+
+
+  const {
+    settings,
+    loading,
+  } = usePortfolio();
+
+
+
+  if (loading || !settings) {
+    return null;
+  }
+
+
+
   return (
+
     <section
+
       id="about"
-      className="py-32 bg-neutral-50"
+
+      className="
+        relative
+        overflow-hidden
+        py-40
+      "
+
     >
-      <Container>
+
+
+      <div
+
+        className="
+          mx-auto
+          max-w-7xl
+          px-6
+        "
+
+      >
+
+
+
         <Heading
-          eyebrow="À propos"
-          title="Construire des produits utiles avec une attention particulière aux détails."
-          description="Je développe des applications web modernes, performantes et maintenables, en accordant autant d'importance à l'expérience utilisateur qu'à la qualité du code."
+
+          eyebrow="À PROPOS"
+
+          title={
+            settings.about_title ||
+            "Créer des expériences numériques."
+          }
+
+          description="
+            Mon parcours, ma vision et les
+            technologies qui m'accompagnent.
+          "
+
+          align="center"
+
         />
 
-        <div className="mt-20 grid gap-12 lg:grid-cols-[420px_1fr]">
+
+
+
+
+
+
+        <div
+
+          className="
+            mt-32
+            grid
+            items-center
+            gap-24
+            lg:grid-cols-2
+          "
+
+        >
+
+
+
+
+
+          {/* TEXTE */}
+
+          <motion.div
+
+
+            initial={{
+              opacity:0,
+              x:-40,
+            }}
+
+
+            whileInView={{
+              opacity:1,
+              x:0,
+            }}
+
+
+            viewport={{
+              once:true,
+              margin:"-100px",
+            }}
+
+
+            transition={{
+              duration:.8,
+            }}
+
+
+
+          >
+
+
+
+
+            <h3
+
+              className="
+                text-5xl
+                font-semibold
+                leading-tight
+                tracking-tight
+                text-neutral-950
+              "
+
+            >
+
+              Développer.
+              <br />
+
+              Imaginer.
+              <br />
+
+              Construire.
+
+
+            </h3>
+
+
+
+
+
+
+            <p
+
+              className="
+                mt-8
+                max-w-xl
+                text-lg
+                leading-9
+                text-neutral-500
+              "
+
+            >
+
+              {
+                settings.about_description ||
+                settings.hero_description
+              }
+
+
+            </p>
+
+
+
+
+
+
+            <div
+
+              className="
+                mt-12
+              "
+
+            >
+
+              <TechStack />
+
+
+            </div>
+
+
+
+
+          </motion.div>
+
+
+
+
+
+
+
+          {/* CARTE */}
+
           <AboutCard />
-          <TechStack />
+
+
         </div>
-      </Container>
+
+
+      </div>
+
+
     </section>
+
   );
+
 }
