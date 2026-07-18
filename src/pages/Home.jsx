@@ -7,6 +7,7 @@ import Projects from "../components/sections/Projects";
 import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
 import Skills from "../components/sections/Skills";
+import CTA from "../components/sections/CTA";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Experience />
       <Skills />
       <Projects />
+      <CTA />
       <Contact />
     </MainLayout>
   );
