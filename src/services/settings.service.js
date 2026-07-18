@@ -5,10 +5,8 @@ export async function getSettings() {
     .from("settings")
     .select("*");
 
-  console.log("SETTINGS RESPONSE :", response);
 
   if (response.error) {
-    console.error("SETTINGS ERROR :", response.error);
     throw response.error;
   }
 
