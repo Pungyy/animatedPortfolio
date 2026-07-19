@@ -23,34 +23,51 @@ import {
 
 
 
-import digitalNight from "../../assets/audio/digital-night.mp3";
 import cyberDreams from "../../assets/audio/cyber-dreams.mp3";
+import digitalNight from "../../assets/audio/digital-night.mp3";
+
+
+import spaceCover from "../../assets/covers/space-ambient.png";
+import digitalCover from "../../assets/covers/digital-night.png";
+
+
+
+
+
+
 
 
 const tracks = [
 
-
-    {
-    id: 1,
-    title: "Interstellar",
-    artist: "Space Ambient",
-    src: cyberDreams,
-  },
-  
   {
-    id: 2,
-    title: "Digital Night",
-    artist: "Synthwave",
-    src: digitalNight,
+    id:1,
+    title:"Interstellar",
+    artist:"Space Ambient",
+    src:cyberDreams,
+    cover:spaceCover,
   },
 
-   
+
+  {
+    id:2,
+    title:"Digital Night",
+    artist:"Synthwave",
+    src:digitalNight,
+    cover:digitalCover,
+  },
+
 
 ];
 
 
 
-export default function MusicPlayer() {
+
+
+
+
+
+
+export default function MusicPlayer(){
 
 
   const audioRef = useRef(null);
@@ -62,49 +79,59 @@ export default function MusicPlayer() {
 
 
 
-  const [playing,setPlaying] = useState(() =>
-
-    localStorage.getItem(
-      "musicPlaying"
-    ) === "true"
-
-  );
-
-
-
-  const [muted,setMuted] = useState(() =>
-
-    localStorage.getItem(
-      "musicMuted"
-    ) === "true"
-
-  );
-
-
-
-  const [volume,setVolume] = useState(() =>
-
-    Number(
-      localStorage.getItem(
-        "musicVolume"
+  const [showIntro,setShowIntro] = useState(
+    () =>
+      !localStorage.getItem(
+        "musicAccepted"
       )
-    ) || 0.35
-
   );
 
 
 
-  const [current,setCurrent] = useState(() =>
-
-    Number(
+  const [playing,setPlaying] = useState(
+    () =>
       localStorage.getItem(
-        "musicTrack"
-      )
-    ) || 0
-
+        "musicPlaying"
+      ) === "true"
   );
 
 
+
+  const [muted,setMuted] = useState(
+    () =>
+      localStorage.getItem(
+        "musicMuted"
+      ) === "true"
+  );
+
+
+
+  const [volume,setVolume] = useState(
+    () =>
+      Number(
+        localStorage.getItem(
+          "musicVolume"
+        )
+      ) || 0.35
+  );
+
+
+
+  const [current,setCurrent] = useState(
+    () =>
+      Number(
+        localStorage.getItem(
+          "musicTrack"
+        )
+      ) || 0
+  );
+
+
+
+  const [progress,setProgress] = useState(0);
+
+
+  const [duration,setDuration] = useState(0);
 
 
 
@@ -120,13 +147,16 @@ export default function MusicPlayer() {
 
 
 
-  useEffect(() => {
+  useEffect(()=>{
 
 
-    const audio = audioRef.current;
+    const audio =
+      audioRef.current;
 
 
-    if(!audio) return;
+
+    if(!audio)
+      return;
 
 
 
@@ -145,7 +175,8 @@ export default function MusicPlayer() {
         .catch(()=>{});
 
 
-    }else{
+    }
+    else{
 
 
       audio.pause();
@@ -198,11 +229,130 @@ export default function MusicPlayer() {
 
 
 
+  useEffect(()=>{
+
+
+    const audio =
+      audioRef.current;
+
+
+
+    if(!audio)
+      return;
+
+
+
+    audio.load();
+
+
+
+    if(playing){
+
+      audio.play()
+        .catch(()=>{});
+
+    }
+
+
+
+  },[current]);
+
+
+
+
+
+
+
+
+
+  useEffect(()=>{
+
+
+    const audio =
+      audioRef.current;
+
+
+
+    if(!audio)
+      return;
+
+
+
+
+    function updateProgress(){
+
+
+      setProgress(
+        audio.currentTime
+      );
+
+
+    }
+
+
+
+
+    function updateDuration(){
+
+
+      setDuration(
+        audio.duration
+      );
+
+
+    }
+
+
+
+
+    audio.addEventListener(
+      "timeupdate",
+      updateProgress
+    );
+
+
+    audio.addEventListener(
+      "loadedmetadata",
+      updateDuration
+    );
+
+
+
+
+    return ()=>{
+
+
+      audio.removeEventListener(
+        "timeupdate",
+        updateProgress
+      );
+
+
+      audio.removeEventListener(
+        "loadedmetadata",
+        updateDuration
+      );
+
+
+    };
+
+
+
+  },[]);
+
+
+
+
+
+
+
+
+
   function togglePlay(){
 
 
     setPlaying(
-      prev => !prev
+      prev=>!prev
     );
 
 
@@ -226,7 +376,8 @@ export default function MusicPlayer() {
 
     if(next < 0){
 
-      next = tracks.length - 1;
+      next =
+        tracks.length - 1;
 
     }
 
@@ -243,6 +394,95 @@ export default function MusicPlayer() {
     setCurrent(next);
 
     setPlaying(true);
+
+
+  }
+
+
+
+
+
+
+
+
+
+  function acceptMusic(){
+
+
+    localStorage.setItem(
+      "musicAccepted",
+      "true"
+    );
+
+
+    setShowIntro(false);
+
+    setPlaying(true);
+
+
+  }
+
+
+
+
+
+
+
+
+
+  function handleSeek(e){
+
+
+    const audio =
+      audioRef.current;
+
+
+
+    if(!audio)
+      return;
+
+
+
+    audio.currentTime =
+      Number(
+        e.target.value
+      );
+
+
+  }
+
+
+
+
+
+
+
+
+
+  function formatTime(time){
+
+
+    if(!time || isNaN(time))
+      return "0:00";
+
+
+
+    const minutes =
+      Math.floor(
+        time / 60
+      );
+
+
+    const seconds =
+      Math.floor(
+        time % 60
+      )
+      .toString()
+      .padStart(2,"0");
+
+
+
+    return `${minutes}:${seconds}`;
 
 
   }
@@ -281,471 +521,547 @@ export default function MusicPlayer() {
 
 
 
-      <motion.div
+      {/* INTRO AUDIO */}
 
-        initial={{
-          opacity:0,
-          y:30,
+
+      <AnimatePresence>
+
+      {
+        showIntro && (
+
+
+          <motion.div
+
+            initial={{
+              opacity:0,
+            }}
+
+            animate={{
+              opacity:1,
+            }}
+
+            exit={{
+              opacity:0,
+            }}
+
+
+            className="
+              fixed
+              inset-0
+              z-[100]
+              flex
+              items-center
+              justify-center
+              bg-black/30
+              backdrop-blur-xl
+            "
+
+          >
+
+
+
+            <motion.div
+
+              initial={{
+                scale:.9,
+                opacity:0,
+              }}
+
+              animate={{
+                scale:1,
+                opacity:1,
+              }}
+
+              className="
+                w-[360px]
+                rounded-[40px]
+                bg-white
+                p-6
+                shadow-[0_40px_120px_rgba(0,0,0,.3)]
+              "
+
+            >
+
+
+
+              <img
+
+                src={track.cover}
+
+                alt={track.title}
+
+                className="
+                  aspect-square
+                  w-full
+                  rounded-[32px]
+                  object-cover
+                "
+
+              />
+
+
+
+
+
+              <h2
+
+                className="
+                  mt-6
+                  text-center
+                  text-2xl
+                  font-semibold
+                  text-neutral-950
+                "
+
+              >
+
+                Expérience immersive
+
+              </h2>
+
+
+
+
+
+              <p
+
+                className="
+                  mt-3
+                  text-center
+                  text-sm
+                  text-neutral-500
+                "
+
+              >
+
+                Activez la musique d'ambiance
+                pendant votre visite.
+
+              </p>
+
+
+
+
+
+              <button
+
+                onClick={acceptMusic}
+
+                className="
+                  mt-8
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-full
+                  bg-black
+                  py-4
+                  text-white
+                "
+
+              >
+
+                <Play size={18}/>
+
+                Démarrer
+
+              </button>
+
+
+
+            </motion.div>
+
+
+
+          </motion.div>
+
+
+        )
+      }
+
+      </AnimatePresence>
+
+
+
+
+
+
+
+
+
+      {/* PLAYER */}
+
+
+
+      <AnimatePresence>
+
+
+      {
+        open && (
+
+
+          <motion.div
+
+
+            initial={{
+              opacity:0,
+              y:30,
+              scale:.95,
+            }}
+
+
+            animate={{
+              opacity:1,
+              y:0,
+              scale:1,
+            }}
+
+
+            exit={{
+              opacity:0,
+              y:30,
+              scale:.95,
+            }}
+
+
+
+            className="
+              fixed
+              bottom-24
+              right-6
+              z-50
+              w-[340px]
+              rounded-[36px]
+              border
+              border-neutral-200
+              bg-white/80
+              p-5
+              shadow-[0_40px_120px_rgba(0,0,0,.18)]
+              backdrop-blur-2xl
+            "
+
+          >
+
+
+
+
+            <motion.img
+
+                src={track.cover}
+
+                initial={{
+                    opacity:0,
+                    scale:.95,
+                }}
+
+                animate={{
+                    opacity:1,
+                    scale:1,
+                }}
+
+                transition={{
+                    duration:.5,
+                }}
+
+                whileHover={{
+                    scale:1.03,
+                }}
+
+                className="
+                    mx-auto
+                    h-44
+                    w-44
+                    rounded-[32px]
+                    object-cover
+                    shadow-[0_25px_70px_rgba(0,0,0,.18)]
+                "
+
+            />
+
+
+
+
+
+
+
+            <div className="mt-5 text-center">
+
+
+              <h3 className="
+                text-lg
+                font-semibold
+                text-neutral-950
+              ">
+
+                {track.title}
+
+              </h3>
+
+
+              <p className="
+                text-sm
+                text-neutral-500
+              ">
+
+                {track.artist}
+
+              </p>
+
+
+            </div>
+
+
+
+
+
+
+
+            <input
+
+              type="range"
+
+              min="0"
+
+              max={duration || 0}
+
+              value={progress}
+
+              onChange={handleSeek}
+
+              className="
+                mt-6
+                w-full
+                accent-black
+              "
+
+            />
+
+
+
+            <div className="
+              mt-2
+              flex
+              justify-between
+              text-xs
+              text-neutral-400
+            ">
+
+              <span>
+                {formatTime(progress)}
+              </span>
+
+              <span>
+                {formatTime(duration)}
+              </span>
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <div className="
+              mt-6
+              flex
+              justify-center
+              items-center
+              gap-5
+            ">
+
+
+              <button
+                onClick={() =>
+                  changeTrack(-1)
+                }
+              >
+
+                <ChevronLeft/>
+
+              </button>
+
+
+
+
+              <button
+
+                onClick={togglePlay}
+
+                className="
+                  flex
+                  h-14
+                  w-14
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-black
+                  text-white
+                "
+
+              >
+
+                {
+                  playing
+                  ?
+                  <Pause/>
+                  :
+                  <Play/>
+                }
+
+              </button>
+
+
+
+
+              <button
+                onClick={() =>
+                  changeTrack(1)
+                }
+              >
+
+                <ChevronRight/>
+
+              </button>
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div className="
+              mt-6
+              flex
+              items-center
+              gap-3
+            ">
+
+
+              <button
+
+                onClick={() =>
+                  setMuted(
+                    prev=>!prev
+                  )
+                }
+
+              >
+
+                {
+                  muted
+                  ?
+                  <VolumeX/>
+                  :
+                  <Volume2/>
+                }
+
+
+              </button>
+
+
+
+
+              <input
+
+                type="range"
+
+                min="0"
+
+                max="1"
+
+                step="0.01"
+
+                value={volume}
+
+                onChange={(e)=>
+                  setVolume(
+                    Number(
+                      e.target.value
+                    )
+                  )
+                }
+
+                className="
+                  w-full
+                  accent-black
+                "
+
+              />
+
+
+            </div>
+
+
+
+          </motion.div>
+
+
+        )
+      }
+
+
+      </AnimatePresence>
+
+
+
+
+
+
+
+
+
+      {/* FLOAT BUTTON */}
+
+
+      <motion.button
+
+
+        onClick={() =>
+          setOpen(
+            prev=>!prev
+          )
+        }
+
+
+        whileHover={{
+          scale:1.08,
         }}
 
-        animate={{
-          opacity:1,
-          y:0,
-        }}
 
-        transition={{
-          duration:.6,
-          delay:1,
-        }}
 
         className="
           fixed
           bottom-6
           right-6
           z-50
+          flex
+          h-16
+          w-16
+          items-center
+          justify-center
+          rounded-full
+          border
+          border-neutral-200
+          bg-white/80
+          shadow-[0_30px_80px_rgba(0,0,0,.18)]
+          backdrop-blur-xl
         "
+
 
       >
 
+        <Music size={24}/>
 
 
-
-
-
-
-        <AnimatePresence>
-
-          {
-            open && (
-
-
-              <motion.div
-
-
-                initial={{
-                  opacity:0,
-                  y:20,
-                  scale:.95,
-                }}
-
-
-                animate={{
-                  opacity:1,
-                  y:0,
-                  scale:1,
-                }}
-
-
-                exit={{
-                  opacity:0,
-                  y:20,
-                  scale:.95,
-                }}
-
-
-
-                className="
-                  mb-4
-                  w-80
-                  rounded-[32px]
-                  border
-                  border-neutral-200
-                  bg-white/80
-                  p-6
-                  shadow-[0_30px_90px_rgba(0,0,0,.15)]
-                  backdrop-blur-xl
-                "
-
-
-              >
-
-
-
-
-
-
-
-                <div
-
-                  className="
-                    flex
-                    items-center
-                    gap-4
-                  "
-
-                >
-
-
-
-
-
-                  <motion.div
-
-                    animate={
-
-                      playing
-                      ?
-                      {
-                        rotate:360,
-                      }
-                      :
-                      {}
-
-                    }
-
-
-                    transition={{
-
-                      duration:6,
-
-                      repeat:Infinity,
-
-                      ease:"linear",
-
-                    }}
-
-
-
-                    className="
-                      flex
-                      h-14
-                      w-14
-                      items-center
-                      justify-center
-                      rounded-2xl
-                      bg-black
-                      text-white
-                    "
-
-                  >
-
-                    <Music size={22}/>
-
-
-                  </motion.div>
-
-
-
-
-
-
-
-
-                  <div>
-
-                    <p
-
-                      className="
-                        font-semibold
-                        text-neutral-950
-                      "
-
-                    >
-
-                      {track.title}
-
-
-                    </p>
-
-
-
-
-                    <p
-
-                      className="
-                        text-sm
-                        text-neutral-500
-                      "
-
-                    >
-
-                      {track.artist}
-
-
-                    </p>
-
-
-                  </div>
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-                <div
-
-                  className="
-                    mt-7
-                    flex
-                    items-center
-                    justify-center
-                    gap-4
-                  "
-
-                >
-
-
-
-
-
-                  <button
-
-                    onClick={() =>
-                      changeTrack(-1)
-                    }
-
-                    className="
-                      rounded-full
-                      p-2
-                      transition
-                      hover:bg-neutral-100
-                    "
-
-                  >
-
-                    <ChevronLeft size={18}/>
-
-
-                  </button>
-
-
-
-
-
-
-
-                  <button
-
-                    onClick={togglePlay}
-
-                    className="
-                      flex
-                      h-14
-                      w-14
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-black
-                      text-white
-                      transition
-                      hover:scale-105
-                    "
-
-                  >
-
-                    {
-                      playing
-
-                      ?
-
-                      <Pause size={20}/>
-
-                      :
-
-                      <Play size={20}/>
-
-                    }
-
-
-                  </button>
-
-
-
-
-
-
-
-                  <button
-
-                    onClick={() =>
-                      changeTrack(1)
-                    }
-
-                    className="
-                      rounded-full
-                      p-2
-                      transition
-                      hover:bg-neutral-100
-                    "
-
-                  >
-
-                    <ChevronRight size={18}/>
-
-
-                  </button>
-
-
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-                <div
-
-                  className="
-                    mt-6
-                    flex
-                    items-center
-                    gap-3
-                  "
-
-                >
-
-
-
-                  <button
-
-                    onClick={() =>
-                      setMuted(
-                        prev => !prev
-                      )
-                    }
-
-                    className="
-                      rounded-full
-                      p-2
-                      transition
-                      hover:bg-neutral-100
-                    "
-
-                  >
-
-                    {
-                      muted
-
-                      ?
-
-                      <VolumeX size={18}/>
-
-                      :
-
-                      <Volume2 size={18}/>
-
-                    }
-
-
-                  </button>
-
-
-
-
-
-
-                  <input
-
-                    type="range"
-
-                    min="0"
-
-                    max="1"
-
-                    step="0.01"
-
-                    value={volume}
-
-                    onChange={(e)=>
-
-                      setVolume(
-                        Number(
-                          e.target.value
-                        )
-                      )
-
-                    }
-
-                    className="
-                      w-full
-                    "
-
-                  />
-
-
-
-                </div>
-
-
-
-
-
-
-              </motion.div>
-
-
-            )
-          }
-
-        </AnimatePresence>
-
-
-
-
-
-
-
-
-
-        <motion.button
-
-
-          onClick={() =>
-            setOpen(
-              prev => !prev
-            )
-          }
-
-
-
-          whileHover={{
-            scale:1.08,
-          }}
-
-
-
-          className="
-            flex
-            h-14
-            w-14
-            items-center
-            justify-center
-            rounded-full
-            border
-            border-neutral-200
-            bg-white/80
-            shadow-[0_20px_60px_rgba(0,0,0,.15)]
-            backdrop-blur-xl
-          "
-
-
-        >
-
-
-          <Music size={22}/>
-
-
-        </motion.button>
-
-
-
-
-
-      </motion.div>
-
+      </motion.button>
 
 
 
