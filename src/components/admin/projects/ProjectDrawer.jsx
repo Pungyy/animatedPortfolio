@@ -16,9 +16,15 @@ import {
 } from "../../../services/projectTechnologies.service";
 
 import {
+  syncProjectFeatures,
+} from "../../../services/projectFeatures.service";
+
+import {
   uploadImage,
   deleteImage,
 } from "../../../services/storage.service";
+
+
 
 
 
@@ -54,6 +60,10 @@ const emptyProject = {
 
   technologies: [],
 
+  features: [],
+
+  gallery: [],
+
 };
 
 
@@ -62,11 +72,18 @@ const emptyProject = {
 
 
 
+
+
 export default function ProjectDrawer({
+
   open,
+
   project,
+
   onClose,
+
   onSaved,
+
 }) {
 
 
@@ -76,6 +93,9 @@ export default function ProjectDrawer({
 
 
   const [saving, setSaving] = useState(false);
+
+
+
 
 
 
@@ -95,13 +115,32 @@ export default function ProjectDrawer({
         ...project,
 
 
+
         technologies:
+
           project.technologies?.map(
+
             (tech) =>
+
               typeof tech === "object"
+
                 ? tech.id
+
                 : tech
+
           ) || [],
+
+
+
+        features:
+
+          project.features || [],
+
+
+
+        gallery:
+
+          project.gallery || [],
 
 
       });
@@ -112,15 +151,18 @@ export default function ProjectDrawer({
 
 
       setForm({
+
         ...emptyProject,
+
       });
 
 
     }
 
 
-
   }, [project, open]);
+
+
 
 
 
@@ -134,19 +176,22 @@ export default function ProjectDrawer({
 
 
     const {
+
       name,
+
       value,
+
       type,
+
       checked,
+
     } = e.target;
 
 
 
     setForm((prev) => ({
 
-
       ...prev,
-
 
       [name]:
 
@@ -155,7 +200,6 @@ export default function ProjectDrawer({
           ? checked
 
           : value,
-
 
     }));
 
@@ -217,21 +261,32 @@ export default function ProjectDrawer({
 
 
       toast.loading(
+
         "Upload en cours...",
+
         {
           id: "upload",
         }
+
       );
 
 
 
 
 
+
+
       const url =
+
         await uploadImage(
+
           file,
+
           "projects"
+
         );
+
+
 
 
 
@@ -239,12 +294,9 @@ export default function ProjectDrawer({
 
       setForm((prev) => ({
 
-
         ...prev,
 
-
         cover_image: url,
-
 
       }));
 
@@ -253,11 +305,15 @@ export default function ProjectDrawer({
 
 
 
+
       toast.success(
+
         "Image ajoutée.",
+
         {
           id: "upload",
         }
+
       );
 
 
@@ -269,11 +325,15 @@ export default function ProjectDrawer({
       console.error(error);
 
 
+
       toast.error(
+
         "Erreur upload image.",
+
         {
           id: "upload",
         }
+
       );
 
 
@@ -281,6 +341,9 @@ export default function ProjectDrawer({
 
 
   }
+
+
+
 
 
 
@@ -321,10 +384,25 @@ export default function ProjectDrawer({
 
 
 
+
+
+
       const {
+
         technologies = [],
+
+        features = [],
+
+        gallery = [],
+
         ...projectData
+
+
       } = form;
+
+
+
+
 
 
 
@@ -336,13 +414,17 @@ export default function ProjectDrawer({
 
 
 
+
+
       if (form.id) {
 
 
-
         result =
+
           await updateProject(
+
             projectData
+
           );
 
 
@@ -350,10 +432,12 @@ export default function ProjectDrawer({
       } else {
 
 
-
         result =
+
           await createProject(
+
             projectData
+
           );
 
 
@@ -365,10 +449,31 @@ export default function ProjectDrawer({
 
 
 
+
+
       await syncProjectTechnologies(
+
         result.id,
+
         technologies
+
       );
+
+
+
+
+
+
+
+      await syncProjectFeatures(
+
+        result.id,
+
+        features
+
+      );
+
+
 
 
 
@@ -382,7 +487,13 @@ export default function ProjectDrawer({
 
         technologies,
 
+        features,
+
+        gallery,
+
       });
+
+
 
 
 
@@ -404,7 +515,9 @@ export default function ProjectDrawer({
 
 
 
+
       onClose();
+
 
 
 
@@ -414,16 +527,20 @@ export default function ProjectDrawer({
     } catch(error) {
 
 
-
       console.error(
+
         "PROJECT SAVE ERROR:",
+
         error
+
       );
 
 
 
       toast.error(
+
         "Erreur lors de l'enregistrement."
+
       );
 
 
@@ -438,8 +555,10 @@ export default function ProjectDrawer({
     }
 
 
-
   }
+
+
+
 
 
 
@@ -457,14 +576,19 @@ export default function ProjectDrawer({
       open={open}
 
       title={
+
         form.id
+
           ? "Modifier le projet"
+
           : "Nouveau projet"
+
       }
 
       onClose={onClose}
 
     >
+
 
 
 
@@ -485,6 +609,8 @@ export default function ProjectDrawer({
 
 
 
+
+
       <div
 
         className="
@@ -495,6 +621,7 @@ export default function ProjectDrawer({
         "
 
       >
+
 
 
 
@@ -526,6 +653,7 @@ export default function ProjectDrawer({
 
 
 
+
         <Button
 
           onClick={handleSubmit}
@@ -534,12 +662,15 @@ export default function ProjectDrawer({
 
         >
 
+
           {
+
             saving
 
               ? "Enregistrement..."
 
               : "Enregistrer"
+
           }
 
 
@@ -550,6 +681,7 @@ export default function ProjectDrawer({
 
 
       </div>
+
 
 
 
