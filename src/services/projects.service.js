@@ -7,13 +7,18 @@ import { supabase } from "../lib/supabase";
  */
 export async function getProjects() {
 
-  const { data: projects, error: projectsError } =
-    await supabase
-      .from("projects")
-      .select("*")
-      .order("display_order", {
-        ascending: true,
-      });
+  const {
+    data: projects,
+    error: projectsError,
+  } = await supabase
+
+    .from("projects")
+
+    .select("*")
+
+    .order("display_order", {
+      ascending: true,
+    });
 
 
 
@@ -23,25 +28,35 @@ export async function getProjects() {
 
 
 
-  const { data: relations, error: relationsError } =
-    await supabase
-      .from("project_technologies")
-      .select(`
-        project_id,
-        technology_id,
-        technologies (
-          id,
-          name,
-          icon,
-          color
-        )
-      `);
+
+
+  const {
+    data: relations,
+    error: relationsError,
+  } = await supabase
+
+    .from("project_technologies")
+
+    .select(`
+      project_id,
+      technology_id,
+      technologies (
+        id,
+        name,
+        icon,
+        color
+      )
+    `);
 
 
 
   if (relationsError) {
     throw relationsError;
   }
+
+
+
+
 
   return projects.map((project) => ({
 
@@ -69,17 +84,23 @@ export async function getProjects() {
 
 
 /**
- * Récupérer un projet
+ * Récupérer un projet par son ID
  */
 export async function getProject(id) {
 
 
-  const { data: project, error } =
-    await supabase
-      .from("projects")
-      .select("*")
-      .eq("id", id)
-      .single();
+  const {
+    data: project,
+    error,
+  } = await supabase
+
+    .from("projects")
+
+    .select("*")
+
+    .eq("id", id)
+
+    .single();
 
 
 
@@ -89,19 +110,29 @@ export async function getProject(id) {
 
 
 
-  const { data: relations, error: relationsError } =
-    await supabase
-      .from("project_technologies")
-      .select(`
-        technology_id,
-        technologies (
-          id,
-          name,
-          icon,
-          color
-        )
-      `)
-      .eq("project_id", id);
+
+
+  const {
+    data: relations,
+    error: relationsError,
+  } = await supabase
+
+    .from("project_technologies")
+
+    .select(`
+      technology_id,
+      technologies (
+        id,
+        name,
+        icon,
+        color
+      )
+    `)
+
+    .eq(
+      "project_id",
+      id
+    );
 
 
 
@@ -109,7 +140,9 @@ export async function getProject(id) {
     throw relationsError;
   }
 
-  
+
+
+
 
   return {
 
@@ -133,17 +166,199 @@ export async function getProject(id) {
 
 
 /**
+ * Récupérer un projet par son slug
+ */
+export async function getProjectBySlug(slug) {
+
+
+  const {
+    data: project,
+    error,
+  } = await supabase
+
+    .from("projects")
+
+    .select("*")
+
+    .eq(
+      "slug",
+      slug
+    )
+
+    .single();
+
+
+
+  if (error) {
+    throw error;
+  }
+
+
+
+
+
+
+
+  // Technologies
+
+  const {
+    data: technologies,
+    error: techError,
+  } = await supabase
+
+    .from("project_technologies")
+
+    .select(`
+      technologies (
+        id,
+        name,
+        icon,
+        color
+      )
+    `)
+
+    .eq(
+      "project_id",
+      project.id
+    );
+
+
+
+  if (techError) {
+    throw techError;
+  }
+
+
+
+
+
+
+
+
+  // Galerie images
+
+  const {
+    data: gallery,
+    error: galleryError,
+  } = await supabase
+
+    .from("project_gallery")
+
+    .select("*")
+
+    .eq(
+      "project_id",
+      project.id
+    )
+
+    .order(
+      "display_order",
+      {
+        ascending:true,
+      }
+    );
+
+
+
+  if (galleryError) {
+    throw galleryError;
+  }
+
+
+
+
+
+
+
+
+  // Fonctionnalités
+
+  const {
+    data: features,
+    error: featuresError,
+  } = await supabase
+
+    .from("project_features")
+
+    .select("*")
+
+    .eq(
+      "project_id",
+      project.id
+    )
+
+    .order(
+      "display_order",
+      {
+        ascending:true,
+      }
+    );
+
+
+
+  if (featuresError) {
+    throw featuresError;
+  }
+
+
+
+
+
+
+
+
+  return {
+
+
+    ...project,
+
+
+
+    technologies:
+      technologies.map(
+        (item) =>
+          item.technologies
+      ),
+
+
+
+    gallery,
+
+
+
+    features,
+
+
+  };
+
+}
+
+
+
+
+
+
+
+
+
+/**
  * Créer un projet
  */
 export async function createProject(project) {
 
 
-  const { data, error } =
-    await supabase
-      .from("projects")
-      .insert(project)
-      .select()
-      .single();
+  const {
+    data,
+    error,
+  } = await supabase
+
+    .from("projects")
+
+    .insert(project)
+
+    .select()
+
+    .single();
 
 
 
@@ -156,6 +371,7 @@ export async function createProject(project) {
   return data;
 
 }
+
 
 
 
@@ -170,13 +386,23 @@ export async function createProject(project) {
 export async function updateProject(project) {
 
 
-  const { data, error } =
-    await supabase
-      .from("projects")
-      .update(project)
-      .eq("id", project.id)
-      .select()
-      .single();
+  const {
+    data,
+    error,
+  } = await supabase
+
+    .from("projects")
+
+    .update(project)
+
+    .eq(
+      "id",
+      project.id
+    )
+
+    .select()
+
+    .single();
 
 
 
@@ -197,17 +423,25 @@ export async function updateProject(project) {
 
 
 
+
 /**
  * Supprimer un projet
  */
 export async function deleteProject(id) {
 
 
-  const { error } =
-    await supabase
-      .from("projects")
-      .delete()
-      .eq("id", id);
+  const {
+    error,
+  } = await supabase
+
+    .from("projects")
+
+    .delete()
+
+    .eq(
+      "id",
+      id
+    );
 
 
 
