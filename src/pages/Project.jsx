@@ -1,36 +1,18 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  useParams,
-  Link,
-} from "react-router-dom";
-
-import {
-  motion,
-} from "framer-motion";
-
-import {
-  ArrowLeft,
-  ExternalLink,
-} from "lucide-react";
-
-import {
-  FaGithub,
-} from "react-icons/fa";
-
+import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 
 import {
   getProjectBySlug,
 } from "../services/projects.service";
 
 
-import TechnologyIcon from "../components/ui/TechnologyIcon";
-
-
-
+import ProjectHero from "../components/projects/ProjectHero";
+import ProjectInfo from "../components/projects/ProjectInfo";
+import ProjectTechnologies from "../components/projects/ProjectTechnologies";
+import ProjectFeatures from "../components/projects/ProjectFeatures";
+import ProjectGallery from "../components/projects/ProjectGallery";
+import ProjectLinks from "../components/projects/ProjectLinks";
 
 
 export default function Project() {
@@ -50,7 +32,6 @@ export default function Project() {
 
 
 
-
   useEffect(()=>{
 
 
@@ -61,16 +42,21 @@ export default function Project() {
 
 
         const data =
-          await getProjectBySlug(slug);
+          await getProjectBySlug(
+            slug
+          );
 
 
         setProject(data);
 
 
+
       } catch(error){
 
 
-        console.error(error);
+        console.error(
+          error
+        );
 
 
       } finally {
@@ -97,28 +83,31 @@ export default function Project() {
 
 
 
-
-
   if(loading){
 
 
     return (
 
-      <div className="
-        flex
-        min-h-screen
-        items-center
-        justify-center
-        text-neutral-400
-      ">
+      <div
+        className="
+          flex
+          min-h-screen
+          items-center
+          justify-center
+          text-neutral-400
+        "
+      >
 
         Chargement...
+
 
       </div>
 
     );
 
+
   }
+
 
 
 
@@ -131,18 +120,48 @@ export default function Project() {
 
     return (
 
-      <div className="
-        flex
-        min-h-screen
-        items-center
-        justify-center
-      ">
+      <div
+        className="
+          flex
+          min-h-screen
+          flex-col
+          items-center
+          justify-center
+          gap-5
+        "
+      >
 
-        Projet introuvable.
+        <h1
+          className="
+            text-4xl
+            font-semibold
+          "
+        >
+          Projet introuvable
+        </h1>
+
+
+        <Link
+          to="/"
+          className="
+            rounded-full
+            bg-black
+            px-6
+            py-3
+            text-white
+          "
+        >
+
+          Retour
+
+
+        </Link>
+
 
       </div>
 
     );
+
 
   }
 
@@ -157,32 +176,30 @@ export default function Project() {
 
     <main
       className="
-        overflow-hidden
-        px-6
-        pb-40
-        pt-40
+        min-h-screen
+        bg-[#fafafa]
+        text-neutral-950
       "
     >
+
 
 
       <div
         className="
           mx-auto
-          max-w-6xl
+          max-w-7xl
+          px-6
+          py-10
+          lg:px-12
         "
       >
 
 
 
 
-
-
-        {/* RETOUR */}
-
-
         <Link
 
-          to="/#projects"
+          to="/"
 
           className="
             inline-flex
@@ -200,6 +217,7 @@ export default function Project() {
 
           Retour aux projets
 
+
         </Link>
 
 
@@ -208,573 +226,115 @@ export default function Project() {
 
 
 
+        <ProjectHero
+          project={project}
+        />
 
-        {/* HERO */}
 
 
 
-        <motion.section
 
 
-          initial={{
-            opacity:0,
-            y:40,
-          }}
 
+        <ProjectInfo
+          project={project}
+        />
 
-          animate={{
-            opacity:1,
-            y:0,
-          }}
 
 
-          transition={{
-            duration:.8,
-          }}
 
-
-          className="
-            mt-16
-          "
-
-        >
-
-
-          <p
-            className="
-              text-sm
-              uppercase
-              tracking-[0.35em]
-              text-neutral-400
-            "
-          >
-
-            {project.category}
-
-          </p>
-
-
-
-
-
-          <h1
-            className="
-              mt-6
-              max-w-5xl
-              text-6xl
-              font-semibold
-              tracking-tight
-              text-neutral-950
-              md:text-8xl
-            "
-          >
-
-            {project.title}
-
-          </h1>
-
-
-
-
-
-          <p
-            className="
-              mt-8
-              max-w-3xl
-              text-xl
-              leading-9
-              text-neutral-500
-            "
-          >
-
-            {project.short_description}
-
-          </p>
-
-
-
-        </motion.section>
-
-
-
-
-
-
-
-
-
-        {/* IMAGE PRINCIPALE */}
-
-
-
-        {
-          project.cover_image && (
-
-            <motion.img
-
-              initial={{
-                opacity:0,
-                scale:.95,
-              }}
-
-              animate={{
-                opacity:1,
-                scale:1,
-              }}
-
-              transition={{
-                duration:.8,
-                delay:.2,
-              }}
-
-
-              src={project.cover_image}
-
-              alt={project.title}
-
-
-              className="
-                mt-20
-                w-full
-                rounded-[40px]
-                shadow-2xl
-              "
-
-            />
-
-          )
-        }
-
-
-
-
-
-
-
-
-
-        {/* INFORMATIONS */}
-
-
-
-        <div
-          className="
-            mt-24
-            grid
-            gap-10
-            md:grid-cols-4
-          "
-        >
-
-          <Info
-            title="Année"
-            value={project.year}
-          />
-
-
-          <Info
-            title="Rôle"
-            value={project.role}
-          />
-
-
-          <Info
-            title="Client"
-            value={project.client}
-          />
-
-
-          <Info
-            title="Statut"
-            value={project.status}
-          />
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-        {/* DESCRIPTION */}
-
-
-
-        <section
-          className="
-            mt-32
-            max-w-4xl
-          "
-        >
-
-
-          <h2
-            className="
-              text-4xl
-              font-semibold
-            "
-          >
-
-            Présentation
-
-          </h2>
-
-
-
-          <p
-            className="
-              mt-8
-              whitespace-pre-line
-              text-lg
-              leading-9
-              text-neutral-600
-            "
-          >
-
-            {project.description}
-
-          </p>
-
-
-        </section>
-
-
-
-
-
-
-
-
-
-        {/* TECHNOLOGIES */}
-
-
-
-        {
-          project.technologies?.length > 0 && (
-
-            <section className="mt-32">
-
-
-              <h2
-                className="
-                  text-4xl
-                  font-semibold
-                "
-              >
-
-                Technologies
-
-              </h2>
-
-
-
-              <div
-                className="
-                  mt-8
-                  flex
-                  flex-wrap
-                  gap-3
-                "
-              >
-
-                {
-                  project.technologies.map(
-                    tech=>(
-
-                      <div
-                        key={tech.id}
-
-                        className="
-                          flex
-                          items-center
-                          gap-2
-                          rounded-full
-                          border
-                          px-5
-                          py-2
-                          text-sm
-                        "
-                      >
-
-                        <TechnologyIcon
-                          name={tech.icon}
-                          size={15}
-                        />
-
-
-                        {tech.name}
-
-
-                      </div>
-
-                    )
-                  )
-                }
-
-
-              </div>
-
-
-            </section>
-
-          )
-        }
-
-
-
-
-
-
-
-
-
-        {/* FEATURES */}
-
-
-
-        {
-          project.features?.length > 0 && (
-
-
-            <section
-              className="
-                mt-32
-              "
-            >
-
-
-              <h2
-                className="
-                  text-4xl
-                  font-semibold
-                "
-              >
-
-                Fonctionnalités
-
-              </h2>
-
-
-
-
-              <div
-                className="
-                  mt-10
-                  grid
-                  gap-5
-                  md:grid-cols-2
-                "
-              >
-
-                {
-                  project.features.map(
-                    feature=>(
-
-
-                      <div
-
-                        key={feature.id}
-
-                        className="
-                          rounded-[28px]
-                          border
-                          border-neutral-200
-                          p-6
-                          text-neutral-700
-                        "
-
-                      >
-
-                        {feature.title}
-
-                      </div>
-
-
-                    )
-                  )
-                }
-
-
-              </div>
-
-
-
-            </section>
-
-          )
-        }
-
-
-
-
-
-
-
-
-
-        {/* GALERIE */}
-
-
-
-        {
-          project.gallery?.length > 0 && (
-
-            <section
-              className="
-                mt-32
-              "
-            >
-
-
-              <h2
-                className="
-                  text-4xl
-                  font-semibold
-                "
-              >
-
-                Galerie
-
-              </h2>
-
-
-
-              <div
-                className="
-                  mt-10
-                  grid
-                  gap-8
-                  md:grid-cols-2
-                "
-              >
-
-                {
-                  project.gallery.map(
-                    image=>(
-
-                      <img
-
-                        key={image.id}
-
-                        src={image.image_url}
-
-                        alt={project.title}
-
-                        className="
-                          rounded-[32px]
-                          object-cover
-                        "
-
-                      />
-
-                    )
-                  )
-                }
-
-
-              </div>
-
-
-            </section>
-
-          )
-        }
-
-
-
-
-
-
-
-
-
-        {/* LIENS */}
 
 
 
         <div
           className="
             mt-32
-            flex
-            gap-4
+            space-y-32
           "
         >
 
 
-          {
-            project.github_url && (
-
-              <a
-
-                href={project.github_url}
-
-                target="_blank"
-
-                rel="noreferrer"
-
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  bg-black
-                  px-6
-                  py-3
-                  text-white
-                "
-
-              >
-
-                <FaGithub />
-
-                Github
-
-              </a>
-
-            )
-          }
 
 
+          <section>
+
+            <h2
+              className="
+                mb-6
+                text-4xl
+                font-semibold
+                tracking-tight
+              "
+            >
+
+              Présentation
+
+            </h2>
+
+
+            <p
+              className="
+                max-w-3xl
+                text-lg
+                leading-9
+                text-neutral-500
+              "
+            >
+
+              {project.description}
+
+
+            </p>
+
+
+          </section>
 
 
 
 
-          {
-            project.demo_url && (
 
-              <a
 
-                href={project.demo_url}
 
-                target="_blank"
 
-                rel="noreferrer"
+          <ProjectTechnologies
+            project={project}
+          />
 
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  px-6
-                  py-3
-                "
 
-              >
 
-                <ExternalLink size={18}/>
 
-                Démo
 
-              </a>
 
-            )
-          }
+
+
+          <ProjectFeatures
+            project={project}
+          />
+
+
+
+
+
+
+
+
+          <ProjectGallery
+            project={project}
+          />
+
+
+
+
+
+
+
+
+          <ProjectLinks
+            project={project}
+          />
+
+
+
 
 
         </div>
@@ -784,62 +344,8 @@ export default function Project() {
       </div>
 
 
+
     </main>
-
-  );
-
-}
-
-
-
-
-
-
-
-
-function Info({
-  title,
-  value,
-}) {
-
-
-  if(!value) return null;
-
-
-
-  return (
-
-    <div>
-
-      <p
-        className="
-          text-sm
-          uppercase
-          tracking-widest
-          text-neutral-400
-        "
-      >
-
-        {title}
-
-      </p>
-
-
-
-      <p
-        className="
-          mt-3
-          text-lg
-          font-medium
-        "
-      >
-
-        {value}
-
-      </p>
-
-
-    </div>
 
   );
 
