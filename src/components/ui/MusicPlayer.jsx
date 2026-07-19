@@ -81,10 +81,10 @@ export default function MusicPlayer(){
 
   const [showIntro,setShowIntro] = useState(
     () =>
-      !localStorage.getItem(
-        "musicAccepted"
-      )
-  );
+        !localStorage.getItem(
+        "musicChoice"
+        )
+    );
 
 
 
@@ -410,17 +410,35 @@ export default function MusicPlayer(){
 
 
     localStorage.setItem(
-      "musicAccepted",
-      "true"
+        "musicChoice",
+        "enabled"
     );
 
 
     setShowIntro(false);
 
+
     setPlaying(true);
 
 
-  }
+    }
+
+    function refuseMusic(){
+
+
+        localStorage.setItem(
+            "musicChoice",
+            "disabled"
+        );
+
+
+        setShowIntro(false);
+
+
+        setPlaying(false);
+
+
+    }
 
 
 
@@ -643,30 +661,66 @@ export default function MusicPlayer(){
 
 
 
-              <button
+              <div className="mt-8 space-y-3">
 
-                onClick={acceptMusic}
 
-                className="
-                  mt-8
-                  flex
-                  w-full
-                  items-center
-                  justify-center
-                  gap-3
-                  rounded-full
-                  bg-black
-                  py-4
-                  text-white
-                "
+                <button
 
-              >
+                    onClick={acceptMusic}
 
-                <Play size={18}/>
+                    className="
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-3
+                    rounded-full
+                    bg-black
+                    py-4
+                    text-sm
+                    font-medium
+                    text-white
+                    transition
+                    hover:scale-[1.02]
+                    "
 
-                Démarrer
+                >
 
-              </button>
+                    <Play size={18}/>
+
+                    Démarrer l'expérience
+
+
+                </button>
+
+
+
+
+
+                <button
+
+                    onClick={refuseMusic}
+
+                    className="
+                    w-full
+                    rounded-full
+                    py-3
+                    text-sm
+                    text-neutral-500
+                    transition
+                    hover:bg-neutral-100
+                    hover:text-neutral-900
+                    "
+
+                >
+
+                    Continuer sans musique
+
+
+                </button>
+
+
+                </div>
 
 
 

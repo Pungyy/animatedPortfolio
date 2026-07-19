@@ -11,6 +11,8 @@ export default function MainLayout({ children }) {
         {children}
       </main>
 
+      <Footer />
+      
       <MusicPlayer />
     </>
   );
