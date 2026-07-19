@@ -68,7 +68,7 @@ const icons = {
   supabase: SiSupabase,
   firebase: SiFirebase,
 
-  // Outils & Déploiement
+  // Outils
   docker: FaDocker,
   git: FaGitAlt,
   github: FaGithub,
@@ -88,16 +88,33 @@ const icons = {
   graphql: SiGraphql,
 };
 
+const aliases = {
+  // Front
+  html: "html5",
+  css: "css3",
+  nextjs: "nextdotjs",
+  nodejs: "nodedotjs",
+  tailwind: "tailwindcss",
+  vue: "vuedotjs",
+
+  // Quelques alias utiles
+  postgres: "postgresql",
+  pg: "postgresql",
+};
+
 export default function TechnologyIcon({
   name,
   size = 14,
 }) {
-  console.log(name);
-console.log(icons);
-const Icon = icons[name?.toLowerCase()];
-console.log(Icon);
+  if (!name) return null;
+
+  const key = name.toLowerCase().trim();
+  const iconKey = aliases[key] ?? key;
+  const Icon = icons[iconKey];
 
   if (!Icon) {
+    console.warn(`Icône inconnue : "${name}"`);
+
     return (
       <div
         style={{
