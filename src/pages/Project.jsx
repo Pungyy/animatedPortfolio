@@ -1,10 +1,24 @@
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import {
+  useParams,
+  Link,
+} from "react-router-dom";
+
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  ArrowLeft,
+} from "lucide-react";
+
 
 import {
   getProjectBySlug,
 } from "../services/projects.service";
+
+
+import useAnalytics from "../hooks/useAnalytics";
 
 
 import ProjectHero from "../components/projects/ProjectHero";
@@ -13,6 +27,9 @@ import ProjectTechnologies from "../components/projects/ProjectTechnologies";
 import ProjectFeatures from "../components/projects/ProjectFeatures";
 import ProjectGallery from "../components/projects/ProjectGallery";
 import ProjectLinks from "../components/projects/ProjectLinks";
+
+
+
 
 
 export default function Project() {
@@ -24,15 +41,24 @@ export default function Project() {
 
 
 
-  const [project,setProject] = useState(null);
-
-  const [loading,setLoading] = useState(true);
-
-
-
+  const [
+    project,
+    setProject,
+  ] = useState(null);
 
 
-  useEffect(()=>{
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+
+
+
+
+
+  useEffect(() => {
 
 
     async function loadProject(){
@@ -45,6 +71,7 @@ export default function Project() {
           await getProjectBySlug(
             slug
           );
+
 
 
         setProject(data);
@@ -75,7 +102,35 @@ export default function Project() {
     loadProject();
 
 
-  },[slug]);
+
+  },[
+    slug
+  ]);
+
+
+
+
+
+
+
+  /*
+    Analytics visite projet
+
+    Déclenché uniquement
+    quand le projet existe
+  */
+
+  useAnalytics(
+
+    project
+      ? `/project/${project.slug}`
+      : null,
+
+    project?.id
+
+  );
+
+
 
 
 
@@ -89,6 +144,7 @@ export default function Project() {
     return (
 
       <div
+
         className="
           flex
           min-h-screen
@@ -96,6 +152,7 @@ export default function Project() {
           justify-center
           text-neutral-400
         "
+
       >
 
         Chargement...
@@ -115,12 +172,14 @@ export default function Project() {
 
 
 
+
   if(!project){
 
 
     return (
 
       <div
+
         className="
           flex
           min-h-screen
@@ -129,20 +188,32 @@ export default function Project() {
           justify-center
           gap-5
         "
+
       >
 
+
         <h1
+
           className="
             text-4xl
             font-semibold
           "
+
         >
+
           Projet introuvable
+
+
         </h1>
 
 
+
+
+
         <Link
+
           to="/"
+
           className="
             rounded-full
             bg-black
@@ -150,6 +221,7 @@ export default function Project() {
             py-3
             text-white
           "
+
         >
 
           Retour
@@ -172,19 +244,27 @@ export default function Project() {
 
 
 
+
   return (
 
+
     <main
+
       className="
         min-h-screen
         bg-[#fafafa]
         text-neutral-950
       "
+
     >
 
 
 
+
+
+
       <div
+
         className="
           mx-auto
           max-w-7xl
@@ -192,7 +272,10 @@ export default function Project() {
           py-10
           lg:px-12
         "
+
       >
+
+
 
 
 
@@ -215,6 +298,7 @@ export default function Project() {
 
           <ArrowLeft size={16}/>
 
+
           Retour aux projets
 
 
@@ -226,9 +310,15 @@ export default function Project() {
 
 
 
+
+
         <ProjectHero
+
           project={project}
+
         />
+
+
 
 
 
@@ -237,7 +327,9 @@ export default function Project() {
 
 
         <ProjectInfo
+
           project={project}
+
         />
 
 
@@ -246,45 +338,63 @@ export default function Project() {
 
 
 
+
+
         <div
+
           className="
             mt-32
             space-y-32
           "
+
         >
+
+
+
 
 
 
 
           <section>
 
+
             <h2
+
               className="
                 mb-6
                 text-4xl
                 font-semibold
                 tracking-tight
               "
+
             >
 
               Présentation
 
+
             </h2>
 
 
+
+
+
+
             <p
+
               className="
                 max-w-3xl
                 text-lg
                 leading-9
                 text-neutral-500
               "
+
             >
 
               {project.description}
 
 
             </p>
+
 
 
           </section>
@@ -296,9 +406,13 @@ export default function Project() {
 
 
 
+
           <ProjectTechnologies
+
             project={project}
+
           />
+
 
 
 
@@ -308,8 +422,11 @@ export default function Project() {
 
 
           <ProjectFeatures
+
             project={project}
+
           />
+
 
 
 
@@ -319,7 +436,9 @@ export default function Project() {
 
 
           <ProjectGallery
+
             project={project}
+
           />
 
 
@@ -329,8 +448,11 @@ export default function Project() {
 
 
 
+
           <ProjectLinks
+
             project={project}
+
           />
 
 
@@ -341,12 +463,18 @@ export default function Project() {
 
 
 
+
+
       </div>
+
+
 
 
 
     </main>
 
+
   );
+
 
 }
