@@ -26,19 +26,19 @@ import usePortfolio from "../../../hooks/usePortfolio";
 
 const navigation = [
   {
-    label:"About",
+    label:"A propos",
     href:"#about",
   },
   {
-    label:"Experience",
+    label:"Expérience",
     href:"#experience",
   },
   {
-    label:"Skills",
+    label:"Compétences",
     href:"#skills",
   },
   {
-    label:"Projects",
+    label:"Projets",
     href:"#projects",
   },
   {
