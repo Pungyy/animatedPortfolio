@@ -1,6 +1,5 @@
 name: Deploy Portfolio
 
-
 on:
   push:
     branches:
@@ -16,10 +15,8 @@ jobs:
 
     steps:
 
-
       - name: Checkout
         uses: actions/checkout@v4
-
 
 
       - name: Setup Node
@@ -29,26 +26,29 @@ jobs:
           cache: npm
 
 
-
       - name: Install dependencies
         run: npm ci
-
 
 
       - name: Build
         run: npm run build
 
 
+      - name: Clean VPS dist folder
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            rm -rf /var/www/ianil/dist/*
+
 
       - name: Deploy to VPS
         uses: appleboy/scp-action@v0.1.7
-
         with:
-
           host: ${{ secrets.VPS_HOST }}
-
           username: ${{ secrets.VPS_USER }}
-
           key: ${{ secrets.VPS_SSH_KEY }}
 
           source: "dist/*"
