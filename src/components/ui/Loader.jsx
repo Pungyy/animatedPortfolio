@@ -3,10 +3,13 @@ import {
 } from "framer-motion";
 
 
+
 export default function Loader() {
 
 
-  const letters = "IBRAHIM".split("");
+  const letters =
+    "IBRAHIM".split("");
+
 
 
 
@@ -40,11 +43,13 @@ export default function Loader() {
         items-center
         justify-center
         overflow-hidden
-        bg-white
+        bg-[var(--background)]
       "
 
 
     >
+
+
 
 
 
@@ -56,21 +61,34 @@ export default function Loader() {
       <motion.div
 
 
+
         initial={{
           scale:.6,
           opacity:0,
         }}
 
 
+
         animate={{
-          scale:1.3,
-          opacity:1,
+          scale:[
+            1,
+            1.3,
+            1,
+          ],
+
+          opacity:[
+            .2,
+            .5,
+            .2,
+          ],
         }}
 
 
+
         transition={{
-          duration:2,
-          ease:"easeOut",
+          duration:4,
+          repeat:Infinity,
+          ease:"easeInOut",
         }}
 
 
@@ -80,9 +98,10 @@ export default function Loader() {
           h-[350px]
           w-[350px]
           rounded-full
-          bg-neutral-100
+          bg-[var(--surface-muted)]
           blur-3xl
         "
+
 
       />
 
@@ -92,6 +111,9 @@ export default function Loader() {
 
 
 
+
+
+      {/* CONTENT */}
 
 
       <div
@@ -108,6 +130,7 @@ export default function Loader() {
 
 
 
+
         <div
 
           className="
@@ -117,11 +140,12 @@ export default function Loader() {
             text-6xl
             font-semibold
             tracking-[0.25em]
-            text-neutral-950
+            text-[var(--text-primary)]
             md:text-8xl
           "
 
         >
+
 
 
           {
@@ -133,7 +157,9 @@ export default function Loader() {
                 <motion.span
 
 
+
                   key={index}
+
 
 
                   initial={{
@@ -164,6 +190,7 @@ export default function Loader() {
                   }}
 
 
+
                 >
 
                   {letter}
@@ -192,6 +219,7 @@ export default function Loader() {
         <motion.p
 
 
+
           initial={{
             opacity:0,
             y:20,
@@ -218,7 +246,7 @@ export default function Loader() {
             text-sm
             uppercase
             tracking-[0.5em]
-            text-neutral-400
+            text-[var(--text-secondary)]
           "
 
 
@@ -232,7 +260,52 @@ export default function Loader() {
 
 
 
+
+
+
+        {/* BARRE DE CHARGEMENT */}
+
+
+        <motion.div
+
+
+          initial={{
+            width:0,
+          }}
+
+
+          animate={{
+            width:"180px",
+          }}
+
+
+          transition={{
+            delay:1,
+            duration:1.5,
+            ease:"easeOut",
+          }}
+
+
+
+          className="
+            mx-auto
+            mt-10
+            h-[2px]
+            rounded-full
+            bg-[var(--text-primary)]
+          "
+
+
+        />
+
+
+
+
+
+
       </div>
+
+
 
 
 

@@ -1,41 +1,74 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 
 export default function useTheme() {
 
+
   const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "light"
+    () =>
+      localStorage.getItem("theme") || "light"
   );
+
 
 
   useEffect(() => {
 
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
+
+    const root =
+      document.documentElement;
+
+
+
+    if(theme === "dark") {
+
+      root.classList.add("dark");
+
     } else {
-      document.documentElement.classList.remove("dark");
+
+      root.classList.remove("dark");
+
     }
+
+
 
     localStorage.setItem(
       "theme",
       theme
     );
 
-  }, [theme]);
+
+  },[
+    theme
+  ]);
 
 
-  const toggleTheme = () => {
+
+
+
+  function toggleTheme(){
+
+
     setTheme(
-      theme === "light"
-        ? "dark"
-        : "light"
+      (prev)=>
+        prev === "light"
+          ? "dark"
+          : "light"
     );
-  };
+
+
+  }
+
+
+
 
 
   return {
     theme,
     toggleTheme,
   };
+
 
 }

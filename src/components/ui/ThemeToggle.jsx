@@ -1,18 +1,36 @@
-import { Moon, Sun } from "lucide-react";
-import useTheme from "../hooks/useTheme";
+import {
+  Sun,
+  Moon,
+} from "lucide-react";
 
 
-export default function ThemeToggle() {
+import {
+  useContext,
+} from "react";
+
+
+import ThemeContext from "../../contexts/ThemeContext";
+
+
+
+export default function ThemeToggle(){
+
 
   const {
     theme,
     toggleTheme,
-  } = useTheme();
+  } = useContext(ThemeContext);
+
+
 
 
   return (
+
     <button
+
       onClick={toggleTheme}
+
+
       className="
         flex
         h-10
@@ -25,14 +43,22 @@ export default function ThemeToggle() {
         bg-[var(--surface)]
         text-[var(--text-primary)]
         transition
-        hover:scale-105
+        hover:bg-[var(--surface-muted)]
       "
+
     >
+
       {
         theme === "light"
-          ? <Moon size={18} />
-          : <Sun size={18} />
+          ?
+          <Moon size={18}/>
+          :
+          <Sun size={18}/>
       }
+
+
     </button>
+
   );
+
 }

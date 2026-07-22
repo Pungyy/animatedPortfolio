@@ -18,7 +18,7 @@ import {
 import Container from "../../ui/Container";
 import Button from "../../ui/Button";
 
-import ThemeToggle from "../../ThemeToggle";
+import ThemeToggle from "../../ui/ThemeToggle";
 
 import usePortfolio from "../../../hooks/usePortfolio";
 
