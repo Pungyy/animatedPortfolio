@@ -39,6 +39,7 @@ export default function ProjectLinks({
 
 
 
+
   return (
 
 
@@ -81,20 +82,32 @@ export default function ProjectLinks({
 
 
 
+
       <div
+
 
         className="
           overflow-hidden
+
           rounded-[48px]
+
           border
-          border-neutral-200
-          bg-white
+
+          border-[var(--border)]
+
+          bg-[var(--surface)]
+
           px-8
+
           py-16
+
           text-center
-          shadow-[0_30px_100px_rgba(0,0,0,.08)]
+
+          shadow-[var(--shadow-card)]
+
           md:px-16
         "
+
 
       >
 
@@ -102,15 +115,22 @@ export default function ProjectLinks({
 
 
 
+
         <h2
+
 
           className="
             text-4xl
+
             font-semibold
+
             tracking-tight
-            text-neutral-950
+
+            text-[var(--text-primary)]
+
             md:text-5xl
           "
+
 
         >
 
@@ -124,21 +144,32 @@ export default function ProjectLinks({
 
 
 
+
+
+
         <p
+
 
           className="
             mx-auto
+
             mt-5
+
             max-w-xl
+
             text-lg
+
             leading-8
-            text-neutral-500
+
+            text-[var(--text-secondary)]
           "
+
 
         >
 
           Découvrez le résultat final ou consultez
           le code source de cette réalisation.
+
 
         </p>
 
@@ -152,15 +183,22 @@ export default function ProjectLinks({
 
         <div
 
+
           className="
             mt-10
+
             flex
+
             flex-wrap
+
             justify-center
+
             gap-4
           "
 
+
         >
+
 
 
 
@@ -176,11 +214,17 @@ export default function ProjectLinks({
               <motion.a
 
 
+
                 href={project.demo_url}
+
+
 
                 target="_blank"
 
+
+
                 rel="noreferrer"
+
 
 
 
@@ -199,27 +243,43 @@ export default function ProjectLinks({
 
                 className="
                   inline-flex
+
                   items-center
+
                   gap-3
+
                   rounded-full
-                  bg-neutral-950
+
+                  bg-[var(--text-primary)]
+
                   px-8
+
                   py-4
+
                   text-sm
+
                   font-medium
-                  text-white
-                  shadow-[0_15px_40px_rgba(0,0,0,.15)]
+
+                  text-[var(--background)]
+
+                  shadow-lg
+
                   transition
-                  hover:bg-neutral-800
+
+                  hover:opacity-80
                 "
 
+
               >
+
 
 
                 <ExternalLink size={18}/>
 
 
+
                 Voir la démo
+
 
 
               </motion.a>
@@ -243,11 +303,17 @@ export default function ProjectLinks({
               <motion.a
 
 
+
                 href={project.github_url}
+
+
 
                 target="_blank"
 
+
+
                 rel="noreferrer"
+
 
 
 
@@ -266,29 +332,47 @@ export default function ProjectLinks({
 
                 className="
                   inline-flex
+
                   items-center
+
                   gap-3
+
                   rounded-full
+
                   border
-                  border-neutral-200
-                  bg-white
+
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]
+
                   px-8
+
                   py-4
+
                   text-sm
+
                   font-medium
-                  text-neutral-900
+
+                  text-[var(--text-primary)]
+
                   shadow-sm
+
                   transition
-                  hover:bg-neutral-100
+
+                  hover:bg-[var(--surface-muted)]
                 "
 
+
               >
+
 
 
                 <FaGithub size={18}/>
 
 
+
                 Code source
+
 
 
               </motion.a>
@@ -301,6 +385,7 @@ export default function ProjectLinks({
 
 
 
+
         </div>
 
 
@@ -308,9 +393,7 @@ export default function ProjectLinks({
 
 
 
-
       </div>
-
 
 
 

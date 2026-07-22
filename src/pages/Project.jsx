@@ -3,10 +3,12 @@ import {
   Link,
 } from "react-router-dom";
 
+
 import {
   useEffect,
   useState,
 } from "react";
+
 
 import {
   ArrowLeft,
@@ -32,12 +34,14 @@ import ProjectLinks from "../components/projects/ProjectLinks";
 
 
 
+
 export default function Project() {
 
 
   const {
     slug,
   } = useParams();
+
 
 
 
@@ -48,10 +52,12 @@ export default function Project() {
 
 
 
+
   const [
     loading,
     setLoading,
   ] = useState(true);
+
 
 
 
@@ -81,9 +87,8 @@ export default function Project() {
       } catch(error){
 
 
-        console.error(
-          error
-        );
+        console.error(error);
+
 
 
       } finally {
@@ -113,12 +118,6 @@ export default function Project() {
 
 
 
-  /*
-    Analytics visite projet
-
-    Déclenché uniquement
-    quand le projet existe
-  */
 
   useAnalytics(
 
@@ -147,10 +146,16 @@ export default function Project() {
 
         className="
           flex
+
           min-h-screen
+
           items-center
+
           justify-center
-          text-neutral-400
+
+          bg-[var(--background)]
+
+          text-[var(--text-secondary)]
         "
 
       >
@@ -182,20 +187,31 @@ export default function Project() {
 
         className="
           flex
+
           min-h-screen
+
           flex-col
+
           items-center
+
           justify-center
+
           gap-5
+
+          bg-[var(--background)]
+
+          text-[var(--text-primary)]
         "
 
       >
+
 
 
         <h1
 
           className="
             text-4xl
+
             font-semibold
           "
 
@@ -210,16 +226,21 @@ export default function Project() {
 
 
 
+
         <Link
 
           to="/"
 
           className="
             rounded-full
-            bg-black
+
+            bg-[var(--text-primary)]
+
             px-6
+
             py-3
-            text-white
+
+            text-[var(--background)]
           "
 
         >
@@ -245,6 +266,9 @@ export default function Project() {
 
 
 
+
+
+
   return (
 
 
@@ -252,11 +276,14 @@ export default function Project() {
 
       className="
         min-h-screen
-        bg-[#fafafa]
-        text-neutral-950
+
+        bg-[var(--background)]
+
+        text-[var(--text-primary)]
       "
 
     >
+
 
 
 
@@ -267,9 +294,13 @@ export default function Project() {
 
         className="
           mx-auto
+
           max-w-7xl
+
           px-6
+
           py-10
+
           lg:px-12
         "
 
@@ -280,19 +311,31 @@ export default function Project() {
 
 
 
+
+
         <Link
+
 
           to="/"
 
+
+
           className="
             inline-flex
+
             items-center
+
             gap-2
+
             text-sm
-            text-neutral-500
+
+            text-[var(--text-secondary)]
+
             transition
-            hover:text-black
+
+            hover:text-[var(--text-primary)]
           "
+
 
         >
 
@@ -344,10 +387,13 @@ export default function Project() {
 
           className="
             mt-32
+
             space-y-32
           "
 
         >
+
+
 
 
 
@@ -362,9 +408,14 @@ export default function Project() {
 
               className="
                 mb-6
+
                 text-4xl
+
                 font-semibold
+
                 tracking-tight
+
+                text-[var(--text-primary)]
               "
 
             >
@@ -379,13 +430,18 @@ export default function Project() {
 
 
 
+
+
             <p
 
               className="
                 max-w-3xl
+
                 text-lg
+
                 leading-9
-                text-neutral-500
+
+                text-[var(--text-secondary)]
               "
 
             >
@@ -454,6 +510,7 @@ export default function Project() {
             project={project}
 
           />
+
 
 
 

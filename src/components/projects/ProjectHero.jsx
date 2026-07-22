@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
 
 
 
@@ -10,25 +12,34 @@ export default function ProjectHero({
   return (
 
     <section
+
       className="
         pt-24
         pb-20
+        bg-[var(--background)]
       "
+
     >
 
 
 
+
+
+
       <motion.div
+
 
         initial={{
           opacity:0,
           y:30,
         }}
 
+
         animate={{
           opacity:1,
           y:0,
         }}
+
 
         transition={{
           duration:.8,
@@ -40,13 +51,18 @@ export default function ProjectHero({
           ],
         }}
 
+
+
         className="
           mx-auto
           max-w-5xl
           text-center
         "
 
+
       >
+
+
 
 
 
@@ -57,29 +73,47 @@ export default function ProjectHero({
 
             <span
 
+
               className="
                 inline-flex
+
                 items-center
+
                 rounded-full
+
                 border
-                border-neutral-200
-                bg-white
+
+                border-[var(--border)]
+
+                bg-[var(--surface)]
+
                 px-5
+
                 py-2
+
                 text-xs
+
                 font-medium
+
                 uppercase
+
                 tracking-[0.3em]
-                text-neutral-500
+
+                text-[var(--text-secondary)]
+
                 shadow-sm
               "
 
+
             >
+
 
               {project.category}
 
 
+
             </span>
+
 
           )
         }
@@ -91,24 +125,36 @@ export default function ProjectHero({
 
 
 
+
         <h1
+
 
           className="
             mt-10
+
             text-6xl
+
             font-semibold
+
             tracking-[-0.06em]
-            text-neutral-950
+
+            text-[var(--text-primary)]
+
             sm:text-7xl
+
             lg:text-8xl
           "
 
+
         >
+
 
           {project.title}
 
 
+
         </h1>
+
 
 
 
@@ -122,24 +168,35 @@ export default function ProjectHero({
 
             <p
 
+
               className="
                 mx-auto
+
                 mt-8
+
                 max-w-2xl
+
                 text-xl
+
                 leading-9
-                text-neutral-500
+
+                text-[var(--text-secondary)]
               "
 
+
             >
+
 
               {project.short_description}
 
 
+
             </p>
+
 
           )
         }
+
 
 
 
@@ -156,59 +213,56 @@ export default function ProjectHero({
 
 
 
+
+
+
       {
         project.cover_image && (
+
 
           <motion.div
 
 
+
             initial={{
-
               opacity:0,
-
               scale:.96,
-
               y:40,
-
             }}
 
 
 
             animate={{
-
               opacity:1,
-
               scale:1,
-
               y:0,
-
             }}
 
 
 
             transition={{
-
               duration:1,
-
               delay:.15,
-
               ease:[
                 .22,
                 1,
                 .36,
                 1
               ],
-
             }}
 
 
 
             className="
               relative
+
               mx-auto
+
               mt-20
+
               max-w-6xl
             "
+
 
           >
 
@@ -216,16 +270,31 @@ export default function ProjectHero({
 
 
 
+
+
+
+
+            {/* HALO */}
+
+
+
             <div
+
 
               className="
                 absolute
+
                 inset-0
+
                 -z-10
+
                 rounded-[60px]
-                bg-neutral-200/50
+
+                bg-[var(--surface-muted)]
+
                 blur-3xl
               "
+
 
             />
 
@@ -235,17 +304,31 @@ export default function ProjectHero({
 
 
 
+
+
+            {/* IMAGE CARD */}
+
+
+
             <div
+
 
               className="
                 overflow-hidden
+
                 rounded-[48px]
+
                 border
-                border-neutral-200
-                bg-white
+
+                border-[var(--border)]
+
+                bg-[var(--surface)]
+
                 p-3
-                shadow-[0_40px_120px_rgba(0,0,0,0.12)]
+
+                shadow-[var(--shadow-card)]
               "
+
 
             >
 
@@ -253,20 +336,31 @@ export default function ProjectHero({
 
 
 
+
               <img
+
 
                 src={project.cover_image}
 
+
                 alt={project.title}
+
+
 
                 className="
                   aspect-[16/9]
+
                   w-full
+
                   rounded-[38px]
+
                   object-cover
                 "
 
+
               />
+
+
 
 
 
@@ -279,10 +373,13 @@ export default function ProjectHero({
 
 
 
+
           </motion.div>
+
 
         )
       }
+
 
 
 

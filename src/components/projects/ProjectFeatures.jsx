@@ -1,4 +1,8 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
+
+
 
 
 
@@ -18,6 +22,7 @@ export default function ProjectFeatures({
     return null;
 
   }
+
 
 
 
@@ -65,19 +70,25 @@ export default function ProjectFeatures({
 
 
       <div
+
         className="
           mb-10
         "
+
       >
+
 
 
         <h2
 
           className="
             text-4xl
+
             font-semibold
+
             tracking-tight
-            text-neutral-950
+
+            text-[var(--text-primary)]
           "
 
         >
@@ -90,14 +101,21 @@ export default function ProjectFeatures({
 
 
 
+
+
+
         <p
 
           className="
             mt-4
+
             max-w-2xl
+
             text-lg
+
             leading-8
-            text-neutral-500
+
+            text-[var(--text-secondary)]
           "
 
         >
@@ -105,7 +123,9 @@ export default function ProjectFeatures({
           Les fonctionnalités principales développées
           pour donner vie à ce projet.
 
+
         </p>
+
 
 
       </div>
@@ -122,11 +142,14 @@ export default function ProjectFeatures({
 
         className="
           grid
+
           gap-6
+
           md:grid-cols-2
         "
 
       >
+
 
 
 
@@ -139,6 +162,7 @@ export default function ProjectFeatures({
 
 
               <motion.article
+
 
 
                 key={feature.id}
@@ -180,16 +204,26 @@ export default function ProjectFeatures({
 
                 className="
                   group
+
                   relative
+
                   overflow-hidden
+
                   rounded-[36px]
+
                   border
-                  border-neutral-200
-                  bg-white
+
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]
+
                   p-8
+
                   transition-all
+
                   duration-500
-                  hover:shadow-[0_30px_80px_rgba(0,0,0,.10)]
+
+                  hover:shadow-[var(--shadow-card)]
                 "
 
 
@@ -200,27 +234,42 @@ export default function ProjectFeatures({
 
 
 
-                {/* halo */}
+
+                {/* HALO */}
+
 
 
                 <div
 
                   className="
                     pointer-events-none
+
                     absolute
+
                     -right-16
+
                     -top-16
+
                     h-40
+
                     w-40
+
                     rounded-full
-                    bg-neutral-100
+
+                    bg-[var(--surface-muted)]
+
                     blur-3xl
+
                     transition
+
                     duration-500
+
                     group-hover:scale-150
                   "
 
                 />
+
+
 
 
 
@@ -240,18 +289,29 @@ export default function ProjectFeatures({
 
 
 
+
+
+
                   <div
 
                     className="
                       flex
+
                       h-14
+
                       w-14
+
                       items-center
+
                       justify-center
+
                       rounded-2xl
-                      bg-neutral-950
+
+                      bg-[var(--text-primary)]
+
                       text-xl
-                      text-white
+
+                      text-[var(--background)]
                     "
 
                   >
@@ -267,14 +327,20 @@ export default function ProjectFeatures({
 
 
 
+
+
                   <h3
 
                     className="
                       mt-8
+
                       text-2xl
+
                       font-semibold
+
                       tracking-tight
-                      text-neutral-950
+
+                      text-[var(--text-primary)]
                     "
 
                   >
@@ -291,13 +357,17 @@ export default function ProjectFeatures({
 
 
 
+
                   <p
 
                     className="
                       mt-4
+
                       text-sm
+
                       leading-7
-                      text-neutral-500
+
+                      text-[var(--text-secondary)]
                     "
 
                   >
@@ -305,13 +375,17 @@ export default function ProjectFeatures({
                     Une fonctionnalité pensée et développée
                     pour améliorer l'expérience utilisateur.
 
+
                   </p>
 
 
 
 
 
+
+
                 </div>
+
 
 
 
@@ -324,6 +398,7 @@ export default function ProjectFeatures({
 
           )
         }
+
 
 
 

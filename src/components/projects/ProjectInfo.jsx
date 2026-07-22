@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
 
 
 
@@ -36,6 +38,7 @@ export default function ProjectInfo({
       (item) =>
         project[item.key]
     );
+
 
 
 
@@ -105,7 +108,7 @@ export default function ProjectInfo({
 
         {
           filteredInfos.map(
-            (info,index)=>(
+            (info)=>(
 
 
               <div
@@ -116,15 +119,24 @@ export default function ProjectInfo({
 
                 className="
                   group
+
                   rounded-[32px]
+
                   border
-                  border-neutral-200
-                  bg-white
+
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]
+
                   p-8
+
                   transition-all
+
                   duration-500
+
                   hover:-translate-y-1
-                  hover:shadow-[0_25px_70px_rgba(0,0,0,.08)]
+
+                  hover:shadow-[var(--shadow-card)]
                 "
 
 
@@ -134,14 +146,19 @@ export default function ProjectInfo({
 
 
 
+
                 <p
 
                   className="
                     text-xs
+
                     font-medium
+
                     uppercase
+
                     tracking-[0.35em]
-                    text-neutral-400
+
+                    text-[var(--text-secondary)]
                   "
 
                 >
@@ -156,14 +173,20 @@ export default function ProjectInfo({
 
 
 
+
+
                 <p
 
                   className="
                     mt-5
+
                     text-xl
+
                     font-semibold
+
                     tracking-tight
-                    text-neutral-900
+
+                    text-[var(--text-primary)]
                   "
 
                 >
@@ -178,7 +201,6 @@ export default function ProjectInfo({
 
 
 
-
               </div>
 
 
@@ -187,6 +209,7 @@ export default function ProjectInfo({
 
           )
         }
+
 
 
 

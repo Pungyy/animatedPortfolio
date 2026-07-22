@@ -1,4 +1,7 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
+
 
 
 
@@ -70,23 +73,33 @@ export default function ProjectGallery({
 
 
 
+
+
       <div
+
 
         className="
           mb-10
         "
 
+
       >
+
 
 
         <h2
 
+
           className="
             text-4xl
+
             font-semibold
+
             tracking-tight
-            text-neutral-950
+
+            text-[var(--text-primary)]
           "
+
 
         >
 
@@ -98,19 +111,29 @@ export default function ProjectGallery({
 
 
 
+
+
+
+
         <p
+
 
           className="
             mt-4
+
             text-lg
-            text-neutral-500
+
+            text-[var(--text-secondary)]
           "
+
 
         >
 
           Quelques aperçus du projet.
 
+
         </p>
+
 
 
       </div>
@@ -123,13 +146,20 @@ export default function ProjectGallery({
 
 
 
+
+
+
       <div
+
 
         className="
           grid
+
           gap-6
+
           lg:grid-cols-12
         "
+
 
       >
 
@@ -142,70 +172,120 @@ export default function ProjectGallery({
         {/* IMAGE PRINCIPALE */}
 
 
+
         {
           images[0] && (
 
+
+
             <motion.div
+
+
 
               initial={{
                 opacity:0,
                 scale:.96,
               }}
 
+
+
               whileInView={{
                 opacity:1,
                 scale:1,
               }}
 
+
+
               viewport={{
                 once:true,
               }}
+
+
 
               transition={{
                 duration:.7,
               }}
 
+
+
               className="
                 group
+
                 overflow-hidden
+
                 rounded-[44px]
+
                 border
-                border-neutral-200
-                bg-white
+
+                border-[var(--border)]
+
+                bg-[var(--surface)]
+
                 p-3
-                shadow-[0_30px_90px_rgba(0,0,0,.10)]
+
+                shadow-[var(--shadow-card)]
+
                 lg:col-span-12
               "
 
+
+
             >
+
+
 
               <motion.img
 
+
+
                 src={images[0].image_url}
 
+
+
                 alt="Aperçu projet"
+
+
+
 
                 whileHover={{
                   scale:1.04,
                 }}
 
+
+
+
                 transition={{
                   duration:.6,
                 }}
 
+
+
+
                 className="
                   aspect-[16/8]
+
                   w-full
+
                   rounded-[34px]
+
                   object-cover
                 "
 
+
+
               />
+
+
 
             </motion.div>
 
+
+
           )
         }
+
+
+
 
 
 
@@ -225,7 +305,9 @@ export default function ProjectGallery({
             (image,index)=>(
 
 
+
               <motion.div
+
 
 
                 key={image.id}
@@ -259,28 +341,45 @@ export default function ProjectGallery({
 
 
 
+
                 className="
                   group
+
                   overflow-hidden
+
                   rounded-[36px]
+
                   border
-                  border-neutral-200
-                  bg-white
+
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]
+
                   p-3
-                  shadow-[0_20px_60px_rgba(0,0,0,.08)]
+
+                  shadow-[var(--shadow-card)]
+
                   lg:col-span-6
                 "
+
 
 
               >
 
 
 
+
+
                 <motion.img
+
+
 
                   src={image.image_url}
 
+
+
                   alt="Capture projet"
+
 
 
 
@@ -290,25 +389,38 @@ export default function ProjectGallery({
 
 
 
+
                   transition={{
                     duration:.6,
                   }}
 
 
 
+
+
                   className="
                     aspect-[16/10]
+
                     w-full
+
                     rounded-[28px]
+
                     object-cover
                   "
+
+
+
 
                 />
 
 
 
 
+
+
+
               </motion.div>
+
 
 
             )
@@ -320,7 +432,11 @@ export default function ProjectGallery({
 
 
 
+
+
+
       </div>
+
 
 
 

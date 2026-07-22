@@ -1,6 +1,10 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+} from "framer-motion";
+
 
 import TechnologyIcon from "../ui/TechnologyIcon";
+
 
 
 
@@ -20,6 +24,7 @@ export default function ProjectTechnologies({
     return null;
 
   }
+
 
 
 
@@ -67,6 +72,8 @@ export default function ProjectTechnologies({
 
 
 
+
+
       <div
 
         className="
@@ -75,12 +82,17 @@ export default function ProjectTechnologies({
 
       >
 
+
         <h2
 
           className="
             text-4xl
+
             font-semibold
+
             tracking-tight
+
+            text-[var(--text-primary)]
           "
 
         >
@@ -92,12 +104,15 @@ export default function ProjectTechnologies({
 
 
 
+
         <p
 
           className="
             mt-4
+
             text-lg
-            text-neutral-500
+
+            text-[var(--text-secondary)]
           "
 
         >
@@ -121,11 +136,14 @@ export default function ProjectTechnologies({
 
         className="
           flex
+
           flex-wrap
+
           gap-4
         "
 
       >
+
 
 
 
@@ -137,6 +155,7 @@ export default function ProjectTechnologies({
 
 
               <motion.div
+
 
 
                 key={tech.id}
@@ -172,20 +191,34 @@ export default function ProjectTechnologies({
 
                 className="
                   group
+
                   flex
+
                   items-center
+
                   gap-3
+
                   rounded-2xl
+
                   border
-                  border-neutral-200
-                  bg-white
+
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]
+
                   px-5
+
                   py-3
+
                   shadow-sm
+
                   transition-all
+
                   duration-300
+
                   hover:-translate-y-1
-                  hover:shadow-lg
+
+                  hover:shadow-[var(--shadow-card)]
                 "
 
 
@@ -196,14 +229,21 @@ export default function ProjectTechnologies({
 
 
 
+
+
                 <div
 
                   className="
                     flex
+
                     h-9
+
                     w-9
+
                     items-center
+
                     justify-center
+
                     rounded-xl
                   "
 
@@ -239,8 +279,10 @@ export default function ProjectTechnologies({
 
                   className="
                     text-sm
+
                     font-medium
-                    text-neutral-800
+
+                    text-[var(--text-primary)]
                   "
 
                 >
@@ -267,8 +309,8 @@ export default function ProjectTechnologies({
 
 
 
-      </div>
 
+      </div>
 
 
 
