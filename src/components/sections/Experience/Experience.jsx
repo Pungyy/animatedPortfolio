@@ -1,15 +1,19 @@
 import { useContext, useRef } from "react";
 
+
 import {
   motion,
   useScroll,
   useTransform,
 } from "framer-motion";
 
+
 import PortfolioContext from "../../../contexts/PortfolioContext";
+
 
 import Heading from "../../ui/Heading";
 import ExperienceItem from "./ExperienceItem";
+
 
 
 export default function Experience() {
@@ -21,7 +25,9 @@ export default function Experience() {
 
 
 
+
   const sectionRef = useRef(null);
+
 
 
 
@@ -31,7 +37,7 @@ export default function Experience() {
 
     target: sectionRef,
 
-    offset: [
+    offset:[
       "start 70%",
       "end 40%",
     ],
@@ -41,11 +47,14 @@ export default function Experience() {
 
 
 
+
   const lineHeight = useTransform(
     scrollYProgress,
     [0,1],
     ["0%","100%"]
   );
+
+
 
 
 
@@ -61,9 +70,12 @@ export default function Experience() {
         relative
         overflow-hidden
         py-40
+        bg-[var(--background)]
       "
 
     >
+
+
 
 
 
@@ -87,18 +99,26 @@ export default function Experience() {
 
 
 
+
+
+
       <div
+
         className="
           relative
           mx-auto
           mt-32
           max-w-6xl
         "
+
       >
 
 
 
-        {/* ligne arrière */}
+
+
+        {/* LIGNE ARRIERE */}
+
 
         <div
 
@@ -106,11 +126,16 @@ export default function Experience() {
             absolute
             left-1/2
             top-0
+
             hidden
+
             h-full
             w-px
+
             -translate-x-1/2
-            bg-neutral-200
+
+            bg-[var(--border)]
+
             md:block
           "
 
@@ -119,26 +144,41 @@ export default function Experience() {
 
 
 
-        {/* ligne animée */}
+
+
+
+
+        {/* LIGNE ANIMEE */}
+
 
         <motion.div
 
           style={{
-            height: lineHeight,
+            height:lineHeight,
           }}
+
 
           className="
             absolute
             left-1/2
             top-0
+
             hidden
+
             w-[2px]
+
             -translate-x-1/2
+
             bg-gradient-to-b
-            from-black
-            via-neutral-700
-            to-neutral-300
-            shadow-[0_0_15px_rgba(0,0,0,0.25)]
+
+            from-[var(--text-primary)]
+
+            via-[var(--text-secondary)]
+
+            to-[var(--border)]
+
+            shadow-[0_0_15px_rgba(0,0,0,.25)]
+
             md:block
           "
 
@@ -150,10 +190,14 @@ export default function Experience() {
 
 
 
+
+
         <div
+
           className="
             space-y-36
           "
+
         >
 
           {

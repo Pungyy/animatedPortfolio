@@ -24,6 +24,7 @@ export default function AboutCard() {
 
 
 
+
   return (
 
     <motion.div
@@ -61,17 +62,23 @@ export default function AboutCard() {
 
 
 
+
+
       {/* IMAGE */}
+
 
       <div
 
         className="
           overflow-hidden
           rounded-[48px]
+
           border
-          border-neutral-200
-          bg-neutral-100
-          shadow-[0_40px_100px_rgba(0,0,0,.12)]
+          border-[var(--border)]
+
+          bg-[var(--surface-muted)]
+
+          shadow-[var(--shadow-card)]
         "
 
       >
@@ -104,10 +111,12 @@ export default function AboutCard() {
 
               className="
                 aspect-[4/5]
+
                 flex
                 items-center
                 justify-center
-                text-neutral-400
+
+                text-[var(--text-secondary)]
               "
 
             >
@@ -130,7 +139,10 @@ export default function AboutCard() {
 
 
 
+
+
       {/* FLOAT CARD */}
+
 
       <motion.div
 
@@ -154,15 +166,22 @@ export default function AboutCard() {
 
         className="
           absolute
+
           -bottom-10
           -left-10
+
           rounded-[32px]
+
           border
-          border-neutral-200
-          bg-white/90
+          border-[var(--border)]
+
+          bg-[var(--surface)]/90
+
           p-7
+
           backdrop-blur-xl
-          shadow-[0_25px_80px_rgba(0,0,0,.12)]
+
+          shadow-[var(--shadow-card)]
         "
 
 
@@ -170,15 +189,21 @@ export default function AboutCard() {
 
 
 
+
+
         <div
 
           className="
             space-y-5
+
             text-sm
-            text-neutral-500
+
+            text-[var(--text-secondary)]
           "
 
         >
+
+
 
 
 
@@ -203,6 +228,9 @@ export default function AboutCard() {
 
             )
           }
+
+
+
 
 
 
@@ -234,6 +262,9 @@ export default function AboutCard() {
 
 
 
+
+
+
           {
             settings.phone && (
 
@@ -258,10 +289,12 @@ export default function AboutCard() {
 
 
 
+
         </div>
 
 
       </motion.div>
+
 
 
 

@@ -26,6 +26,7 @@ export default function HeroVisual() {
 
 
 
+
   return (
 
     <div
@@ -38,6 +39,8 @@ export default function HeroVisual() {
       "
 
     >
+
+
 
 
 
@@ -74,18 +77,25 @@ export default function HeroVisual() {
         }}
 
 
+
         className="
           absolute
           -inset-20
           rounded-full
+
           bg-gradient-to-br
-          from-neutral-200
-          via-white
-          to-neutral-100
+
+          from-[var(--surface-muted)]
+
+          via-[var(--surface)]
+
+          to-[var(--background)]
+
           blur-3xl
         "
 
       />
+
 
 
 
@@ -131,6 +141,7 @@ export default function HeroVisual() {
 
 
 
+
         <motion.div
 
 
@@ -145,6 +156,7 @@ export default function HeroVisual() {
           }}
 
 
+
           transition={{
 
             duration:5,
@@ -157,14 +169,20 @@ export default function HeroVisual() {
 
 
 
+
+
           className="
             relative
             overflow-hidden
             rounded-[48px]
+
             border
-            border-neutral-200
-            bg-white
-            shadow-[0_40px_120px_rgba(0,0,0,.12)]
+
+            border-[var(--border)]
+
+            bg-[var(--surface)]
+
+            shadow-[var(--shadow-card)]
           "
 
 
@@ -172,11 +190,14 @@ export default function HeroVisual() {
 
 
 
+
+
           <div
 
             className="
               aspect-[4/5]
-              bg-neutral-100
+
+              bg-[var(--surface-muted)]
             "
 
           >
@@ -202,6 +223,9 @@ export default function HeroVisual() {
 
 
 
+
+
+
           {/* REFLET */}
 
 
@@ -210,15 +234,21 @@ export default function HeroVisual() {
             className="
               absolute
               inset-0
+
               bg-gradient-to-tr
-              from-white/30
+
+              from-white/20
+
               via-transparent
+
               to-transparent
+
               pointer-events-none
+
+              dark:from-white/5
             "
 
           />
-
 
 
         </motion.div>
@@ -272,19 +302,29 @@ export default function HeroVisual() {
 
 
                 className={`
+
                   absolute
+
                   flex
                   items-center
                   gap-2
+
                   rounded-full
+
                   border
-                  bg-white/90
+
+                  bg-[var(--surface)]/90
+
                   px-4
                   py-2
+
                   text-sm
                   font-medium
+
                   shadow-lg
+
                   backdrop-blur
+
 
                   ${
                     index === 0
@@ -349,12 +389,16 @@ export default function HeroVisual() {
 
 
 
+
+
       </motion.div>
 
 
 
 
+
     </div>
+
 
   );
 

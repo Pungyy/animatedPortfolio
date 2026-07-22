@@ -1,15 +1,12 @@
 import { useContext } from "react";
 
-import {
-  motion,
-} from "framer-motion";
-
 import PortfolioContext from "../../../contexts/PortfolioContext";
 
 import Container from "../../ui/Container";
 import Heading from "../../ui/Heading";
 
 import SkillCard from "./SkillCard";
+
 
 
 export default function Skills() {
@@ -21,6 +18,7 @@ export default function Skills() {
 
 
 
+
   return (
 
     <section
@@ -29,6 +27,7 @@ export default function Skills() {
 
       className="
         py-40
+        bg-[var(--background)]
       "
 
     >
@@ -51,6 +50,8 @@ export default function Skills() {
           align="center"
 
         />
+
+
 
 
 

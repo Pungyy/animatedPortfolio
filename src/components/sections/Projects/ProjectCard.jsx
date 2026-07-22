@@ -2,13 +2,16 @@ import {
   motion,
 } from "framer-motion";
 
+
 import {
   ExternalLink,
 } from "lucide-react";
 
+
 import {
   FaGithub,
 } from "react-icons/fa";
+
 
 import {
   Link,
@@ -31,11 +34,13 @@ export default function ProjectCard({
 
     <motion.article
 
+
       initial={{
         opacity:0,
         y:50,
         filter:"blur(12px)",
       }}
+
 
       whileInView={{
         opacity:1,
@@ -43,10 +48,12 @@ export default function ProjectCard({
         filter:"blur(0px)",
       }}
 
+
       viewport={{
         once:true,
         margin:"-100px",
       }}
+
 
       transition={{
         duration:.7,
@@ -60,60 +67,92 @@ export default function ProjectCard({
       }}
 
 
+
       className="
         group
+
         overflow-hidden
+
         rounded-[36px]
+
         border
-        border-neutral-200
-        bg-white
-        shadow-[0_20px_70px_rgba(0,0,0,.06)]
+        border-[var(--border)]
+
+        bg-[var(--surface)]
+
+        shadow-[var(--shadow-card)]
+
         transition-all
+
         duration-500
+
         hover:-translate-y-3
-        hover:shadow-[0_40px_100px_rgba(0,0,0,.14)]
       "
+
 
     >
 
 
 
+
+
       <Link
+
         to={`/project/${project.slug}`}
+
         className="block"
+
       >
+
+
+
+
 
 
 
 
         {/* IMAGE */}
 
+
+
         <div
+
           className="
             relative
+
             aspect-[16/10]
+
             overflow-hidden
-            bg-neutral-100
+
+            bg-[var(--surface-muted)]
           "
+
         >
+
 
 
           {
             project.cover_image ? (
 
+
               <motion.img
+
 
                 src={project.cover_image}
 
                 alt={project.title}
 
+
                 whileHover={{
                   scale:1.08,
                 }}
 
+
                 transition={{
                   duration:.7,
                 }}
+
+
 
                 className="
                   h-full
@@ -121,43 +160,71 @@ export default function ProjectCard({
                   object-cover
                 "
 
+
               />
 
-            ) : (
+
+            )
+
+            :
+
+            (
 
               <div
+
                 className="
                   flex
                   h-full
                   items-center
                   justify-center
+
                   text-sm
-                  text-neutral-400
+
+                  text-[var(--text-secondary)]
                 "
+
               >
 
                 Aucune image
 
+
               </div>
+
 
             )
           }
 
 
 
+
+
+
+
           <div
+
             className="
               absolute
+
               inset-0
+
               bg-gradient-to-t
+
               from-black/30
+
               via-transparent
+
               opacity-0
+
               transition
+
               duration-500
+
               group-hover:opacity-100
             "
+
           />
+
+
 
 
         </div>
@@ -169,15 +236,25 @@ export default function ProjectCard({
 
 
 
+
+
+
+
         {/* CONTENT */}
 
 
+
         <div
+
           className="
             space-y-7
+
             p-8
           "
+
         >
+
+
 
 
 
@@ -185,17 +262,25 @@ export default function ProjectCard({
 
 
             <h3
+
               className="
                 text-2xl
+
                 font-semibold
+
                 tracking-tight
-                text-neutral-950
+
+                text-[var(--text-primary)]
               "
+
             >
 
               {project.title}
 
+
             </h3>
+
+
 
 
 
@@ -205,16 +290,23 @@ export default function ProjectCard({
               project.short_description && (
 
                 <p
+
                   className="
                     mt-4
+
                     line-clamp-3
+
                     text-sm
+
                     leading-7
-                    text-neutral-500
+
+                    text-[var(--text-secondary)]
                   "
+
                 >
 
                   {project.short_description}
+
 
                 </p>
 
@@ -231,69 +323,108 @@ export default function ProjectCard({
 
 
 
+
           {/* TECHNOLOGIES */}
+
 
 
           {
             project.technologies?.length > 0 && (
 
+
               <div
+
                 className="
                   flex
+
                   flex-wrap
+
                   gap-2
                 "
+
               >
+
+
 
                 {
                   project.technologies.map(
+
                     (tech)=>(
+
 
                       <span
 
+
                         key={tech.id}
+
 
                         className="
                           flex
+
                           items-center
+
                           gap-2
+
                           rounded-full
+
                           border
+
                           px-3
+
                           py-1.5
+
                           text-xs
+
                           font-medium
                         "
 
+
+
                         style={{
+
 
                           backgroundColor:
                             `${tech.color}12`,
 
+
                           borderColor:
                             `${tech.color}40`,
+
 
                           color:
                             tech.color,
 
+
                         }}
+
+
 
                       >
 
+
+
                         <TechnologyIcon
+
                           name={tech.icon}
+
                           size={14}
+
                         />
+
 
 
                         {tech.name}
 
 
+
                       </span>
 
+
                     )
+
                   )
                 }
+
 
 
               </div>
@@ -303,7 +434,11 @@ export default function ProjectCard({
 
 
 
+
+
         </div>
+
+
 
 
 
@@ -316,57 +451,98 @@ export default function ProjectCard({
 
 
 
+
       {/* ACTIONS */}
 
 
+
       <div
+
         className="
           flex
+
           gap-3
+
           px-8
+
           pb-8
         "
+
       >
+
+
+
 
 
 
         {
           project.github_url && (
 
+
             <a
+
 
               href={project.github_url}
 
+
               target="_blank"
+
 
               rel="noreferrer"
 
+
               onClick={(e)=>e.stopPropagation()}
+
+
 
               className="
                 flex
+
                 h-11
+
                 w-11
+
                 items-center
+
                 justify-center
+
+
                 rounded-full
-                bg-neutral-100
-                text-neutral-700
+
+
+                bg-[var(--surface-muted)]
+
+
+                text-[var(--text-secondary)]
+
+
                 transition
+
+
                 duration-300
-                hover:bg-black
-                hover:text-white
+
+
+                hover:bg-[var(--text-primary)]
+
+
+                hover:text-[var(--background)]
               "
 
+
             >
+
 
               <FaGithub size={18}/>
 
 
+
             </a>
+
 
           )
         }
+
+
 
 
 
@@ -376,40 +552,71 @@ export default function ProjectCard({
         {
           project.demo_url && (
 
+
             <a
+
 
               href={project.demo_url}
 
+
               target="_blank"
+
 
               rel="noreferrer"
 
+
               onClick={(e)=>e.stopPropagation()}
+
+
 
               className="
                 flex
+
                 h-11
+
                 w-11
+
                 items-center
+
                 justify-center
+
+
                 rounded-full
-                bg-neutral-100
-                text-neutral-700
+
+
+                bg-[var(--surface-muted)]
+
+
+                text-[var(--text-secondary)]
+
+
                 transition
+
+
                 duration-300
-                hover:bg-black
-                hover:text-white
+
+
+                hover:bg-[var(--text-primary)]
+
+
+                hover:text-[var(--background)]
               "
 
+
             >
+
 
               <ExternalLink size={18}/>
 
 
+
             </a>
+
 
           )
         }
+
+
 
 
 

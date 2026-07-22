@@ -10,6 +10,7 @@ import ContactForm from "./ContactForm";
 
 
 
+
 export default function Contact() {
 
 
@@ -23,28 +24,37 @@ export default function Contact() {
         relative
         overflow-hidden
         py-40
+        bg-[var(--background)]
       "
 
     >
 
 
+
       <Container>
+
 
 
         <Heading
 
+
           eyebrow="CONTACT"
 
+
           title="Un projet en tête ?"
+
 
           description="
             Une idée, une collaboration ou simplement
             envie d'échanger ? Je serai ravi d'en discuter.
           "
 
+
           align="center"
 
+
         />
+
 
 
 
@@ -54,10 +64,12 @@ export default function Contact() {
         <motion.div
 
 
+
           initial={{
             opacity:0,
             y:40,
           }}
+
 
 
           whileInView={{
@@ -66,9 +78,11 @@ export default function Contact() {
           }}
 
 
+
           viewport={{
             once:true,
           }}
+
 
 
           transition={{
@@ -79,9 +93,12 @@ export default function Contact() {
 
           className="
             mx-auto
+
             mt-20
+
             max-w-3xl
           "
+
 
 
         >
@@ -91,6 +108,8 @@ export default function Contact() {
 
 
         </motion.div>
+
+
 
 
 

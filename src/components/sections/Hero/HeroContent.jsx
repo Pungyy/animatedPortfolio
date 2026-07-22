@@ -66,7 +66,10 @@ export default function HeroContent() {
           font-medium
           uppercase
           tracking-[0.4em]
-          text-neutral-400
+
+          text-[var(--text-secondary)]
+
+          opacity-70
         "
 
       >
@@ -81,6 +84,7 @@ export default function HeroContent() {
 
 
 
+
       <h1
 
         className="
@@ -88,7 +92,9 @@ export default function HeroContent() {
           font-semibold
           leading-[0.95]
           tracking-tight
-          text-neutral-950
+
+          text-[var(--text-primary)]
+
           md:text-7xl
           xl:text-8xl
         "
@@ -106,6 +112,7 @@ export default function HeroContent() {
 
 
 
+
       {
         settings.hero_subtitle && (
 
@@ -116,7 +123,8 @@ export default function HeroContent() {
               text-3xl
               font-medium
               tracking-tight
-              text-neutral-600
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -136,6 +144,7 @@ export default function HeroContent() {
 
 
 
+
       {
         settings.hero_description && (
 
@@ -146,7 +155,8 @@ export default function HeroContent() {
               max-w-xl
               text-xl
               leading-9
-              text-neutral-500
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -158,6 +168,7 @@ export default function HeroContent() {
 
         )
       }
+
 
 
 
@@ -187,6 +198,7 @@ export default function HeroContent() {
           </Button>
 
         </a>
+
 
 
 

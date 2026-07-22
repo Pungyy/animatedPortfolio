@@ -17,6 +17,8 @@ import {
 
 
 
+
+
 export default function ContactForm() {
 
 
@@ -38,6 +40,7 @@ export default function ContactForm() {
 
 
 
+
   function handleChange(e){
 
 
@@ -50,6 +53,7 @@ export default function ContactForm() {
     }));
 
   }
+
 
 
 
@@ -93,6 +97,7 @@ export default function ContactForm() {
 
 
     }
+
     catch(error){
 
 
@@ -106,6 +111,7 @@ export default function ContactForm() {
 
 
     }
+
     finally{
 
 
@@ -122,22 +128,78 @@ export default function ContactForm() {
 
 
 
+
+
+  const inputClass = `
+
+    w-full
+
+    rounded-2xl
+
+    border
+
+    border-[var(--border)]
+
+    bg-[var(--surface-muted)]
+
+    px-5
+
+    py-4
+
+    text-[var(--text-primary)]
+
+    placeholder:text-[var(--text-secondary)]
+
+    outline-none
+
+    transition
+
+    focus:border-[var(--text-primary)]
+
+    focus:ring-2
+
+    focus:ring-[var(--accent)]/20
+
+  `;
+
+
+
+
+
+
+
+
   return (
+
 
     <form
 
+
       onSubmit={handleSubmit}
 
+
+
       className="
+
         rounded-[40px]
+
         border
-        border-neutral-200
-        bg-white
+
+        border-[var(--border)]
+
+        bg-[var(--surface)]
+
         p-10
-        shadow-[0_30px_80px_rgba(0,0,0,.08)]
+
+        shadow-[var(--shadow-card)]
+
       "
 
+
+
     >
+
+
 
 
 
@@ -145,32 +207,37 @@ export default function ContactForm() {
 
 
 
+
+
+
+
         <input
+
 
           type="text"
 
+
           name="name"
+
 
           placeholder="Votre nom"
 
+
           value={form.name}
+
 
           onChange={handleChange}
 
-          className="
-            w-full
-            rounded-2xl
-            border
-            border-neutral-200
-            bg-neutral-50
-            px-5
-            py-4
-            outline-none
-            transition
-            focus:border-black
-          "
+
+
+          className={inputClass}
+
+
 
         />
+
+
+
 
 
 
@@ -179,30 +246,30 @@ export default function ContactForm() {
 
         <input
 
+
           type="email"
+
 
           name="email"
 
+
           placeholder="Votre email"
+
 
           value={form.email}
 
+
           onChange={handleChange}
 
-          className="
-            w-full
-            rounded-2xl
-            border
-            border-neutral-200
-            bg-neutral-50
-            px-5
-            py-4
-            outline-none
-            transition
-            focus:border-black
-          "
+
+
+          className={inputClass}
+
+
 
         />
+
+
 
 
 
@@ -212,58 +279,87 @@ export default function ContactForm() {
 
         <textarea
 
+
+
           name="message"
+
+
 
           placeholder="Votre message"
 
+
+
           rows="5"
+
+
 
           value={form.message}
 
+
+
           onChange={handleChange}
 
-          className="
-            w-full
+
+
+          className={`
+            ${inputClass}
+
             resize-none
-            rounded-2xl
-            border
-            border-neutral-200
-            bg-neutral-50
-            px-5
-            py-4
-            outline-none
-            transition
-            focus:border-black
-          "
+          `}
+
+
 
         />
 
 
 
 
+
+
+
+
+
         <Button
+
 
           type="submit"
 
+
+
           disabled={loading}
+
+
 
         >
 
+
           {
             loading
-              ? "Envoi..."
-              : "Envoyer le message"
+
+            ?
+
+            "Envoi..."
+
+            :
+
+            "Envoyer le message"
           }
+
 
 
         </Button>
 
 
 
+
+
       </div>
 
 
+
+
     </form>
+
 
   );
 

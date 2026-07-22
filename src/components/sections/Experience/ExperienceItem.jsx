@@ -15,6 +15,7 @@ import {
 
 
 
+
 export default function ExperienceItem({
   experience,
   index,
@@ -65,13 +66,15 @@ export default function ExperienceItem({
         md:gap-24
       "
 
-
     >
 
 
 
 
+
+
       {/* POINT CENTRAL */}
+
 
       <motion.div
 
@@ -93,7 +96,7 @@ export default function ExperienceItem({
 
 
         transition={{
-          duration:0.5,
+          duration:.5,
         }}
 
 
@@ -102,15 +105,24 @@ export default function ExperienceItem({
           absolute
           left-1/2
           top-10
+
           hidden
+
           h-4
           w-4
+
           -translate-x-1/2
+
           rounded-full
-          bg-black
+
+          bg-[var(--text-primary)]
+
           ring-8
-          ring-white
-          shadow-[0_0_25px_rgba(0,0,0,0.35)]
+
+          ring-[var(--background)]
+
+          shadow-[0_0_25px_rgba(0,0,0,.35)]
+
           md:block
         "
 
@@ -122,14 +134,13 @@ export default function ExperienceItem({
 
 
 
+
       <div
 
         className={
-
           left
-            ? "order-1"
-            : "order-2"
-
+          ? "order-1"
+          : "order-2"
         }
 
       >
@@ -152,14 +163,13 @@ export default function ExperienceItem({
 
 
 
+
       <div
 
         className={
-
           left
-            ? "order-2"
-            : "order-1"
-
+          ? "order-2"
+          : "order-1"
         }
 
       >
@@ -209,23 +219,33 @@ function Content({
 
 
       transition={{
-        duration:0.3,
+        duration:.3,
       }}
 
 
 
       className="
         group
+
         max-w-md
+
         rounded-[32px]
+
         border
-        border-neutral-200/70
-        bg-white/70
+
+        border-[var(--border)]
+
+        bg-[var(--surface)]/70
+
         p-8
+
         backdrop-blur-xl
-        shadow-[0_20px_60px_rgba(0,0,0,0.05)]
+
+        shadow-[var(--shadow-card)]
+
         transition
-        hover:shadow-[0_35px_90px_rgba(0,0,0,0.12)]
+
+        hover:-translate-y-1
       "
 
 
@@ -234,14 +254,21 @@ function Content({
 
 
 
+
       <p
 
         className="
           text-xs
+
           font-semibold
+
           uppercase
+
           tracking-[0.25em]
-          text-neutral-400
+
+          text-[var(--text-secondary)]
+
+          opacity-70
         "
 
       >
@@ -252,8 +279,10 @@ function Content({
 
         {
           experience.end_date
-            ? formatDate(experience.end_date)
-            : "Aujourd'hui"
+          ?
+          formatDate(experience.end_date)
+          :
+          "Aujourd'hui"
         }
 
 
@@ -264,14 +293,21 @@ function Content({
 
 
 
+
+
+
       <h3
 
         className="
           mt-6
+
           text-4xl
+
           font-semibold
+
           tracking-tight
-          text-neutral-900
+
+          text-[var(--text-primary)]
         "
 
       >
@@ -287,6 +323,8 @@ function Content({
 
 
 
+
+
       {
         experience.role && (
 
@@ -294,8 +332,10 @@ function Content({
 
             className="
               mt-3
+
               text-lg
-              text-neutral-500
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -314,6 +354,8 @@ function Content({
 
 
 
+
+
       {
         experience.description && (
 
@@ -321,9 +363,12 @@ function Content({
 
             className="
               mt-6
+
               text-sm
+
               leading-relaxed
-              text-neutral-500
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -342,6 +387,8 @@ function Content({
 
 
 
+
+
       {
         experience.location && (
 
@@ -349,11 +396,16 @@ function Content({
 
             className="
               mt-8
+
               flex
+
               items-center
+
               gap-2
+
               text-sm
-              text-neutral-400
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -367,6 +419,7 @@ function Content({
 
         )
       }
+
 
 
 

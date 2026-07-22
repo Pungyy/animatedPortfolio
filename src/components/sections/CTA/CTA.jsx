@@ -26,6 +26,7 @@ export default function CTA() {
 
 
 
+
   return (
 
 
@@ -35,9 +36,12 @@ export default function CTA() {
         relative
         overflow-hidden
         py-40
+        bg-[var(--background)]
       "
 
     >
+
+
 
 
 
@@ -49,15 +53,25 @@ export default function CTA() {
 
         className="
           pointer-events-none
+
           absolute
+
           left-1/2
+
           top-1/2
+
           h-[500px]
+
           w-[500px]
+
           -translate-x-1/2
+
           -translate-y-1/2
+
           rounded-full
-          bg-neutral-100
+
+          bg-[var(--surface-muted)]
+
           blur-3xl
         "
 
@@ -68,10 +82,14 @@ export default function CTA() {
 
 
 
+
+
+
       <Container>
 
 
         <motion.div
+
 
 
           initial={{
@@ -88,11 +106,13 @@ export default function CTA() {
 
           whileInView={{
 
+
             opacity:1,
 
             y:0,
 
             filter:"blur(0px)",
+
 
           }}
 
@@ -100,9 +120,11 @@ export default function CTA() {
 
           viewport={{
 
+
             once:true,
 
             margin:"-100px",
+
 
           }}
 
@@ -110,7 +132,9 @@ export default function CTA() {
 
           transition={{
 
+
             duration:.8,
+
 
           }}
 
@@ -118,8 +142,11 @@ export default function CTA() {
 
           className="
             relative
+
             mx-auto
+
             max-w-4xl
+
             text-center
           "
 
@@ -130,14 +157,21 @@ export default function CTA() {
 
 
 
+
+
+
           <p
 
             className="
               text-sm
+
               font-medium
+
               uppercase
+
               tracking-[0.35em]
-              text-neutral-400
+
+              text-[var(--text-secondary)]
             "
 
           >
@@ -152,21 +186,33 @@ export default function CTA() {
 
 
 
+
+
+
           <h2
+
 
             className="
               mt-8
+
               text-5xl
+
               font-semibold
+
               leading-tight
+
               tracking-tight
-              text-neutral-950
+
+              text-[var(--text-primary)]
+
               md:text-7xl
             "
+
 
           >
 
             Créons quelque chose
+
             <br />
 
             d'exception.
@@ -181,16 +227,24 @@ export default function CTA() {
 
 
 
+
           <p
+
 
             className="
               mx-auto
+
               mt-8
+
               max-w-2xl
+
               text-lg
+
               leading-8
-              text-neutral-500
+
+              text-[var(--text-secondary)]
             "
+
 
           >
 
@@ -207,17 +261,26 @@ export default function CTA() {
 
 
 
+
+
           <div
+
 
             className="
               mt-12
+
               flex
+
               flex-wrap
+
               justify-center
+
               gap-4
             "
 
+
           >
+
 
 
 
@@ -230,13 +293,18 @@ export default function CTA() {
             >
 
 
+
               <Button
+
 
                 className="
                   flex
+
                   items-center
+
                   gap-2
                 "
+
 
               >
 
@@ -249,7 +317,9 @@ export default function CTA() {
               </Button>
 
 
+
             </a>
+
 
 
 
@@ -264,24 +334,34 @@ export default function CTA() {
 
                 <a
 
+
                   href={settings.cv_url}
+
 
                   target="_blank"
 
+
                   rel="noreferrer"
+
 
                 >
 
+
                   <Button
+
 
                     variant="secondary"
 
+
                   >
+
 
                     Télécharger mon CV
 
 
+
                   </Button>
+
 
 
                 </a>
@@ -294,7 +374,10 @@ export default function CTA() {
 
 
 
+
+
           </div>
+
 
 
 

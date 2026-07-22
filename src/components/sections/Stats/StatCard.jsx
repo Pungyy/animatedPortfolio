@@ -3,6 +3,7 @@ import {
 } from "framer-motion";
 
 
+
 export default function StatCard({
   value,
   label,
@@ -27,19 +28,29 @@ export default function StatCard({
 
       className="
         group
+
         rounded-[32px]
+
         border
-        border-neutral-200
-        bg-white
+        border-[var(--border)]
+
+        bg-[var(--surface)]
+
         p-10
+
         text-center
-        shadow-[0_20px_60px_rgba(0,0,0,0.05)]
+
+        shadow-[var(--shadow-card)]
+
         transition
-        hover:shadow-[0_30px_80px_rgba(0,0,0,0.1)]
+
+        hover:-translate-y-1
       "
 
 
     >
+
+
 
 
 
@@ -49,7 +60,8 @@ export default function StatCard({
           text-5xl
           font-semibold
           tracking-tight
-          text-neutral-950
+
+          text-[var(--text-primary)]
         "
 
       >
@@ -63,13 +75,19 @@ export default function StatCard({
 
 
 
+
+
+
       <p
 
         className="
           mt-4
+
           text-sm
+
           font-medium
-          text-neutral-500
+
+          text-[var(--text-secondary)]
         "
 
       >

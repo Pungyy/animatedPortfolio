@@ -7,6 +7,7 @@ import TechnologyIcon from "../../ui/TechnologyIcon";
 
 
 
+
 export default function SkillCard({
   skill,
   index,
@@ -43,20 +44,31 @@ export default function SkillCard({
 
 
 
+
       className="
         group
+
         rounded-[32px]
+
         border
-        border-neutral-200
-        bg-white
+        border-[var(--border)]
+
+        bg-[var(--surface)]
+
         p-8
-        shadow-[0_20px_60px_rgba(0,0,0,.06)]
+
+        shadow-[var(--shadow-card)]
+
         transition
+
         hover:-translate-y-2
-        hover:shadow-[0_35px_90px_rgba(0,0,0,.12)]
       "
 
     >
+
+
+
+
 
 
 
@@ -72,6 +84,9 @@ export default function SkillCard({
 
 
 
+
+
+
         <div
 
           className="
@@ -84,26 +99,40 @@ export default function SkillCard({
 
 
 
+
+
+
           <div
 
             className="
               flex
+
               h-14
+
               w-14
+
               items-center
               justify-center
+
               rounded-2xl
-              bg-neutral-100
+
+              bg-[var(--surface-muted)]
+
               transition
+
               duration-300
+
               group-hover:scale-110
             "
 
             style={{
+
               color: skill.color,
+
             }}
 
           >
+
 
             <TechnologyIcon
 
@@ -121,16 +150,23 @@ export default function SkillCard({
 
 
 
+
+
+
           <div>
+
 
 
             <h3
 
               className="
                 text-xl
+
                 font-semibold
+
                 tracking-tight
-                text-neutral-950
+
+                text-[var(--text-primary)]
               "
 
             >
@@ -142,6 +178,8 @@ export default function SkillCard({
 
 
 
+
+
             {
               skill.category && (
 
@@ -149,8 +187,10 @@ export default function SkillCard({
 
                   className="
                     mt-1
+
                     text-sm
-                    text-neutral-500
+
+                    text-[var(--text-secondary)]
                   "
 
                 >
@@ -163,7 +203,9 @@ export default function SkillCard({
             }
 
 
+
           </div>
+
 
 
 
@@ -171,7 +213,12 @@ export default function SkillCard({
 
 
 
+
       </div>
+
+
+
+
 
 
 
@@ -188,14 +235,22 @@ export default function SkillCard({
 
           >
 
+
+
+
+
             <div
 
               className="
                 mb-2
+
                 flex
+
                 justify-between
+
                 text-sm
-                text-neutral-500
+
+                text-[var(--text-secondary)]
               "
 
             >
@@ -214,18 +269,28 @@ export default function SkillCard({
 
 
 
+
+
+
+
+
             <div
 
               className="
                 h-2
+
                 overflow-hidden
+
                 rounded-full
-                bg-neutral-100
+
+                bg-[var(--surface-muted)]
               "
 
             >
 
+
               <motion.div
+
 
                 initial={{
                   width:0,
@@ -248,24 +313,36 @@ export default function SkillCard({
                 }}
 
 
+
                 className="
                   h-full
+
                   rounded-full
                 "
 
+
+
                 style={{
-                  backgroundColor:skill.color || "#000",
+
+                  backgroundColor:
+                    skill.color || "var(--text-primary)",
+
                 }}
+
 
               />
 
+
             </div>
+
 
 
           </div>
 
         )
       }
+
+
 
 
 

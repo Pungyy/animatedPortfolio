@@ -35,9 +35,12 @@ export default function Projects() {
         max-w-7xl
         px-6
         py-40
+        bg-[var(--background)]
       "
 
     >
+
+
 
 
 
@@ -63,6 +66,8 @@ export default function Projects() {
 
 
 
+
+
       {
         loading ? (
 
@@ -72,7 +77,7 @@ export default function Projects() {
             className="
               mt-24
               text-center
-              text-neutral-400
+              text-[var(--text-secondary)]
             "
 
           >
@@ -139,6 +144,7 @@ export default function Projects() {
 
         )
       }
+
 
 
 

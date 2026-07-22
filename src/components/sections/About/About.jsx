@@ -26,6 +26,7 @@ export default function About() {
 
 
 
+
   return (
 
     <section
@@ -36,9 +37,11 @@ export default function About() {
         relative
         overflow-hidden
         py-40
+        bg-[var(--background)]
       "
 
     >
+
 
 
       <div
@@ -50,6 +53,8 @@ export default function About() {
         "
 
       >
+
+
 
 
 
@@ -85,6 +90,7 @@ export default function About() {
 
 
 
+
         <div
 
           className="
@@ -96,7 +102,6 @@ export default function About() {
           "
 
         >
-
 
 
 
@@ -118,7 +123,8 @@ export default function About() {
                   font-semibold
                   leading-tight
                   tracking-tight
-                  text-neutral-950
+
+                  text-[var(--text-primary)]
                 "
 
               >
@@ -138,6 +144,7 @@ export default function About() {
 
 
 
+
               <p
 
                 className="
@@ -145,7 +152,8 @@ export default function About() {
                   max-w-xl
                   text-lg
                   leading-9
-                  text-neutral-500
+
+                  text-[var(--text-secondary)]
                 "
 
               >
@@ -157,6 +165,7 @@ export default function About() {
 
 
               </p>
+
 
 
 

@@ -9,6 +9,7 @@ import TechnologyIcon from "../../ui/TechnologyIcon";
 
 
 
+
 export default function TechStack() {
 
 
@@ -20,9 +21,11 @@ export default function TechStack() {
 
 
 
+
   if (loading || !skills?.length) {
     return null;
   }
+
 
 
 
@@ -75,15 +78,21 @@ export default function TechStack() {
 
 
 
+
               className="
                 flex
                 items-center
                 gap-2
+
                 rounded-full
+
                 border
+
                 px-5
                 py-2
+
                 text-sm
+
                 font-medium
               "
 
@@ -108,6 +117,8 @@ export default function TechStack() {
 
 
 
+
+
               {
                 skill.icon && (
 
@@ -121,6 +132,7 @@ export default function TechStack() {
 
                 )
               }
+
 
 
 

@@ -18,6 +18,8 @@ import {
 import Container from "../../ui/Container";
 import Button from "../../ui/Button";
 
+import ThemeToggle from "../../ThemeToggle";
+
 import usePortfolio from "../../../hooks/usePortfolio";
 
 
@@ -48,6 +50,7 @@ const navigation = [
 
 
 
+
 export default function Navbar() {
 
 
@@ -57,7 +60,10 @@ export default function Navbar() {
 
 
 
-  const [open,setOpen] = useState(false);
+  const [
+    open,
+    setOpen,
+  ] = useState(false);
 
 
 
@@ -72,28 +78,24 @@ export default function Navbar() {
 
 
 
+
   return (
 
-
     <motion.header
-
 
       initial={{
         opacity:0,
         y:-20,
       }}
 
-
       animate={{
         opacity:1,
         y:0,
       }}
 
-
       transition={{
         duration:.6,
       }}
-
 
       className="
         fixed
@@ -101,7 +103,6 @@ export default function Navbar() {
         top-5
         z-50
       "
-
 
     >
 
@@ -119,16 +120,20 @@ export default function Navbar() {
             items-center
             justify-between
             rounded-full
+
             border
-            border-neutral-200/70
-            bg-white/75
+            border-[var(--border)]
+
+            bg-[var(--surface)]/75
+
             px-6
+
             shadow-[0_15px_50px_rgba(0,0,0,.08)]
+
             backdrop-blur-xl
           "
 
         >
-
 
 
 
@@ -143,7 +148,7 @@ export default function Navbar() {
               text-lg
               font-semibold
               tracking-tight
-              text-neutral-950
+              text-[var(--text-primary)]
             "
 
           >
@@ -165,7 +170,7 @@ export default function Navbar() {
 
 
 
-          {/* DESKTOP */}
+          {/* DESKTOP NAV */}
 
 
           <ul
@@ -192,9 +197,12 @@ export default function Navbar() {
                       className="
                         text-sm
                         font-medium
-                        text-neutral-500
+
+                        text-[var(--text-secondary)]
+
                         transition
-                        hover:text-black
+
+                        hover:text-[var(--text-primary)]
                       "
 
                     >
@@ -202,6 +210,7 @@ export default function Navbar() {
                       {item.label}
 
                     </a>
+
 
                   </li>
 
@@ -217,74 +226,112 @@ export default function Navbar() {
 
 
 
+          {/* ACTIONS DESKTOP */}
 
 
-          {/* DESKTOP CV */}
+          <div
+
+            className="
+              hidden
+              items-center
+              gap-3
+              lg:flex
+            "
+
+          >
+
+            <ThemeToggle />
 
 
-          {
-            settings?.cv_url && (
+            {
+              settings?.cv_url && (
 
-              <a
+                <a
 
-                href={settings.cv_url}
+                  href={settings.cv_url}
 
-                target="_blank"
+                  target="_blank"
 
-                rel="noreferrer"
+                  rel="noreferrer"
 
-                className="hidden lg:block"
+                >
 
-              >
+                  <Button>
 
-                <Button>
+                    Télécharger mon CV
 
-                  Télécharger mon CV
-
-                </Button>
-
-              </a>
-
-            )
-          }
+                  </Button>
 
 
+                </a>
+
+              )
+            }
 
 
+          </div>
 
 
 
-          {/* MOBILE BUTTON */}
 
 
-          <button
 
-            onClick={()=>setOpen(!open)}
+
+
+
+          {/* MOBILE ACTIONS */}
+
+
+          <div
 
             className="
               flex
-              h-10
-              w-10
               items-center
-              justify-center
-              rounded-full
-              border
-              border-neutral-200
+              gap-2
               lg:hidden
             "
 
           >
 
-            {
-              open
+            <ThemeToggle />
+
+
+
+            <button
+
+              onClick={()=>setOpen(!open)}
+
+              className="
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+
+                rounded-full
+
+                border
+                border-[var(--border)]
+
+                text-[var(--text-primary)]
+              "
+
+            >
+
+              {
+                open
                 ?
                 <X size={20}/>
                 :
                 <Menu size={20}/>
-            }
+              }
 
 
-          </button>
+            </button>
+
+
+          </div>
+
 
 
 
@@ -297,8 +344,10 @@ export default function Navbar() {
 
 
 
-        {/* MOBILE MENU */}
 
+
+
+        {/* MOBILE MENU */}
 
 
         <AnimatePresence>
@@ -332,21 +381,28 @@ export default function Navbar() {
                 }}
 
 
-
                 transition={{
                   duration:.25,
                 }}
 
 
+
                 className="
                   mt-4
+
                   rounded-[32px]
+
                   border
-                  border-neutral-200
-                  bg-white/90
+                  border-[var(--border)]
+
+                  bg-[var(--surface)]/90
+
                   p-6
+
                   shadow-[0_20px_60px_rgba(0,0,0,.12)]
+
                   backdrop-blur-xl
+
                   lg:hidden
                 "
 
@@ -382,11 +438,16 @@ export default function Navbar() {
 
                             className="
                               block
+
                               text-lg
+
                               font-medium
-                              text-neutral-700
+
+                              text-[var(--text-secondary)]
+
                               transition
-                              hover:text-black
+
+                              hover:text-[var(--text-primary)]
                             "
 
                           >
@@ -405,8 +466,8 @@ export default function Navbar() {
                   }
 
 
-
                 </ul>
+
 
 
 
@@ -448,6 +509,7 @@ export default function Navbar() {
 
                   )
                 }
+
 
 
 

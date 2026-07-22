@@ -2,12 +2,14 @@ import {
   motion,
 } from "framer-motion";
 
+
 import Container from "../../ui/Container";
 import Heading from "../../ui/Heading";
 
 import StatCard from "./StatCard";
 
 import usePortfolio from "../../../hooks/usePortfolio";
+
 
 
 
@@ -74,6 +76,7 @@ export default function Stats() {
         relative
         overflow-hidden
         py-32
+        bg-[var(--background)]
       "
 
     >
@@ -98,6 +101,8 @@ export default function Stats() {
           "
 
         />
+
+
 
 
 

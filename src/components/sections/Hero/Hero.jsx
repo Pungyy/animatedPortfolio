@@ -6,6 +6,7 @@ import HeroVisual from "./HeroVisual";
 
 export default function Hero() {
 
+
   return (
 
     <section
@@ -15,6 +16,7 @@ export default function Hero() {
         min-h-screen
         overflow-hidden
         pt-36
+        bg-[var(--background)]
       "
 
     >
@@ -33,8 +35,14 @@ export default function Hero() {
           w-[500px]
           -translate-x-1/2
           rounded-full
-          bg-neutral-200/50
+
+          bg-[var(--surface-muted)]
+
+          opacity-70
+
           blur-3xl
+
+          dark:opacity-40
         "
 
       />

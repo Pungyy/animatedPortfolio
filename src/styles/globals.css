@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Colors */
   --background: #ffffff;
@@ -27,6 +29,25 @@
   --navbar-height: 88px;
 }
 
+.dark {
+
+  --background: #050505;
+  --foreground: #f5f5f5;
+
+  --surface: #111111;
+  --surface-muted: #18181b;
+
+  --border: #27272a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+
+  --accent: #8b5cf6;
+
+  --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+
+}
+
 /* * {
   margin: 0;
   padding: 0;
@@ -37,6 +58,8 @@ html {
   scroll-behavior: smooth;
 }
 
+
+
 body {
   overflow-x: hidden;
   background: var(--background);
@@ -44,6 +67,9 @@ body {
   font-family: Inter, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color .3s ease,
+    color .3s ease;
 }
 
 img {
