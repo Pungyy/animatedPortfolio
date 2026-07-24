@@ -6,37 +6,154 @@ import {
 
 import Router from "./router";
 
+
 import Loader from "./components/ui/Loader";
 
 
-
-export default function App() {
-
-
-  const [loading, setLoading] = useState(true);
+import PageTracker from "./components/analytics/PageTracker";
 
 
+import {
+  updateSessionDuration,
+  endSession,
+} from "./services/analytics.service";
 
-  useEffect(() => {
 
 
-    const timer = setTimeout(() => {
+
+
+export default function App(){
+
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+
+
+
+
+
+  useEffect(()=>{
+
+
+    const timer = setTimeout(()=>{
 
       setLoading(false);
 
-    }, 1500);
-
-
-
-    return () => clearTimeout(timer);
-
-
-  }, []);
+    },1500);
 
 
 
 
-  if (loading) {
+
+
+
+    const interval = setInterval(()=>{
+
+
+      updateSessionDuration();
+
+
+    },10000);
+
+
+
+
+
+
+
+
+    const handleExit = ()=>{
+
+
+      endSession();
+
+
+    };
+
+
+
+
+
+    const handleVisibility = ()=>{
+
+
+      if(
+        document.visibilityState === "hidden"
+      ){
+
+        updateSessionDuration();
+
+      }
+
+
+    };
+
+
+
+
+
+
+
+    window.addEventListener(
+      "pagehide",
+      handleExit
+    );
+
+
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibility
+    );
+
+
+
+
+
+
+
+    return ()=>{
+
+
+      clearTimeout(
+        timer
+      );
+
+
+      clearInterval(
+        interval
+      );
+
+
+
+      window.removeEventListener(
+        "pagehide",
+        handleExit
+      );
+
+
+
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibility
+      );
+
+
+    };
+
+
+  },[]);
+
+
+
+
+
+
+
+  if(loading){
 
     return <Loader />;
 
@@ -45,6 +162,20 @@ export default function App() {
 
 
 
-  return <Router />;
+
+
+
+  return (
+
+    <>
+
+      <PageTracker />
+
+      <Router />
+
+    </>
+
+  );
+
 
 }

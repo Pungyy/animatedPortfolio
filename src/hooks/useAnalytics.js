@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useRef,
 } from "react";
 
 
@@ -11,18 +12,39 @@ import {
 
 
 
-
 export default function useAnalytics(
   page,
   project_id = null
 ) {
 
 
+  const lastPage =
+    useRef(null);
+
+
+
+
+
+
   useEffect(() => {
 
 
-    // Empêche les événements vides
-    if (!page) return;
+    if(!page)
+      return;
+
+
+
+    // évite le double appel React StrictMode
+    if(lastPage.current === page)
+      return;
+
+
+
+
+    lastPage.current = page;
+
+
+
 
 
 
@@ -31,21 +53,21 @@ export default function useAnalytics(
       event_type:
         "page_view",
 
-
       page,
 
-
       project_id,
-
 
     });
 
 
 
-  }, [
+
+
+  },[
     page,
     project_id,
   ]);
+
 
 
 }

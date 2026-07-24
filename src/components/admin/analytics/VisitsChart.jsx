@@ -1,6 +1,14 @@
 import {
-  motion,
-} from "framer-motion";
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+
 
 
 
@@ -8,19 +16,9 @@ import {
 
 export default function VisitsChart({
 
-  visits = [],
+  activity = [],
 
 }) {
-
-
-  const data =
-    visits
-      .slice()
-      .reverse()
-      .slice(0,7);
-
-
-
 
 
 
@@ -45,6 +43,8 @@ export default function VisitsChart({
 
 
 
+
+
       <h2
 
         className="
@@ -64,6 +64,9 @@ export default function VisitsChart({
 
 
 
+
+
+
       <p
 
         className="
@@ -74,7 +77,7 @@ export default function VisitsChart({
 
       >
 
-        Dernières visites enregistrées.
+        Évolution des visites sur les derniers jours.
 
 
       </p>
@@ -88,7 +91,8 @@ export default function VisitsChart({
 
 
       {
-        data.length === 0 ? (
+
+        activity.length === 0 ? (
 
 
           <div
@@ -96,7 +100,7 @@ export default function VisitsChart({
             className="
               mt-10
               flex
-              h-40
+              h-64
               items-center
               justify-center
               text-zinc-500
@@ -122,57 +126,172 @@ export default function VisitsChart({
           <div
 
             className="
-              mt-10
-              flex
-              h-48
-              items-end
-              gap-3
+              mt-8
+              h-72
+              w-full
             "
 
           >
 
 
+            <ResponsiveContainer
 
-            {
-              data.map(
-                (visit,index)=>(
+              width="100%"
 
+              height="100%"
 
-                  <motion.div
-
-                    key={visit.id}
+            >
 
 
-                    initial={{
-                      height:0,
-                    }}
+              <LineChart
+
+                data={
+                  activity
+                }
+
+                margin={{
+
+                  top:10,
+
+                  right:20,
+
+                  left:-20,
+
+                  bottom:0,
+
+                }}
+
+              >
 
 
-                    animate={{
-                      height:
-                        `${30 + index * 10}%`,
-                    }}
+
+                <CartesianGrid
+
+                  strokeDasharray="3 3"
+
+                />
 
 
-                    transition={{
-                      duration:.5,
-                      delay:index * .05,
-                    }}
 
 
-                    className="
-                      flex-1
-                      rounded-t-2xl
-                      bg-violet-600
-                    "
 
-                  />
+                <XAxis
 
-                )
+                  dataKey="date"
 
-              )
-            }
+                  tick={{
+                    fill:"#71717a",
+                    fontSize:12,
+                  }}
 
+                  axisLine={false}
+
+                  tickLine={false}
+
+                />
+
+
+
+
+
+
+
+
+                <YAxis
+
+                  allowDecimals={false}
+
+                  tick={{
+                    fill:"#71717a",
+                    fontSize:12,
+                  }}
+
+                  axisLine={false}
+
+                  tickLine={false}
+
+                />
+
+
+
+
+
+
+
+
+                <Tooltip
+
+                  contentStyle={{
+
+                    background:"#18181b",
+
+                    border:
+                      "1px solid #27272a",
+
+                    borderRadius:"16px",
+
+                    color:"#fff",
+
+                  }}
+
+
+                  labelStyle={{
+
+                    color:"#a1a1aa",
+
+                  }}
+
+
+                />
+
+
+
+
+
+
+
+
+                <Line
+
+
+                  type="monotone"
+
+
+                  dataKey="total"
+
+
+                  stroke="#8b5cf6"
+
+
+                  strokeWidth={3}
+
+
+                  dot={{
+
+                    r:4,
+
+                    fill:"#8b5cf6",
+
+                  }}
+
+
+                  activeDot={{
+
+                    r:7,
+
+                  }}
+
+
+                />
+
+
+
+
+
+              </LineChart>
+
+
+            </ResponsiveContainer>
 
 
           </div>
@@ -180,70 +299,6 @@ export default function VisitsChart({
 
         )
 
-      }
-
-
-
-
-
-
-
-      {
-        data.length > 0 && (
-
-
-          <div
-
-            className="
-              mt-6
-              grid
-              grid-cols-7
-              gap-2
-              text-center
-              text-xs
-              text-zinc-500
-            "
-
-          >
-
-
-            {
-              data.map(
-                (visit,index)=>(
-
-
-                  <span
-
-                    key={index}
-
-                  >
-
-                    {
-                      new Date(
-                        visit.created_at
-                      )
-                      .toLocaleDateString(
-                        "fr-FR",
-                        {
-                          day:"2-digit",
-                          month:"short",
-                        }
-                      )
-                    }
-
-
-                  </span>
-
-
-                )
-              )
-            }
-
-
-          </div>
-
-
-        )
       }
 
 

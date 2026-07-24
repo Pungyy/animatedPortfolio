@@ -5,6 +5,15 @@ export default function TopProjects({
 }) {
 
 
+  const max =
+    projects.length
+      ? projects[0].total
+      : 0;
+
+
+
+
+
   return (
 
 
@@ -21,8 +30,6 @@ export default function TopProjects({
       "
 
     >
-
-
 
 
 
@@ -44,7 +51,6 @@ export default function TopProjects({
 
 
 
-
       <p
 
         className="
@@ -55,7 +61,7 @@ export default function TopProjects({
 
       >
 
-        Les réalisations les plus consultées.
+        Les projets les plus consultés.
 
 
       </p>
@@ -66,17 +72,14 @@ export default function TopProjects({
 
 
 
-
-
       <div
 
         className="
-          mt-6
-          space-y-4
+          mt-8
+          space-y-6
         "
 
       >
-
 
 
         {
@@ -110,22 +113,13 @@ export default function TopProjects({
 
               <div
 
-                key={project.id}
+                key={project.title}
 
                 className="
-                  flex
-                  items-center
-                  justify-between
-                  rounded-2xl
-                  border
-                  border-zinc-800
-                  bg-zinc-950
-                  px-5
-                  py-4
+                  space-y-3
                 "
 
               >
-
 
 
 
@@ -135,57 +129,86 @@ export default function TopProjects({
                   className="
                     flex
                     items-center
-                    gap-4
+                    justify-between
                   "
 
                 >
 
 
 
-                  <span
+                  <div
 
                     className="
                       flex
-                      h-9
-                      w-9
                       items-center
-                      justify-center
-                      rounded-full
-                      bg-violet-600
-                      text-sm
-                      font-bold
-                      text-white
+                      gap-3
                     "
 
                   >
 
-                    {
-                      index + 1
-                    }
+
+
+                    <span
+
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-violet-600
+                        text-sm
+                        font-bold
+                        text-white
+                      "
+
+                    >
+
+                      {index + 1}
+
+
+                    </span>
+
+
+
+
+
+                    <p
+
+                      className="
+                        font-medium
+                        text-white
+                      "
+
+                    >
+
+                      {project.title}
+
+
+                    </p>
+
+
+
+                  </div>
+
+
+
+
+
+                  <span
+
+                    className="
+                      text-sm
+                      text-zinc-400
+                    "
+
+                  >
+
+                    {project.total} vues
 
 
                   </span>
-
-
-
-
-
-
-                  <p
-
-                    className="
-                      font-medium
-                      text-white
-                    "
-
-                  >
-
-                    {
-                      project.title
-                    }
-
-
-                  </p>
 
 
 
@@ -198,23 +221,48 @@ export default function TopProjects({
 
 
 
-                <span
+
+                <div
 
                   className="
-                    text-sm
-                    text-zinc-400
+                    h-2
+                    overflow-hidden
+                    rounded-full
+                    bg-zinc-800
                   "
 
                 >
 
-                  {
-                    project.total
-                  }
 
-                  {" vues"}
+                  <div
+
+                    className="
+                      h-full
+                      rounded-full
+                      bg-violet-600
+                    "
+
+                    style={{
+
+                      width:
+                        `${
+
+                          (
+                            project.total /
+                            max
+                          )
+                          *
+                          100
+
+                        }%`
+
+                    }}
+
+                  />
 
 
-                </span>
+
+                </div>
 
 
 
@@ -232,7 +280,6 @@ export default function TopProjects({
 
 
       </div>
-
 
 
 

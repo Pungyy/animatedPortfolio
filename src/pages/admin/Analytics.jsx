@@ -8,23 +8,30 @@ import {
   Eye,
   Users,
   Activity,
+  Clock,
+  CalendarDays,
+  Layers,
+  ChevronDown,
 } from "lucide-react";
 
 
 
 import AnalyticsCard from "../../components/admin/analytics/AnalyticsCard";
+
 import VisitsChart from "../../components/admin/analytics/VisitsChart";
 import RecentVisits from "../../components/admin/analytics/RecentVisits";
 import TopProjects from "../../components/admin/analytics/TopProjects";
 import PopularPages from "../../components/admin/analytics/PopularPages";
 import BrowserStats from "../../components/admin/analytics/BrowserStats";
 
+import DeviceStats from "../../components/admin/analytics/DeviceStats";
+import LocationStats from "../../components/admin/analytics/LocationStats";
+
 
 
 import {
-  getAnalytics,
+  getAnalyticsStats,
 } from "../../services/analytics.service";
-
 
 
 
@@ -37,51 +44,30 @@ export default function Analytics() {
 
 
   const [
-    total,
-    setTotal,
-  ] = useState(0);
+    stats,
+    setStats,
+  ] = useState(null);
 
 
 
   const [
-    today,
-    setToday,
-  ] = useState(0);
+    loading,
+    setLoading,
+  ] = useState(true);
 
 
 
   const [
-    uniqueVisitors,
-    setUniqueVisitors,
-  ] = useState(0);
+    period,
+    setPeriod,
+  ] = useState("30d");
 
 
 
   const [
-    recent,
-    setRecent,
-  ] = useState([]);
-
-
-
-  const [
-    projects,
-    setProjects,
-  ] = useState([]);
-
-
-
-  const [
-    pages,
-    setPages,
-  ] = useState([]);
-
-
-
-  const [
-    browsers,
-    setBrowsers,
-  ] = useState([]);
+    openPeriod,
+    setOpenPeriod,
+  ] = useState(false);
 
 
 
@@ -91,183 +77,39 @@ export default function Analytics() {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
 
     async function loadAnalytics(){
 
 
-      try{
+      try {
+
+
+        setLoading(true);
+
 
 
         const data =
-          await getAnalytics();
-
-
-
-
-
-        setTotal(
-          data.total
-        );
-
-
-
-        setToday(
-          data.today
-        );
-
-
-
-        setRecent(
-          data.visits
-        );
-
-
-
-        setProjects(
-          data.projects
-        );
-
-
-
-
-
-        // visiteurs uniques
-
-        const visitors =
-          new Set(
-
-            data.visits
-
-              .map(
-                visit =>
-                  visit.visitor_id
-              )
-
-              .filter(Boolean)
-
+          await getAnalyticsStats(
+            period
           );
 
 
 
-        setUniqueVisitors(
-          visitors.size
+        setStats(
+          data
         );
-
-
-
-
-
-
-
-        // pages populaires
-
-        const pagesCount = {};
-
-
-
-        data.visits.forEach(
-          visit => {
-
-
-            const page =
-              visit.page || "/";
-
-
-
-            pagesCount[page] =
-              (pagesCount[page] || 0) + 1;
-
-
-          }
-        );
-
-
-
-        setPages(
-
-          Object.entries(
-            pagesCount
-          )
-
-          .map(
-            ([page,total])=>({
-
-              page,
-
-              total,
-
-            })
-          )
-
-          .sort(
-            (a,b)=>
-              b.total-a.total
-          )
-
-          .slice(0,5)
-
-        );
-
-
-
-
-
-
-
-        // navigateurs
-
-        const browserCount = {};
-
-
-
-        data.visits.forEach(
-          visit=>{
-
-
-            const browser =
-              visit.browser || "Autre";
-
-
-
-            browserCount[browser] =
-              (browserCount[browser] || 0)+1;
-
-
-          }
-        );
-
-
-
-        setBrowsers(
-
-          Object.entries(
-            browserCount
-          )
-
-          .map(
-            ([name,total])=>({
-
-              name,
-
-              total,
-
-            })
-          )
-
-        );
-
-
-
 
 
       }
+
+
       catch(error){
 
 
         console.error(
-          "Analytics loading error:",
+          "Analytics loading error :",
           error
         );
 
@@ -275,9 +117,16 @@ export default function Analytics() {
       }
 
 
+      finally {
+
+
+        setLoading(false);
+
+
+      }
+
 
     }
-
 
 
 
@@ -286,11 +135,224 @@ export default function Analytics() {
 
 
 
-  },[]);
+  },[
+    period,
+  ]);
 
 
 
 
+
+
+
+
+
+  if(loading){
+
+
+    return (
+
+      <main
+
+        className="
+          flex
+          min-h-screen
+          items-center
+          justify-center
+          bg-[#050505]
+          text-zinc-400
+        "
+
+      >
+
+        Chargement analytics...
+
+
+      </main>
+
+    );
+
+
+  }
+
+
+
+
+
+
+
+  if(!stats)
+    return null;
+
+
+
+
+
+
+
+
+
+  function formatDuration(seconds = 0){
+
+
+    if(seconds < 60)
+
+      return `${seconds}s`;
+
+
+
+    const minutes =
+      Math.floor(
+        seconds / 60
+      );
+
+
+
+    const rest =
+      seconds % 60;
+
+
+
+    return `${minutes}min ${rest}s`;
+
+
+  }
+
+
+
+
+
+
+
+
+
+  function getPeriodLabel(){
+
+
+    switch(period){
+
+
+      case "today":
+
+        return "Aujourd'hui";
+
+
+      case "7d":
+
+        return "7 derniers jours";
+
+
+      case "30d":
+
+        return "30 derniers jours";
+
+
+      case "all":
+
+        return "Tout";
+
+
+      default:
+
+        return "30 derniers jours";
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+
+
+  const projects =
+
+    Object.entries(
+      stats.projects || {}
+    )
+
+    .map(
+      ([title,total]) => ({
+
+        title,
+
+        total,
+
+      })
+    )
+
+    .sort(
+      (a,b)=>
+        b.total - a.total
+    )
+
+    .slice(
+      0,
+      5
+    );
+
+
+
+
+
+
+
+
+
+  const pages =
+
+    Object.entries(
+      stats.pages || {}
+    )
+
+    .map(
+      ([page,total]) => ({
+
+        page,
+
+        total,
+
+      })
+    )
+
+    .sort(
+      (a,b)=>
+        b.total - a.total
+    )
+
+    .slice(
+      0,
+      5
+    );
+
+
+
+
+
+
+
+
+
+  const browsers =
+
+    Object.entries(
+      stats.browsers || {}
+    )
+
+    .map(
+      ([name,total]) => ({
+
+        name,
+
+        total,
+
+      })
+    );
 
 
 
@@ -315,6 +377,7 @@ export default function Analytics() {
     >
 
 
+
       <div
 
         className="
@@ -328,72 +391,351 @@ export default function Analytics() {
 
 
 
-        <div
+
+
+
+
+        <header
 
           className="
             mb-10
+            flex
+            items-start
+            justify-between
+            gap-6
           "
 
         >
 
-          <h1
+
+
+          <div>
+
+
+            <h1
+
+              className="
+                text-4xl
+                font-bold
+                tracking-tight
+              "
+
+            >
+
+              Analytics
+
+
+            </h1>
+
+
+
+
+
+            <p
+
+              className="
+                mt-2
+                text-zinc-400
+              "
+
+            >
+
+              Analyse les performances de ton portfolio.
+
+
+            </p>
+
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
 
             className="
-              text-4xl
-              font-bold
-              tracking-tight
+              relative
             "
 
           >
 
-            Analytics
 
 
-          </h1>
+            <button
+
+              onClick={() =>
+                setOpenPeriod(
+                  !openPeriod
+                )
+              }
+
+
+              className="
+                flex
+                items-center
+                gap-3
+                rounded-2xl
+                border
+                border-zinc-800
+                bg-zinc-900
+                px-5
+                py-3
+                text-sm
+                font-medium
+                text-white
+                transition
+                duration-300
+                hover:border-violet-500/50
+                hover:bg-zinc-800
+              "
+
+            >
+
+
+              <CalendarDays
+
+                size={18}
+
+                className="
+                  text-violet-400
+                "
+
+              />
 
 
 
-          <p
+              <span>
 
-            className="
-              mt-2
-              text-zinc-400
-            "
+                {getPeriodLabel()}
 
-          >
-
-            Analyse les performances de ton portfolio.
-
-
-          </p>
-
-
-        </div>
+              </span>
 
 
 
+              <ChevronDown
+
+                size={16}
+
+                className={`
+                  text-zinc-400
+                  transition
+                  duration-300
+
+                  ${
+                    openPeriod
+                      ?
+                      "rotate-180"
+                      :
+                      ""
+                  }
+                `}
+
+              />
+
+
+            </button>
 
 
 
 
 
 
-        <div
+
+            {
+              openPeriod && (
+
+
+                <div
+
+                  className="
+                    absolute
+                    right-0
+                    z-50
+                    mt-3
+                    w-56
+                    rounded-2xl
+                    border
+                    border-zinc-800
+                    bg-zinc-950
+                    p-2
+                    shadow-xl
+                    shadow-black/40
+                  "
+
+                >
+
+
+
+                  {
+                    [
+                      {
+                        label:"Aujourd'hui",
+                        value:"today",
+                      },
+
+                      {
+                        label:"7 derniers jours",
+                        value:"7d",
+                      },
+
+                      {
+                        label:"30 derniers jours",
+                        value:"30d",
+                      },
+
+                      {
+                        label:"Tout",
+                        value:"all",
+                      },
+
+                    ]
+
+                    .map(option => (
+
+
+                      <button
+
+                        key={
+                          option.value
+                        }
+
+
+                        onClick={() => {
+
+
+                          setPeriod(
+                            option.value
+                          );
+
+
+                          setOpenPeriod(
+                            false
+                          );
+
+
+                        }}
+
+
+                        className={`
+                          flex
+                          w-full
+                          rounded-xl
+                          px-4
+                          py-3
+                          text-left
+                          text-sm
+                          transition
+                          duration-200
+
+                          ${
+                            period === option.value
+
+                              ?
+
+                              "bg-violet-500/10 text-violet-400"
+
+                              :
+
+                              "text-zinc-300 hover:bg-zinc-800"
+                          }
+                        `}
+
+                      >
+
+                        {option.label}
+
+
+                      </button>
+
+
+                    ))
+
+                  }
+
+
+
+                </div>
+
+
+              )
+
+            }
+
+
+
+          </div>
+
+
+
+
+
+
+        </header>
+
+
+
+
+
+
+
+
+
+        <section
 
           className="
             grid
             gap-6
             md:grid-cols-3
+            xl:grid-cols-6
           "
 
         >
 
 
+
           <AnalyticsCard
 
-            title="Visites totales"
+            title="Visiteurs uniques"
 
-            value={total}
+            value={
+              stats.visitors || 0
+            }
+
+            icon={Users}
+
+          />
+
+
+
+
+
+          <AnalyticsCard
+
+            title="Visiteurs aujourd'hui"
+
+            value={
+              stats.visitorsToday || 0
+            }
+
+            icon={CalendarDays}
+
+          />
+
+
+
+
+
+          <AnalyticsCard
+
+            title="Pages vues"
+
+            value={
+              stats.views || 0
+            }
 
             icon={Eye}
 
@@ -402,11 +744,14 @@ export default function Analytics() {
 
 
 
+
           <AnalyticsCard
 
-            title="Aujourd'hui"
+            title="Sessions"
 
-            value={today}
+            value={
+              stats.sessions || 0
+            }
 
             icon={Activity}
 
@@ -415,18 +760,40 @@ export default function Analytics() {
 
 
 
+
           <AnalyticsCard
 
-            title="Visiteurs uniques"
+            title="Pages / session"
 
-            value={uniqueVisitors}
+            value={
+              stats.pagesPerSession || 0
+            }
 
-            icon={Users}
+            icon={Layers}
 
           />
 
 
-        </div>
+
+
+
+          <AnalyticsCard
+
+            title="Durée moyenne"
+
+            value={
+              formatDuration(
+                stats.averageDuration
+              )
+            }
+
+            icon={Clock}
+
+          />
+
+
+
+        </section>
 
 
 
@@ -438,11 +805,15 @@ export default function Analytics() {
 
         <div className="mt-8">
 
+
           <VisitsChart
 
-            visits={recent}
+            activity={
+              stats.activity || []
+            }
 
           />
+
 
         </div>
 
@@ -466,17 +837,24 @@ export default function Analytics() {
         >
 
 
+
           <RecentVisits
 
-            visits={recent}
+            visits={
+              stats.latestVisits || []
+            }
 
           />
+
+
 
 
 
           <TopProjects
 
-            projects={projects}
+            projects={
+              projects
+            }
 
           />
 
@@ -503,17 +881,68 @@ export default function Analytics() {
         >
 
 
+
           <PopularPages
 
-            pages={pages}
+            pages={
+              pages
+            }
 
           />
 
 
 
+
+
           <BrowserStats
 
-            browsers={browsers}
+            browsers={
+              browsers
+            }
+
+          />
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <div
+
+          className="
+            mt-8
+            grid
+            gap-8
+            lg:grid-cols-2
+          "
+
+        >
+
+
+
+          <DeviceStats
+
+            devices={
+              stats.devices || {}
+            }
+
+          />
+
+
+
+
+
+          <LocationStats
+
+            locations={
+              stats.locations || {}
+            }
 
           />
 

@@ -5,6 +5,16 @@ export default function PopularPages({
 }) {
 
 
+  const max =
+    pages.length
+      ? pages[0].total
+      : 0;
+
+
+
+
+
+
   return (
 
 
@@ -21,7 +31,6 @@ export default function PopularPages({
       "
 
     >
-
 
 
 
@@ -44,7 +53,6 @@ export default function PopularPages({
 
 
 
-
       <p
 
         className="
@@ -55,7 +63,7 @@ export default function PopularPages({
 
       >
 
-        Les pages les plus consultées.
+        Les pages les plus visitées.
 
 
       </p>
@@ -71,12 +79,11 @@ export default function PopularPages({
       <div
 
         className="
-          mt-6
-          space-y-4
+          mt-8
+          space-y-6
         "
 
       >
-
 
 
         {
@@ -104,122 +111,185 @@ export default function PopularPages({
           :
 
 
-          pages.map((page,index)=>(
-
-
-            <div
-
-              key={page.page}
-
-              className="
-                flex
-                items-center
-                justify-between
-                rounded-2xl
-                border
-                border-zinc-800
-                bg-zinc-950
-                px-5
-                py-4
-              "
-
-            >
-
-
-
+          pages.map(
+            (page,index)=>(
 
 
               <div
 
+                key={page.page}
+
                 className="
-                  flex
-                  items-center
-                  gap-4
+                  space-y-3
                 "
 
               >
 
 
 
-                <span
+
+
+                <div
 
                   className="
                     flex
-                    h-8
-                    w-8
                     items-center
-                    justify-center
-                    rounded-full
-                    bg-violet-600
-                    text-sm
-                    font-bold
-                    text-white
+                    justify-between
                   "
 
                 >
 
-                  {index + 1}
-
-
-                </span>
 
 
 
+                  <div
+
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                    "
+
+                  >
 
 
-                <p
+
+                    <span
+
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-violet-600
+                        text-sm
+                        font-bold
+                        text-white
+                      "
+
+                    >
+
+                      {index + 1}
+
+
+                    </span>
+
+
+
+
+                    <p
+
+                      className="
+                        font-medium
+                        text-white
+                      "
+
+                    >
+
+                      {page.page}
+
+
+                    </p>
+
+
+
+                  </div>
+
+
+
+
+
+
+
+                  <span
+
+                    className="
+                      text-sm
+                      text-zinc-400
+                    "
+
+                  >
+
+                    {page.total} vues
+
+
+                  </span>
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div
 
                   className="
-                    font-medium
-                    text-white
+                    h-2
+                    overflow-hidden
+                    rounded-full
+                    bg-zinc-800
                   "
 
                 >
 
-                  {page.page}
 
 
-                </p>
+                  <div
+
+                    className="
+                      h-full
+                      rounded-full
+                      bg-violet-600
+                    "
+
+                    style={{
+
+                      width:
+                        `${
+
+                          (
+                            page.total /
+                            max
+
+                          )
+                          *
+                          100
+
+                        }%`
+
+                    }}
+
+                  />
+
+
+
+                </div>
+
+
 
 
 
               </div>
 
 
+            )
 
-
-
-
-
-              <span
-
-                className="
-                  text-sm
-                  text-zinc-400
-                "
-
-              >
-
-                {page.total} vues
-
-
-              </span>
-
-
-
-
-
-            </div>
-
-
-          ))
+          )
 
         }
 
 
 
       </div>
-
 
 
 

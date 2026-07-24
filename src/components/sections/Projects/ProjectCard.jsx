@@ -21,6 +21,12 @@ import {
 import TechnologyIcon from "../../ui/TechnologyIcon";
 
 
+import {
+  trackEvent,
+} from "../../../services/analytics.service";
+
+
+
 
 
 
@@ -30,7 +36,37 @@ export default function ProjectCard({
 }) {
 
 
+
+  function handleProjectClick(){
+
+
+    trackEvent({
+
+      event_type:
+        "project_view",
+
+
+      page:
+        `/project/${project.slug}`,
+
+
+      project_id:
+        project.id,
+
+    });
+
+
+  }
+
+
+
+
+
+
+
+
   return (
+
 
     <motion.article
 
@@ -67,38 +103,25 @@ export default function ProjectCard({
       }}
 
 
-
       className="
         group
-
         overflow-hidden
-
         rounded-[36px]
-
         border
         border-[var(--border)]
-
         bg-[var(--surface)]
-
         shadow-[var(--shadow-card)]
-
         transition-all
-
         duration-500
-
         hover:-translate-y-3
-      "
-
-
-    >
-
-
-
+      ">
 
 
       <Link
 
         to={`/project/${project.slug}`}
+
+        onClick={handleProjectClick}
 
         className="block"
 
@@ -110,25 +133,19 @@ export default function ProjectCard({
 
 
 
-
         {/* IMAGE */}
-
 
 
         <div
 
           className="
             relative
-
-            aspect-[16/10]
-
+            aspect-[10/6]
             overflow-hidden
-
             bg-[var(--surface-muted)]
           "
 
         >
-
 
 
           {
@@ -139,6 +156,7 @@ export default function ProjectCard({
 
 
                 src={project.cover_image}
+
 
                 alt={project.title}
 
@@ -153,7 +171,6 @@ export default function ProjectCard({
                 }}
 
 
-
                 className="
                   h-full
                   w-full
@@ -166,9 +183,12 @@ export default function ProjectCard({
 
             )
 
+
             :
 
+
             (
+
 
               <div
 
@@ -177,9 +197,7 @@ export default function ProjectCard({
                   h-full
                   items-center
                   justify-center
-
                   text-sm
-
                   text-[var(--text-secondary)]
                 "
 
@@ -192,39 +210,26 @@ export default function ProjectCard({
 
 
             )
+
+
           }
-
-
-
-
-
 
 
           <div
 
             className="
               absolute
-
               inset-0
-
               bg-gradient-to-t
-
               from-black/30
-
               via-transparent
-
               opacity-0
-
               transition
-
               duration-500
-
               group-hover:opacity-100
             "
 
           />
-
-
 
 
         </div>
@@ -237,25 +242,17 @@ export default function ProjectCard({
 
 
 
-
-
-
         {/* CONTENT */}
-
 
 
         <div
 
           className="
             space-y-7
-
             p-8
           "
 
         >
-
-
-
 
 
           <div>
@@ -265,11 +262,8 @@ export default function ProjectCard({
 
               className="
                 text-2xl
-
                 font-semibold
-
                 tracking-tight
-
                 text-[var(--text-primary)]
               "
 
@@ -284,22 +278,17 @@ export default function ProjectCard({
 
 
 
-
-
             {
               project.short_description && (
+
 
                 <p
 
                   className="
                     mt-4
-
                     line-clamp-3
-
                     text-sm
-
                     leading-7
-
                     text-[var(--text-secondary)]
                   "
 
@@ -310,7 +299,9 @@ export default function ProjectCard({
 
                 </p>
 
+
               )
+
             }
 
 
@@ -327,7 +318,6 @@ export default function ProjectCard({
           {/* TECHNOLOGIES */}
 
 
-
           {
             project.technologies?.length > 0 && (
 
@@ -336,14 +326,11 @@ export default function ProjectCard({
 
                 className="
                   flex
-
                   flex-wrap
-
                   gap-2
                 "
 
               >
-
 
 
                 {
@@ -360,24 +347,15 @@ export default function ProjectCard({
 
                         className="
                           flex
-
                           items-center
-
                           gap-2
-
                           rounded-full
-
                           border
-
                           px-3
-
                           py-1.5
-
                           text-xs
-
                           font-medium
                         "
-
 
 
                         style={{
@@ -398,9 +376,7 @@ export default function ProjectCard({
                         }}
 
 
-
                       >
-
 
 
                         <TechnologyIcon
@@ -412,9 +388,7 @@ export default function ProjectCard({
                         />
 
 
-
                         {tech.name}
-
 
 
                       </span>
@@ -423,21 +397,20 @@ export default function ProjectCard({
                     )
 
                   )
-                }
 
+                }
 
 
               </div>
 
+
             )
+
           }
 
 
 
-
-
         </div>
-
 
 
 
@@ -455,23 +428,16 @@ export default function ProjectCard({
       {/* ACTIONS */}
 
 
-
       <div
 
         className="
           flex
-
           gap-3
-
           px-8
-
           pb-8
         "
 
       >
-
-
-
 
 
 
@@ -494,37 +460,18 @@ export default function ProjectCard({
               onClick={(e)=>e.stopPropagation()}
 
 
-
               className="
                 flex
-
                 h-11
-
                 w-11
-
                 items-center
-
                 justify-center
-
-
                 rounded-full
-
-
                 bg-[var(--surface-muted)]
-
-
                 text-[var(--text-secondary)]
-
-
                 transition
-
-
                 duration-300
-
-
                 hover:bg-[var(--text-primary)]
-
-
                 hover:text-[var(--background)]
               "
 
@@ -535,13 +482,11 @@ export default function ProjectCard({
               <FaGithub size={18}/>
 
 
-
             </a>
 
 
           )
         }
-
 
 
 
@@ -568,37 +513,18 @@ export default function ProjectCard({
               onClick={(e)=>e.stopPropagation()}
 
 
-
               className="
                 flex
-
                 h-11
-
                 w-11
-
                 items-center
-
                 justify-center
-
-
                 rounded-full
-
-
                 bg-[var(--surface-muted)]
-
-
                 text-[var(--text-secondary)]
-
-
                 transition
-
-
                 duration-300
-
-
                 hover:bg-[var(--text-primary)]
-
-
                 hover:text-[var(--background)]
               "
 
@@ -609,7 +535,6 @@ export default function ProjectCard({
               <ExternalLink size={18}/>
 
 
-
             </a>
 
 
@@ -618,16 +543,14 @@ export default function ProjectCard({
 
 
 
-
-
       </div>
-
-
 
 
 
     </motion.article>
 
+
   );
+
 
 }

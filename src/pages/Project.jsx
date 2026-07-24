@@ -20,8 +20,6 @@ import {
 } from "../services/projects.service";
 
 
-import useAnalytics from "../hooks/useAnalytics";
-
 
 import ProjectHero from "../components/projects/ProjectHero";
 import ProjectInfo from "../components/projects/ProjectInfo";
@@ -63,7 +61,6 @@ export default function Project() {
 
 
 
-
   useEffect(() => {
 
 
@@ -87,7 +84,9 @@ export default function Project() {
       } catch(error){
 
 
-        console.error(error);
+        console.error(
+          error
+        );
 
 
 
@@ -115,28 +114,6 @@ export default function Project() {
 
 
 
-
-
-
-
-  useAnalytics(
-
-    project
-      ? `/project/${project.slug}`
-      : null,
-
-    project?.id
-
-  );
-
-
-
-
-
-
-
-
-
   if(loading){
 
 
@@ -146,15 +123,10 @@ export default function Project() {
 
         className="
           flex
-
           min-h-screen
-
           items-center
-
           justify-center
-
           bg-[var(--background)]
-
           text-[var(--text-secondary)]
         "
 
@@ -187,19 +159,12 @@ export default function Project() {
 
         className="
           flex
-
           min-h-screen
-
           flex-col
-
           items-center
-
           justify-center
-
           gap-5
-
           bg-[var(--background)]
-
           text-[var(--text-primary)]
         "
 
@@ -211,7 +176,6 @@ export default function Project() {
 
           className="
             text-4xl
-
             font-semibold
           "
 
@@ -233,13 +197,9 @@ export default function Project() {
 
           className="
             rounded-full
-
             bg-[var(--text-primary)]
-
             px-6
-
             py-3
-
             text-[var(--background)]
           "
 
@@ -266,9 +226,6 @@ export default function Project() {
 
 
 
-
-
-
   return (
 
 
@@ -276,9 +233,7 @@ export default function Project() {
 
       className="
         min-h-screen
-
         bg-[var(--background)]
-
         text-[var(--text-primary)]
       "
 
@@ -288,25 +243,17 @@ export default function Project() {
 
 
 
-
-
       <div
 
         className="
           mx-auto
-
           max-w-7xl
-
           px-6
-
           py-10
-
           lg:px-12
         "
 
       >
-
-
 
 
 
@@ -322,17 +269,11 @@ export default function Project() {
 
           className="
             inline-flex
-
             items-center
-
             gap-2
-
             text-sm
-
             text-[var(--text-secondary)]
-
             transition
-
             hover:text-[var(--text-primary)]
           "
 
@@ -387,14 +328,10 @@ export default function Project() {
 
           className="
             mt-32
-
             space-y-32
           "
 
         >
-
-
-
 
 
 
@@ -408,13 +345,9 @@ export default function Project() {
 
               className="
                 mb-6
-
                 text-4xl
-
                 font-semibold
-
                 tracking-tight
-
                 text-[var(--text-primary)]
               "
 
@@ -431,16 +364,12 @@ export default function Project() {
 
 
 
-
             <p
 
               className="
                 max-w-3xl
-
                 text-lg
-
                 leading-9
-
                 text-[var(--text-secondary)]
               "
 
@@ -510,7 +439,6 @@ export default function Project() {
             project={project}
 
           />
-
 
 
 
