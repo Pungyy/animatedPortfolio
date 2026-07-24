@@ -1,33 +1,30 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 import GalleryToolbar from "./GalleryToolbar";
 import GalleryImage from "./GalleryImage";
-import GalleryLightbox from "./GalleryLightbox";
+import GalleryViewer from "./GalleryViewer";
 
 export default function ProjectGallery({ project }) {
-  if (!project.gallery || project.gallery.length === 0) {
+  const [currentIndex, setCurrentIndex] = useState(-1);
+
+  if (!project?.gallery?.length) {
     return null;
   }
 
   const images = project.gallery;
 
-  const [currentIndex, setCurrentIndex] = useState(-1);
-
-  const slides = useMemo(
-    () =>
-      images.map((image) => ({
-        src: image.image_url,
-        download: image.image_url,
-      })),
-    [images]
-  );
-
   return (
     <>
       <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{
+          opacity: 0,
+          y: 40,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
         viewport={{
           once: true,
           margin: "-100px",
@@ -37,9 +34,7 @@ export default function ProjectGallery({ project }) {
         }}
         className="relative"
       >
-        <GalleryToolbar
-          totalImages={images.length}
-        />
+        <GalleryToolbar totalImages={images.length} />
 
         <div
           className="
@@ -62,10 +57,11 @@ export default function ProjectGallery({ project }) {
         </div>
       </motion.section>
 
-      <GalleryLightbox
+      <GalleryViewer
         open={currentIndex >= 0}
-        index={currentIndex}
-        slides={slides}
+        images={images}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
         close={() => setCurrentIndex(-1)}
       />
     </>

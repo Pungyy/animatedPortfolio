@@ -1,96 +1,160 @@
 import { motion } from "framer-motion";
 import { Images } from "lucide-react";
 
-export default function GalleryToolbar({
-  totalImages,
-}) {
+export default function GalleryToolbar({ totalImages }) {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-      }}
-      transition={{
-        duration: 0.6,
-      }}
-      className="
-        flex
-        flex-col
-        items-start
-        justify-between
-        gap-6
-        md:flex-row
-        md:items-end
-      "
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
     >
-      <div>
-        <h2
+      <div className="max-w-2xl">
+        <div
           className="
-            text-4xl
-            font-semibold
-            tracking-tight
-            text-[var(--text-primary)]
+            inline-flex
+            items-center
+            gap-2
+            rounded-full
+            border
+            border-zinc-200
+            bg-white
+            px-4
+            py-2
+            shadow-sm
+            dark:border-zinc-800
+            dark:bg-zinc-900
           "
         >
-          Galerie
+          <Images
+            size={16}
+            className="text-purple-500"
+          />
+
+          <span
+            className="
+              text-xs
+              font-semibold
+              uppercase
+              tracking-[0.22em]
+              text-zinc-600
+              dark:text-zinc-300
+            "
+          >
+            Galerie
+          </span>
+        </div>
+
+        <h2
+          className="
+            mt-6
+            text-4xl
+            font-bold
+            tracking-tight
+            text-zinc-900
+            dark:text-white
+            lg:text-5xl
+          "
+        >
+          Aperçu du projet
         </h2>
 
         <p
           className="
             mt-4
-            max-w-2xl
             text-lg
             leading-8
-            text-[var(--text-secondary)]
+            text-zinc-600
+            dark:text-zinc-400
           "
         >
-          Découvrez les principales interfaces et fonctionnalités du projet à
-          travers cette galerie interactive.
+          Découvrez quelques captures du projet. Cliquez sur une image pour
+          l'afficher en plein écran et naviguer librement dans la galerie.
         </p>
       </div>
 
       <motion.div
         whileHover={{
-          scale: 1.04,
+          y: -4,
+          scale: 1.02,
         }}
         transition={{
-          duration: 0.25,
+          duration: 0.2,
         }}
         className="
           flex
           items-center
-          gap-3
-          rounded-full
+          gap-4
+          self-start
+          rounded-3xl
           border
-          border-[var(--border)]
-          bg-[var(--surface)]
-          px-5
-          py-3
-          shadow-[var(--shadow-card)]
-          backdrop-blur-xl
+          border-zinc-200
+          bg-white
+          px-6
+          py-5
+          shadow-sm
+          dark:border-zinc-800
+          dark:bg-zinc-900
         "
       >
-        <Images
-          size={18}
-          className="text-[var(--accent)]"
-        />
-
-        <span
+        <div
           className="
-            text-sm
-            font-medium
-            text-[var(--text-primary)]
+            flex
+            h-14
+            w-14
+            items-center
+            justify-center
+            rounded-2xl
+            bg-gradient-to-br
+            from-purple-500/20
+            to-fuchsia-500/10
           "
         >
-          {totalImages} image{totalImages > 1 ? "s" : ""}
-        </span>
+          <Images
+            size={24}
+            className="text-purple-500"
+          />
+        </div>
+
+        <div>
+          <p
+            className="
+              text-xs
+              font-semibold
+              uppercase
+              tracking-[0.25em]
+              text-zinc-500
+              dark:text-zinc-400
+            "
+          >
+            Images
+          </p>
+
+          <div className="mt-1 flex items-end gap-2">
+            <span
+              className="
+                text-3xl
+                font-bold
+                text-zinc-900
+                dark:text-white
+              "
+            >
+              {String(totalImages).padStart(2, "0")}
+            </span>
+
+            <span
+              className="
+                mb-1
+                text-sm
+                text-zinc-500
+                dark:text-zinc-400
+              "
+            >
+              disponibles
+            </span>
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );
