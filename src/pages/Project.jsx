@@ -25,7 +25,7 @@ import ProjectHero from "../components/projects/ProjectHero";
 import ProjectInfo from "../components/projects/ProjectInfo";
 import ProjectTechnologies from "../components/projects/ProjectTechnologies";
 import ProjectFeatures from "../components/projects/ProjectFeatures";
-import ProjectGallery from "../components/projects/ProjectGallery";
+import ProjectGallery from "../components/gallery/ProjectGallery";
 import ProjectLinks from "../components/projects/ProjectLinks";
 
 
