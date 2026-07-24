@@ -68,96 +68,30 @@ function isValidUUID(value){
 /**
  * Récupération localisation visiteur
  */
-async function getLocation(){
+async function getLocation() {
+  try {
+    const response = await fetch("https://ipapi.co/json/");
 
-
-  try{
-
-
-    const response =
-      await fetch(
-        "http://ip-api.com/json/?fields=status,country,city,regionName"
-      );
-
-
-
-    const data =
-      await response.json();
-
-
-
-
-
-    if(
-      data.status !== "success"
-    ){
-
-      return {
-
-
-        country:null,
-
-        city:null,
-
-        region:null,
-
-
-      };
-
+    if (!response.ok) {
+      throw new Error("Impossible de récupérer la localisation.");
     }
 
-
-
-
+    const data = await response.json();
 
     return {
-
-
-      country:
-        data.country || null,
-
-
-      city:
-        data.city || null,
-
-
-      region:
-        data.regionName || null,
-
-
+      country: data.country_name || null,
+      city: data.city || null,
+      region: data.region || null,
     };
-
-
-
-  }
-
-
-  catch(error){
-
-
-    console.error(
-      "Location error:",
-      error
-    );
-
-
+  } catch (error) {
+    console.error("Location error:", error);
 
     return {
-
-
-      country:null,
-
-      city:null,
-
-      region:null,
-
-
+      country: null,
+      city: null,
+      region: null,
     };
-
-
   }
-
-
 }
 
 
