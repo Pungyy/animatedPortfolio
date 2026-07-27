@@ -13,6 +13,9 @@ export default function VisitDetailsModal({
 
 
 
+
+
+
   function formatDuration(seconds = 0){
 
 
@@ -35,7 +38,12 @@ export default function VisitDetailsModal({
 
     return `${minutes}min ${rest}s`;
 
+
   }
+
+
+
+
 
 
 
@@ -54,8 +62,11 @@ export default function VisitDetailsModal({
         items-center
         justify-center
         bg-black/70
+        px-4
+        py-6
         backdrop-blur-sm
       "
+
 
       onClick={onClose}
 
@@ -63,25 +74,43 @@ export default function VisitDetailsModal({
 
 
 
+
+
+
+
       <div
+
 
         onClick={(e)=>
           e.stopPropagation()
         }
 
+
         className="
+          flex
+          max-h-[90vh]
           w-full
           max-w-xl
+          flex-col
+          overflow-hidden
           rounded-[32px]
           border
           border-zinc-800
           bg-zinc-950
-          p-8
           shadow-2xl
         "
 
+
       >
 
+
+
+
+
+
+
+
+        {/* HEADER */}
 
 
         <div
@@ -90,41 +119,83 @@ export default function VisitDetailsModal({
             flex
             items-center
             justify-between
-            mb-8
+            gap-4
+            border-b
+            border-zinc-800
+            px-5
+            py-5
+            sm:px-8
           "
 
         >
 
 
-          <h2
 
-            className="
-              text-2xl
-              font-semibold
-              text-white
-            "
-
-          >
-
-            Détails visite
+          <div>
 
 
-          </h2>
+            <h2
+
+              className="
+                text-xl
+                font-semibold
+                text-white
+                sm:text-2xl
+              "
+
+            >
+
+              Détails visite
+
+
+            </h2>
+
+
+
+            <p
+
+              className="
+                mt-1
+                text-sm
+                text-zinc-500
+              "
+
+            >
+
+              Informations de session
+
+
+            </p>
+
+
+          </div>
+
+
+
+
 
 
 
           <button
 
+
             onClick={onClose}
 
+
             className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
               rounded-full
               bg-zinc-900
-              px-4
-              py-2
               text-zinc-400
+              transition
+              hover:bg-zinc-800
               hover:text-white
             "
+
 
           >
 
@@ -134,6 +205,9 @@ export default function VisitDetailsModal({
           </button>
 
 
+
+
+
         </div>
 
 
@@ -143,138 +217,214 @@ export default function VisitDetailsModal({
 
 
 
+
+        {/* CONTENT */}
+
+
         <div
 
           className="
-            grid
-            gap-4
-            sm:grid-cols-2
+            overflow-y-auto
+            p-5
+            sm:p-8
           "
 
         >
 
 
 
-          <Info
+          <div
 
-            title="Page"
+            className="
+              grid
+              gap-4
+              sm:grid-cols-2
+            "
 
-            value={
-              visit.page || "/"
-            }
-
-          />
-
-
-
-          <Info
-
-            title="Date"
-
-            value={
-              new Date(
-                visit.created_at
-              )
-              .toLocaleString(
-                "fr-FR"
-              )
-            }
-
-          />
+          >
 
 
 
-          <Info
 
-            title="Localisation"
 
-            value={
-              visit.city
+
+
+            <Info
+
+              title="Page"
+
+              value={
+                visit.page || "/"
+              }
+
+            />
+
+
+
+
+
+            <Info
+
+              title="Date"
+
+              value={
+
+                new Date(
+                  visit.created_at
+                )
+
+                .toLocaleString(
+                  "fr-FR"
+                )
+
+              }
+
+            />
+
+
+
+
+
+
+
+            <Info
+
+              title="Localisation"
+
+              value={
+
+                visit.city
+
+                  ?
+
+                  `${visit.country} - ${visit.city}`
+
+                  :
+
+                  "Inconnue"
+
+              }
+
+            />
+
+
+
+
+
+
+
+            <Info
+
+              title="Appareil"
+
+              value={
+                visit.device || "-"
+              }
+
+            />
+
+
+
+
+
+
+
+            <Info
+
+              title="Navigateur"
+
+              value={
+                visit.browser || "-"
+              }
+
+            />
+
+
+
+
+
+
+
+            <Info
+
+              title="Système"
+
+              value={
+                visit.os || "-"
+              }
+
+            />
+
+
+
+
+
+
+
+            <Info
+
+              title="Résolution"
+
+              value={
+
+                visit.screen_width
+
                 ?
-                `${visit.country} - ${visit.city}`
+
+                `${visit.screen_width} × ${visit.screen_height}`
+
                 :
-                "Inconnue"
-            }
 
-          />
+                "-"
 
+              }
 
-
-          <Info
-
-            title="Appareil"
-
-            value={
-              visit.device || "-"
-            }
-
-          />
+            />
 
 
 
-          <Info
-
-            title="Navigateur"
-
-            value={
-              visit.browser || "-"
-            }
-
-          />
 
 
 
-          <Info
 
-            title="Système"
+            <Info
 
-            value={
-              visit.os || "-"
-            }
+              title="Durée"
 
-          />
+              value={
 
+                formatDuration(
+                  visit.duration
+                )
 
+              }
 
-          <Info
-
-            title="Résolution"
-
-            value={
-              visit.screen_width
-              ?
-              `${visit.screen_width} × ${visit.screen_height}`
-              :
-              "-"
-            }
-
-          />
+            />
 
 
 
-          <Info
-
-            title="Durée"
-
-            value={
-              formatDuration(
-                visit.duration
-              )
-            }
-
-          />
 
 
 
-          <Info
 
-            title="Source"
+            <Info
 
-            value={
-              visit.referrer || "Direct"
-            }
+              title="Source"
 
-          />
+              value={
+                visit.referrer || "Direct"
+              }
+
+            />
+
+
+
+
+
+
+          </div>
+
+
 
 
 
@@ -282,7 +432,14 @@ export default function VisitDetailsModal({
 
 
 
+
+
+
+
+
       </div>
+
+
 
 
 
@@ -293,6 +450,8 @@ export default function VisitDetailsModal({
 
 
 }
+
+
 
 
 
@@ -311,18 +470,28 @@ function Info({
 
   return (
 
+
     <div
 
+
       className="
+        min-w-0
         rounded-2xl
         border
         border-zinc-800
         bg-zinc-900
         px-4
         py-3
+        transition
+        hover:border-violet-500/30
       "
 
+
     >
+
+
+
+
 
       <p
 
@@ -335,13 +504,20 @@ function Info({
 
         {title}
 
+
       </p>
+
+
+
+
+
 
 
       <p
 
         className="
           mt-1
+          truncate
           text-sm
           font-medium
           text-white
@@ -351,10 +527,15 @@ function Info({
 
         {value}
 
+
       </p>
 
 
+
+
+
     </div>
+
 
   );
 

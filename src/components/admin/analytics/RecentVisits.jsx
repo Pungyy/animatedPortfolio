@@ -114,7 +114,8 @@ export default function RecentVisits({
         border
         border-zinc-800
         bg-zinc-900
-        p-8
+        p-5
+        sm:p-8
         shadow-lg
         shadow-black/20
       "
@@ -139,8 +140,6 @@ export default function RecentVisits({
 
 
       </h2>
-
-
 
 
 
@@ -186,10 +185,15 @@ export default function RecentVisits({
 
 
 
+
+
+        {/* HEADER DESKTOP */}
+
         <div
 
           className="
-            grid
+            hidden
+            md:grid
             grid-cols-4
             bg-zinc-950
             px-5
@@ -200,7 +204,6 @@ export default function RecentVisits({
           "
 
         >
-
 
           <span>
             Page
@@ -254,7 +257,6 @@ export default function RecentVisits({
 
           )
 
-
           :
 
 
@@ -270,7 +272,6 @@ export default function RecentVisits({
 
               <div
 
-
                 key={
                   visit.id
                 }
@@ -284,19 +285,15 @@ export default function RecentVisits({
 
 
                 className="
-                  grid
-                  grid-cols-4
-                  items-center
+                  cursor-pointer
                   border-t
                   border-zinc-800
                   px-5
                   py-4
-                  cursor-pointer
                   transition
                   duration-300
                   hover:bg-zinc-800/40
                 "
-
 
               >
 
@@ -306,7 +303,73 @@ export default function RecentVisits({
 
 
 
-                <div>
+                {/* DESKTOP */}
+
+
+                <div
+
+                  className="
+                    hidden
+                    md:grid
+                    grid-cols-4
+                    items-center
+                    gap-4
+                  "
+
+                >
+
+
+
+                  <div>
+
+
+                    <p
+
+                      className="
+                        truncate
+                        text-sm
+                        font-medium
+                        text-white
+                      "
+
+                    >
+
+                      {
+                        visit.page || "/"
+                      }
+
+
+                    </p>
+
+
+
+
+                    <p
+
+                      className="
+                        mt-1
+                        text-xs
+                        text-zinc-500
+                      "
+
+                    >
+
+                      {
+                        formatDate(
+                          visit.created_at
+                        )
+                      }
+
+
+                    </p>
+
+
+                  </div>
+
+
+
+
+
 
 
                   <p
@@ -314,18 +377,27 @@ export default function RecentVisits({
                     className="
                       truncate
                       text-sm
-                      font-medium
-                      text-white
+                      text-zinc-300
                     "
 
                   >
 
                     {
-                      visit.page || "/"
+                      visit.city
+
+                      ?
+
+                      `${visit.country} - ${visit.city}`
+
+                      :
+
+                      "Inconnue"
                     }
 
 
                   </p>
+
+
 
 
 
@@ -334,21 +406,44 @@ export default function RecentVisits({
                   <p
 
                     className="
-                      mt-1
-                      text-xs
-                      text-zinc-500
+                      text-sm
+                      text-zinc-300
                     "
 
                   >
 
                     {
-                      formatDate(
-                        visit.created_at
+                      visit.device || "Desktop"
+                    }
+
+
+                  </p>
+
+
+
+
+
+
+
+                  <p
+
+                    className="
+                      text-sm
+                      font-semibold
+                      text-violet-400
+                    "
+
+                  >
+
+                    {
+                      formatDuration(
+                        visit.duration
                       )
                     }
 
 
                   </p>
+
 
 
                 </div>
@@ -361,30 +456,105 @@ export default function RecentVisits({
 
 
 
-                <p
+                {/* MOBILE */}
+
+
+                <div
 
                   className="
-                    truncate
-                    text-sm
-                    text-zinc-300
+                    space-y-4
+                    md:hidden
                   "
 
                 >
 
-                  {
-                    visit.city
-
-                    ?
-
-                    `${visit.country} - ${visit.city}`
-
-                    :
-
-                    "Inconnue"
-                  }
 
 
-                </p>
+                  <div
+
+                    className="
+                      flex
+                      items-start
+                      justify-between
+                      gap-4
+                    "
+
+                  >
+
+
+                    <div>
+
+
+                      <p
+
+                        className="
+                          text-sm
+                          font-semibold
+                          text-white
+                        "
+
+                      >
+
+                        {
+                          visit.page || "/"
+                        }
+
+
+                      </p>
+
+
+                      <p
+
+                        className="
+                          mt-1
+                          text-xs
+                          text-zinc-500
+                        "
+
+                      >
+
+                        {
+                          formatDate(
+                            visit.created_at
+                          )
+                        }
+
+
+                      </p>
+
+
+                    </div>
+
+
+
+
+
+                    <span
+
+                      className="
+                        rounded-full
+                        bg-violet-500/10
+                        px-3
+                        py-1
+                        text-xs
+                        font-medium
+                        text-violet-400
+                      "
+
+                    >
+
+                      {
+                        formatDuration(
+                          visit.duration
+                        )
+                      }
+
+
+                    </span>
+
+
+
+                  </div>
 
 
 
@@ -392,50 +562,49 @@ export default function RecentVisits({
 
 
 
+                  <div
+
+                    className="
+                      grid
+                      grid-cols-2
+                      gap-3
+                    "
+
+                  >
 
 
-                <p
+                    <Info
 
-                  className="
-                    text-sm
-                    text-zinc-300
-                  "
+                      label="Lieu"
 
-                >
+                      value={
+                        visit.city
+                        ?
+                        `${visit.country} - ${visit.city}`
+                        :
+                        "Inconnue"
+                      }
 
-                  {
-                    visit.device || "Desktop"
-                  }
-
-
-                </p>
+                    />
 
 
 
+                    <Info
+
+                      label="Appareil"
+
+                      value={
+                        visit.device || "Desktop"
+                      }
+
+                    />
+
+
+                  </div>
 
 
 
-
-
-
-                <p
-
-                  className="
-                    text-sm
-                    font-semibold
-                    text-violet-400
-                  "
-
-                >
-
-                  {
-                    formatDuration(
-                      visit.duration
-                    )
-                  }
-
-
-                </p>
+                </div>
 
 
 
@@ -487,6 +656,80 @@ export default function RecentVisits({
 
 
 
+
+
+    </div>
+
+
+  );
+
+
+}
+
+
+
+
+
+
+
+
+function Info({
+
+  label,
+
+  value,
+
+}){
+
+
+  return (
+
+
+    <div
+
+      className="
+        rounded-xl
+        border
+        border-zinc-800
+        bg-zinc-950
+        px-3
+        py-2
+      "
+
+    >
+
+
+      <p
+
+        className="
+          text-[11px]
+          text-zinc-500
+        "
+
+      >
+
+        {label}
+
+
+      </p>
+
+
+
+      <p
+
+        className="
+          mt-1
+          truncate
+          text-xs
+          text-zinc-300
+        "
+
+      >
+
+        {value}
+
+
+      </p>
 
 
 
