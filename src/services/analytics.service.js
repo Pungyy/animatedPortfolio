@@ -4,13 +4,21 @@ import {
 
 
 
+/**
+ * Empêche plusieurs créations de session
+ * simultanées.
+ *
+ * Cela arrive notamment lorsque plusieurs
+ * composants appellent trackEvent() en même temps.
+ */
+let sessionCreationPromise = null;
+
 
 
 /**
  * Génère ou récupère un ID visiteur
  */
-function getVisitorId(){
-
+function getVisitorId() {
 
   let visitorId =
     localStorage.getItem(
@@ -18,15 +26,13 @@ function getVisitorId(){
     );
 
 
-
-  if(
+  if (
     !visitorId ||
     !isValidUUID(visitorId)
-  ){
+  ) {
 
     visitorId =
       crypto.randomUUID();
-
 
 
     localStorage.setItem(
@@ -37,20 +43,16 @@ function getVisitorId(){
   }
 
 
-
   return visitorId;
 
 }
 
 
 
-
-
-
 /**
  * Vérification UUID
  */
-function isValidUUID(value){
+function isValidUUID(value) {
 
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
     .test(value);
@@ -59,59 +61,82 @@ function isValidUUID(value){
 
 
 
-
-
-
-/**
- * Récupération localisation visiteur
- */
 /**
  * Récupération localisation visiteur
  */
 async function getLocation() {
+
   try {
-    const response = await fetch("https://ipapi.co/json/");
+
+    const response =
+      await fetch(
+        "https://ipapi.co/json/"
+      );
+
 
     if (!response.ok) {
-      throw new Error("Impossible de récupérer la localisation.");
+
+      throw new Error(
+        "Impossible de récupérer la localisation."
+      );
+
     }
 
-    const data = await response.json();
+
+    const data =
+      await response.json();
+
 
     return {
-      country: data.country_name || null,
-      city: data.city || null,
-      region: data.region || null,
+
+      country:
+        data.country_name ||
+        null,
+
+      city:
+        data.city ||
+        null,
+
+      region:
+        data.region ||
+        null,
+
     };
+
+
   } catch (error) {
-    console.error("Location error:", error);
+
+    console.error(
+      "Location error:",
+      error
+    );
+
 
     return {
+
       country: null,
+
       city: null,
+
       region: null,
+
     };
+
   }
+
 }
-
-
-
-
-
 
 
 
 /**
  * Création ou récupération session
  */
-export async function getSession(){
-
+export async function getSession() {
 
   const sessionId =
     localStorage.getItem(
       "analytics_session"
     );
-
 
 
   const started =
@@ -120,175 +145,172 @@ export async function getSession(){
     );
 
 
-
-
-
   /**
    * Session valide 30 minutes
    */
-  if(
+  if (
     sessionId &&
     started &&
-    Date.now()
-    -
-    Number(started)
-    <
-    30 * 60 * 1000
-  ){
-
+    Date.now() -
+      Number(started)
+      <
+      30 * 60 * 1000
+  ) {
 
     const {
       data,
       error,
-    } = await supabase
+    } =
+      await supabase
 
-      .from("analytics_sessions")
+        .from(
+          "analytics_sessions"
+        )
 
-      .select("id")
+        .select("id")
 
-      .eq(
-        "id",
-        sessionId
-      )
+        .eq(
+          "id",
+          sessionId
+        )
 
-      .single();
+        .single();
 
 
-
-    if(
+    if (
       data &&
       !error
-    ){
+    ) {
 
       return sessionId;
 
     }
 
+  }
 
 
-  // Session supprimée ou inexistante
+  /*
+   * Session supprimée ou inexistante.
+   *
+   * Si une création de session est déjà
+   * en cours, on attend celle-ci au lieu
+   * d'en créer une deuxième.
+   */
+  if (
+    sessionCreationPromise
+  ) {
+
+    return sessionCreationPromise;
+
+  }
+
+
   localStorage.removeItem(
     "analytics_session"
   );
+
 
   localStorage.removeItem(
     "analytics_started"
   );
 
 
+  /*
+   * Création de la session.
+   */
+  sessionCreationPromise =
+    createSession();
+
+
+  try {
+
+    return await sessionCreationPromise;
+
+  } finally {
+
+    sessionCreationPromise =
+      null;
+
+  }
+
 }
 
 
 
-
+/**
+ * Création réelle d'une session
+ */
+async function createSession() {
 
   const location =
     await getLocation();
 
 
-
-
-
-
   const {
     data,
     error,
-  }
-  =
-  await supabase
+  } =
+    await supabase
 
-    .from("analytics_sessions")
+      .from(
+        "analytics_sessions"
+      )
 
-    .insert({
+      .insert({
 
+        visitor_id:
+          getVisitorId(),
 
+        started_at:
+          new Date(),
 
-      visitor_id:
-        getVisitorId(),
+        browser:
+          getBrowser(),
 
+        device:
+          getDevice(),
 
+        os:
+          getOS(),
 
-      started_at:
-        new Date(),
+        screen_width:
+          window.innerWidth,
 
+        screen_height:
+          window.innerHeight,
 
+        referrer:
+          document.referrer ||
+          null,
 
-      browser:
-        getBrowser(),
+        user_agent:
+          navigator.userAgent,
 
+        language:
+          navigator.language,
 
+        timezone:
+          Intl.DateTimeFormat()
+            .resolvedOptions()
+            .timeZone,
 
-      device:
-        getDevice(),
+        country:
+          location.country,
 
+        city:
+          location.city,
 
+        region:
+          location.region,
 
-      os:
-        getOS(),
+      })
 
+      .select()
 
-
-      screen_width:
-        window.innerWidth,
-
-
-
-      screen_height:
-        window.innerHeight,
-
-
-
-      referrer:
-        document.referrer || null,
-
-
-
-      user_agent:
-        navigator.userAgent,
-
-
-
-      language:
-        navigator.language,
-
-
-
-      timezone:
-        Intl.DateTimeFormat()
-          .resolvedOptions()
-          .timeZone,
+      .single();
 
 
-
-      country:
-        location.country,
-
-
-
-      city:
-        location.city,
-
-
-
-      region:
-        location.region,
-
-
-    })
-
-    .select()
-
-    .single();
-
-
-
-
-
-
-
-
-  if(error){
-
+  if (error) {
 
     console.error(
       "❌ Session creation error",
@@ -298,13 +320,7 @@ export async function getSession(){
 
     return null;
 
-
   }
-
-
-
-
-
 
 
   localStorage.setItem(
@@ -313,27 +329,15 @@ export async function getSession(){
   );
 
 
-
   localStorage.setItem(
     "analytics_started",
     Date.now()
   );
 
 
-
-
-
-
   return data.id;
 
-
 }
-
-
-
-
-
-
 
 
 
@@ -348,95 +352,161 @@ export async function trackEvent({
 
   project_id = null,
 
-}){
+}) {
 
+  try {
 
-  try{
+    if (!page)
+      return;
 
 
     const sessionId =
       await getSession();
 
 
-
-    if(!sessionId)
+    if (!sessionId)
       return;
 
 
+    /*
+     * Protection supplémentaire contre
+     * les doublons.
+     *
+     * On garde le dernier événement enregistré
+     * dans localStorage pendant quelques secondes.
+     *
+     * Cela protège notamment contre :
+     *
+     * - React StrictMode
+     * - double montage d'un composant
+     * - appels simultanés
+     * - navigation déclenchant deux fois le hook
+     */
+    const dedupeKey =
+      [
+        sessionId,
+        event_type,
+        page,
+        project_id || "none",
+      ].join("|");
+
+
+    const now =
+      Date.now();
+
+
+    let lastEvent = null;
+
+
+    try {
+
+      const stored =
+        localStorage.getItem(
+          "analytics_last_event"
+        );
+
+
+      if (stored) {
+
+        lastEvent =
+          JSON.parse(stored);
+
+      }
+
+    } catch {
+
+      lastEvent = null;
+
+    }
+
+
+    if (
+      lastEvent &&
+      lastEvent.key === dedupeKey &&
+      now - lastEvent.time < 5000
+    ) {
+
+      return;
+
+    }
+
+
+    /*
+     * On enregistre immédiatement le verrou
+     * AVANT le await Supabase.
+     *
+     * Ainsi, si trackEvent() est appelé deux
+     * fois quasiment simultanément, le deuxième
+     * appel sera bloqué.
+     */
+    localStorage.setItem(
+
+      "analytics_last_event",
+
+      JSON.stringify({
+
+        key:
+          dedupeKey,
+
+        time:
+          now,
+
+      })
+
+    );
 
 
     const {
       error,
-    }
-    =
-    await supabase
+    } =
+      await supabase
 
-      .from("analytics_events")
+        .from(
+          "analytics_events"
+        )
 
-      .insert({
+        .insert({
 
+          session_id:
+            sessionId,
 
-        session_id:
-          sessionId,
+          visitor_id:
+            getVisitorId(),
 
+          event_type,
 
-        visitor_id:
-          getVisitorId(),
+          page,
 
+          project_id,
 
-        event_type,
+          referrer:
+            document.referrer ||
+            "Direct",
 
-
-        page,
-
-
-        project_id,
-
-
-        referrer:
-          document.referrer || "Direct",
+        });
 
 
-      });
-
-
-
-
-
-    if(error)
+    if (error)
       throw error;
 
 
-  }
-
-
-  catch(error){
-
+  } catch (error) {
 
     console.error(
       "❌ Analytics tracking error",
       error
     );
 
-
   }
 
-
 }
-
-
-
-
-
-
 
 
 
 /**
  * Fermeture session
  */
-export async function endSession(){
-
+export async function endSession() {
 
   const sessionId =
     localStorage.getItem(
@@ -444,45 +514,45 @@ export async function endSession(){
     );
 
 
-  if(!sessionId)
+  if (!sessionId)
     return;
 
 
-
-
   const {
-    error
+    error,
   } =
-  await supabase.rpc(
-    "close_session",
-    {
-      session_id: sessionId,
-      ended_time: new Date()
-    }
-  );
+    await supabase.rpc(
+      "close_session",
+      {
+        session_id:
+          sessionId,
+
+        ended_time:
+          new Date(),
+      }
+    );
 
 
-
-
-  if(error){
+  if (error) {
 
     console.error(
       "❌ Fermeture session impossible",
       error
     );
 
+
     return;
 
   }
 
-
-
-
 }
 
-export async function updateSessionDuration(){
- 
 
+
+/**
+ * Mise à jour durée session
+ */
+export async function updateSessionDuration() {
 
   const sessionId =
     localStorage.getItem(
@@ -490,52 +560,50 @@ export async function updateSessionDuration(){
     );
 
 
-  if(!sessionId)
+  if (!sessionId)
     return;
 
+
   const {
-    data:session,
-    error:fetchError,
+    data: session,
+    error: fetchError,
   }
-  =
-  await supabase
+    =
+    await supabase
 
-    .from("analytics_sessions")
+      .from(
+        "analytics_sessions"
+      )
 
-    .select(
-      "started_at"
-    )
+      .select(
+        "started_at"
+      )
 
-    .eq(
-      "id",
-      sessionId
-    )
+      .eq(
+        "id",
+        sessionId
+      )
 
-    .single();
-
-
+      .single();
 
 
-
-  if(fetchError || !session)
-  {
+  if (
+    fetchError ||
+    !session
+  ) {
 
     console.error(
       "❌ Impossible de récupérer la session",
       fetchError
     );
 
+
     return;
 
   }
 
 
-
-
-
-
   const duration =
-
     Math.floor(
 
       (
@@ -544,7 +612,6 @@ export async function updateSessionDuration(){
         new Date(
           session.started_at
         ).getTime()
-
       )
       /
       1000
@@ -552,36 +619,32 @@ export async function updateSessionDuration(){
     );
 
 
-
-
-
-
   const {
     data: updateData,
     error: updateError,
   }
-  =
-  await supabase
+    =
+    await supabase
 
-    .from("analytics_sessions")
+      .from(
+        "analytics_sessions"
+      )
 
-    .update({
-      duration,
-    })
+      .update({
 
-    .eq(
-      "id",
-      sessionId
-    )
+        duration,
 
-    .select();
+      })
+
+      .eq(
+        "id",
+        sessionId
+      )
+
+      .select();
 
 
-
-
-
-  if(updateError){
-
+  if (updateError) {
 
     console.error(
       "❌ Duration update error",
@@ -593,72 +656,63 @@ export async function updateSessionDuration(){
 
   }
 
-
-
-
 }
-
-
-
 
 
 
 /**
  * Récupération données analytics
  */
-export async function getAnalytics(){
-
+export async function getAnalytics() {
 
   const {
-    data:sessions,
-    error:sessionsError,
-  } =
-  await supabase
+    data: sessions,
+    error: sessionsError,
+  }
+    =
+    await supabase
 
-    .from("analytics_sessions")
+      .from(
+        "analytics_sessions"
+      )
 
-    .select("*")
+      .select("*")
 
-    .order(
-      "created_at",
-      {
-        ascending:false,
-      }
-    );
+      .order(
+        "created_at",
+        {
+          ascending: false,
+        }
+      );
 
 
-
-  if(sessionsError)
+  if (sessionsError)
     throw sessionsError;
 
 
-
-
-
   const {
-    data:events,
-    error:eventsError,
-  } =
-  await supabase
+    data: events,
+    error: eventsError,
+  }
+    =
+    await supabase
 
-    .from("analytics_events")
+      .from(
+        "analytics_events"
+      )
 
-    .select("*")
+      .select("*")
 
-    .order(
-      "created_at",
-      {
-        ascending:false,
-      }
-    );
+      .order(
+        "created_at",
+        {
+          ascending: false,
+        }
+      );
 
 
-
-  if(eventsError)
+  if (eventsError)
     throw eventsError;
-
-
-
 
 
   const projectIds =
@@ -674,80 +728,78 @@ export async function getAnalytics(){
     ];
 
 
+  let projects = [];
 
 
+  /*
+   * Évite de faire un .in() avec
+   * un tableau vide.
+   */
+  if (
+    projectIds.length
+  ) {
 
-  const {
-    data:projects,
-    error:projectsError
-  } =
-  await supabase
+    const {
+      data,
+      error: projectsError,
+    }
+      =
+      await supabase
 
-    .from("projects")
+        .from(
+          "projects"
+        )
 
-    .select(
-      "id,title,slug"
-    )
+        .select(
+          "id,title,slug"
+        )
 
-    .in(
-      "id",
-      projectIds
-    );
-
-
-
-
-
-  if(projectsError)
-    throw projectsError;
+        .in(
+          "id",
+          projectIds
+        );
 
 
+    if (projectsError)
+      throw projectsError;
 
+
+    projects =
+      data || [];
+
+  }
 
 
   const eventsWithProjects =
-    events.map(event=>({
+    events.map(
+      event => ({
 
+        ...event,
 
-      ...event,
+        projects:
+          projects.find(
+            project =>
+              project.id ===
+              event.project_id
+          )
+          ||
+          null,
 
-
-      projects:
-        projects?.find(
-          project =>
-            project.id === event.project_id
-        )
-        ||
-        null
-
-
-    }));
-
-
-
+      })
+    );
 
 
   return {
 
-
     sessions:
       sessions || [],
-
 
     events:
       eventsWithProjects || [],
 
-
   };
 
-
 }
-
-
-
-
-
-
 
 
 
@@ -756,37 +808,39 @@ export async function getAnalytics(){
  */
 export async function getAnalyticsStats(
   period = "30d"
-){
-
+) {
 
   const {
     sessions,
     events,
   }
-  =
-  await getAnalytics();
-
-  let filteredSessions = sessions;
-
-  let filteredEvents = events;
+    =
+    await getAnalytics();
 
 
+  let filteredSessions =
+    sessions;
 
-  if(period !== "all"){
 
+  let filteredEvents =
+    events;
+
+
+  if (
+    period !== "all"
+  ) {
 
     const now =
       new Date();
-
 
 
     const startDate =
       new Date();
 
 
-
-    if(period === "today"){
-
+    if (
+      period === "today"
+    ) {
 
       startDate.setHours(
         0,
@@ -795,25 +849,12 @@ export async function getAnalyticsStats(
         0
       );
 
-
-    }
-
-
-    else {
-
+    } else {
 
       const days =
-
         period === "7d"
-
-          ?
-
-          7
-
-          :
-
-          30;
-
+          ? 7
+          : 30;
 
 
       startDate.setDate(
@@ -824,16 +865,10 @@ export async function getAnalyticsStats(
 
       );
 
-
     }
 
 
-
-
-
-
     filteredSessions =
-
       sessions.filter(
 
         session =>
@@ -847,12 +882,7 @@ export async function getAnalyticsStats(
       );
 
 
-
-
-
-
     filteredEvents =
-
       events.filter(
 
         event =>
@@ -865,10 +895,7 @@ export async function getAnalyticsStats(
 
       );
 
-
   }
-
-
 
 
   const visitors =
@@ -882,218 +909,186 @@ export async function getAnalyticsStats(
     );
 
 
-
-
-
-
-
   const pages = {};
 
 
+  filteredEvents.forEach(
+    event => {
 
-  filteredEvents.forEach(event=>{
-
-
-    const page =
-      event.page || "/";
-
+      const page =
+        event.page || "/";
 
 
-    pages[page] =
-      (
-        pages[page] || 0
-      )
-      + 1;
+      pages[page] =
+        (
+          pages[page] || 0
+        )
+        +
+        1;
 
-
-  });
-
-
-
-
-
-
-
-  const {
-  data:projectsList,
-  error:projectsError,
-}
-=
-await supabase
-
-  .from("projects")
-
-  .select(
-    "id,title"
+    }
   );
 
 
+  const {
+    data: projectsList,
+    error: projectsError,
+  }
+    =
+    await supabase
 
-if(projectsError)
-  throw projectsError;
+      .from(
+        "projects"
+      )
+
+      .select(
+        "id,title"
+      );
 
 
+  if (projectsError)
+    throw projectsError;
 
 
   const projects = {};
 
 
+  filteredEvents.forEach(
+    event => {
 
-  filteredEvents.forEach(event=>{
+      if (
+        event.event_type ===
+          "project_view" &&
+        event.project_id
+      ) {
 
-
-    if(
-      event.event_type === "project_view" &&
-      event.project_id
-    ){
-
-
-      const project =
-        projectsList.find(
-          item =>
-            item.id === event.project_id
-        );
-
-
-
-      if(project){
+        const project =
+          projectsList.find(
+            item =>
+              item.id ===
+              event.project_id
+          );
 
 
-        projects[project.title] =
-          (
-            projects[project.title]
-            ||
-            0
-          )
-          + 1;
+        if (project) {
 
+          projects[
+            project.title
+          ] =
+            (
+              projects[
+                project.title
+              ]
+              ||
+              0
+            )
+            +
+            1;
+
+        }
 
       }
 
-
     }
-
-
-  });
-
-
-
-
-
-
+  );
 
 
   const browsers = {};
 
 
+  filteredSessions.forEach(
+    session => {
 
-  filteredSessions.forEach(session=>{
-
-
-    const browser =
-      session.browser || "Autre";
-
-
-
-    browsers[browser] =
-      (
-        browsers[browser] || 0
-      )
-      + 1;
+      const browser =
+        session.browser ||
+        "Autre";
 
 
-  });
+      browsers[browser] =
+        (
+          browsers[browser] ||
+          0
+        )
+        +
+        1;
 
-
-
-
-
-
+    }
+  );
 
 
   const devices = {};
 
 
+  filteredSessions.forEach(
+    session => {
 
-  filteredSessions.forEach(session=>{
-
-
-    const device =
-      session.device || "Autre";
-
-
-
-    devices[device] =
-      (
-        devices[device] || 0
-      )
-      + 1;
+      const device =
+        session.device ||
+        "Autre";
 
 
-  });
+      devices[device] =
+        (
+          devices[device] ||
+          0
+        )
+        +
+        1;
 
-
-
-
-
-
+    }
+  );
 
 
   const locations = {};
 
 
+  filteredSessions.forEach(
+    session => {
 
-  filteredSessions.forEach(session=>{
+      const location =
+        session.country
 
-
-    const location =
-
-      session.country
-
-      ?
-
-      `${session.country}${
-        session.city
           ?
-          ` - ${session.city}`
+
+          `${session.country}${
+            session.city
+              ?
+              ` - ${session.city}`
+              :
+              ""
+          }`
+
           :
-          ""
-      }`
 
-      :
-
-      session.timezone
-      ||
-      "Inconnu";
+          session.timezone
+          ||
+          "Inconnu";
 
 
+      locations[location] =
+        (
+          locations[location] ||
+          0
+        )
+        +
+        1;
 
-
-    locations[location] =
-      (
-        locations[location] || 0
-      )
-      + 1;
-
-
-  });
-
-
-
-
-
-
+    }
+  );
 
 
   const totalDuration =
-
     filteredSessions.reduce(
 
-      (total,session)=>
+      (
+        total,
+        session
+      ) =>
 
         total +
         (
-          session.duration || 0
+          session.duration ||
+          0
         ),
 
       0
@@ -1101,400 +1096,362 @@ if(projectsError)
     );
 
 
-
-
-
-
   const averageDuration =
-
     filteredSessions.length
 
       ?
 
       Math.floor(
+
         totalDuration /
         filteredSessions.length
+
       )
 
       :
 
       0;
 
-      /**
- * Visiteurs aujourd'hui
- */
-const today = new Date();
-
-today.setHours(
-  0,
-  0,
-  0,
-  0
-);
 
 
+  /**
+   * Visiteurs aujourd'hui
+   */
+  const today =
+    new Date();
 
-const visitorsToday =
 
-  new Set(
-
-    filteredSessions
-
-      .filter(session =>
-
-        new Date(
-          session.started_at
-        ) >= today
-
-      )
-
-      .map(session =>
-        session.visitor_id
-      )
-
+  today.setHours(
+    0,
+    0,
+    0,
+    0
   );
 
 
+  const visitorsToday =
+    new Set(
+
+      filteredSessions
+
+        .filter(
+          session =>
+
+            new Date(
+              session.started_at
+            )
+            >=
+            today
+        )
+
+        .map(
+          session =>
+            session.visitor_id
+        )
+
+    );
 
 
+  /**
+   * Pages moyennes par session
+   */
+  const pagesPerSession =
+    filteredSessions.length
 
-/**
- * Pages moyennes par session
- */
-const pagesPerSession =
+      ?
 
-  filteredSessions.length
+      Number(
 
-    ?
+        (
+          filteredEvents.length /
+          filteredSessions.length
+        )
+        .toFixed(1)
 
-    Number(
-      (
-        filteredEvents.length /
-        filteredSessions.length
       )
-      .toFixed(1)
-    )
 
-    :
+      :
 
-    0;
-
-
-
+      0;
 
 
   const sessionsByDay = {};
 
 
+  filteredSessions.forEach(
+    session => {
 
-  filteredSessions.forEach(session=>{
+      const date =
+        new Date(
+          session.started_at
+        )
+          .toLocaleDateString(
+            "fr-FR",
+            {
+              day:
+                "2-digit",
 
-
-    const date =
-
-      new Date(
-        session.started_at
-      )
-
-      .toLocaleDateString(
-        "fr-FR",
-        {
-          day:"2-digit",
-          month:"short",
-        }
-      );
-
-
-
-    sessionsByDay[date] =
-      (
-        sessionsByDay[date] || 0
-      )
-      + 1;
+              month:
+                "short",
+            }
+          );
 
 
-  });
+      sessionsByDay[date] =
+        (
+          sessionsByDay[date] ||
+          0
+        )
+        +
+        1;
 
-
-
-
+    }
+  );
 
 
   const activity =
-
     Object.entries(
       sessionsByDay
     )
 
-    .map(
-      ([date,total])=>({
+      .map(
+        (
+          [date, total]
+        ) => ({
 
-        date,
+          date,
 
-        total,
+          total,
 
-      })
-    )
+        })
+      )
 
-    .slice(-7);
-
-
-
-    /**
- * Dernières visites complètes
- */
-const latestVisits =
-
-  filteredEvents
-
-    .slice(0,10)
-
-    .map(event => {
-
-
-      const session =
-
-        filteredSessions.find(
-
-          session =>
-
-            session.id === event.session_id
-
-        );
+      .slice(-7);
 
 
 
-      return {
+  /**
+   * Dernières visites complètes
+   *
+   * On conserve ici les derniers
+   * événements, mais les doublons
+   * sont désormais fortement limités
+   * par trackEvent().
+   */
+  const latestVisits =
+
+    filteredEvents
+
+      .slice(
+        0,
+        10
+      )
+
+      .map(
+        event => {
+
+          const session =
+            filteredSessions.find(
+
+              session =>
+
+                session.id ===
+                event.session_id
+
+            );
 
 
-        id:
-          event.id,
+          return {
 
+            id:
+              event.id,
 
-        page:
-          event.page || "/",
+            page:
+              event.page || "/",
 
+            event_type:
+              event.event_type,
 
-        event_type:
-          event.event_type,
+            project:
+              event.projects ||
+              null,
 
+            country:
+              session?.country ||
+              null,
 
+            city:
+              session?.city ||
+              null,
 
-        project:
-          event.projects || null,
+            region:
+              session?.region ||
+              null,
 
+            browser:
+              session?.browser ||
+              "Inconnu",
 
+            device:
+              session?.device ||
+              "Inconnu",
 
-        country:
-          session?.country || null,
+            os:
+              session?.os ||
+              "Inconnu",
 
+            screen_width:
+              session?.screen_width ||
+              null,
 
-        city:
-          session?.city || null,
+            screen_height:
+              session?.screen_height ||
+              null,
 
+            duration:
+              session?.duration ||
+              0,
 
-        region:
-          session?.region || null,
+            created_at:
+              event.created_at,
 
+          };
 
-
-        browser:
-          session?.browser || "Inconnu",
-
-
-        device:
-          session?.device || "Inconnu",
-
-
-        os:
-          session?.os || "Inconnu",
-
-
-
-        screen_width:
-          session?.screen_width || null,
-
-
-        screen_height:
-          session?.screen_height || null,
-
-
-
-        duration:
-          session?.duration || 0,
-
-
-
-        created_at:
-          event.created_at,
-
-
-      };
-
-
-    });
-
-
-
+        }
+      );
 
 
   return {
-
 
     visitors:
       visitors.size,
 
     visitorsToday:
-    visitorsToday.size,
-
+      visitorsToday.size,
 
     views:
       filteredEvents.length,
-
 
     sessions:
       filteredSessions.length,
 
     pagesPerSession,
 
-
     averageDuration,
-
 
     pages,
 
-
     projects,
-
 
     browsers,
 
-
     devices,
-
 
     locations,
 
-
     activity,
-
-
 
     latestVisits,
 
-
   };
 
-
 }
-
-
-
-
-
-
 
 
 
 /**
  * Détection navigateur
  */
-function getBrowser(){
-
+function getBrowser() {
 
   const ua =
     navigator.userAgent;
 
 
-
-  if(ua.includes("Chrome"))
+  if (
+    ua.includes("Chrome")
+  )
     return "Chrome";
 
 
-  if(ua.includes("Firefox"))
+  if (
+    ua.includes("Firefox")
+  )
     return "Firefox";
 
 
-  if(ua.includes("Safari"))
+  if (
+    ua.includes("Safari")
+  )
     return "Safari";
-
 
 
   return "Autre";
 
-
 }
-
-
-
-
-
-
 
 
 
 /**
  * Détection appareil
  */
-function getDevice(){
-
+function getDevice() {
 
   const width =
     window.innerWidth;
 
 
-
-  if(width < 768)
+  if (
+    width < 768
+  )
     return "Mobile";
 
 
-  if(width < 1200)
+  if (
+    width < 1200
+  )
     return "Tablet";
-
 
 
   return "Desktop";
 
-
 }
-
-
-
-
-
-
 
 
 
 /**
  * Détection OS
  */
-function getOS(){
-
+function getOS() {
 
   const ua =
     navigator.userAgent;
 
 
-
-  if(ua.includes("Windows"))
+  if (
+    ua.includes("Windows")
+  )
     return "Windows";
 
 
-  if(ua.includes("Mac"))
+  if (
+    ua.includes("Mac")
+  )
     return "MacOS";
 
 
-  if(ua.includes("Android"))
+  if (
+    ua.includes("Android")
+  )
     return "Android";
 
 
-  if(ua.includes("iPhone"))
+  if (
+    ua.includes("iPhone")
+  )
     return "iOS";
 
 
-
   return "Autre";
-
 
 }
