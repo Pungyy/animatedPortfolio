@@ -35,7 +35,39 @@ export default function Skills() {
 
   useEffect(() => {
 
-    loadSkills();
+    let ignore = false;
+
+    (async () => {
+
+      try {
+
+        const data = await getSkills();
+
+        if (!ignore) {
+          setSkills(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les compétences."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
 
@@ -45,38 +77,6 @@ export default function Skills() {
 
 
 
-
-  async function loadSkills() {
-
-    try {
-
-      setLoading(true);
-
-
-      const data =
-        await getSkills();
-
-
-      setSkills(data);
-
-    } catch (error) {
-
-
-      console.error(error);
-
-
-      toast.error(
-        "Impossible de charger les compétences."
-      );
-
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  }
 
 
 

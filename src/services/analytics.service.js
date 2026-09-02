@@ -620,7 +620,6 @@ export async function updateSessionDuration() {
 
 
   const {
-    data: updateData,
     error: updateError,
   }
     =

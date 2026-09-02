@@ -32,7 +32,26 @@ export default function GalleryUploader({
 
     if (!projectId) return;
 
-    loadGallery();
+    let ignore = false;
+
+    (async () => {
+      try {
+        const data = await getProjectGallery(projectId);
+
+        if (!ignore) {
+          setImages(data);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error(
+          "Impossible de charger la galerie."
+        );
+      }
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, [projectId]);
 

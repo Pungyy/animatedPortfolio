@@ -30,67 +30,60 @@ export default function Projects() {
 
   useEffect(() => {
 
-    loadProjects();
+    let ignore = false;
 
-    loadTechnologies();
+    (async () => {
+
+      try {
+
+        const data = await getProjects();
+
+        if (!ignore) {
+          setProjects(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les projets."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+
+      try {
+
+        const data = await getTechnologies();
+
+        if (!ignore) {
+          setTechnologies(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les technologies."
+        );
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
-
-
-
-
-  async function loadProjects() {
-
-    try {
-
-      setLoading(true);
-
-      const data = await getProjects();
-
-      setProjects(data);
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      toast.error(
-        "Impossible de charger les projets."
-      );
-
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  }
-
-
-
-
-
-  async function loadTechnologies() {
-
-    try {
-
-      const data = await getTechnologies();
-
-      setTechnologies(data);
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      toast.error(
-        "Impossible de charger les technologies."
-      );
-
-    }
-
-  }
 
 
 

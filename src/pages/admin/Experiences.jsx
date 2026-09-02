@@ -37,7 +37,39 @@ export default function Experiences() {
 
   useEffect(() => {
 
-    loadExperiences();
+    let ignore = false;
+
+    (async () => {
+
+      try {
+
+        const data = await getExperiences();
+
+        if (!ignore) {
+          setExperiences(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les expériences."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
 
@@ -47,47 +79,6 @@ export default function Experiences() {
 
 
 
-
-
-  async function loadExperiences() {
-
-
-    try {
-
-
-      setLoading(true);
-
-
-      const data =
-        await getExperiences();
-
-
-      setExperiences(data);
-
-
-
-    } catch(error) {
-
-
-      console.error(error);
-
-
-      toast.error(
-        "Impossible de charger les expériences."
-      );
-
-
-
-    } finally {
-
-
-      setLoading(false);
-
-
-    }
-
-
-  }
 
 
 

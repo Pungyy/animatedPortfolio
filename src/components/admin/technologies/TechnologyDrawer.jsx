@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import Drawer from "../ui/Drawer";
@@ -30,37 +30,21 @@ export default function TechnologyDrawer({
 }) {
 
 
-  const [form, setForm] = useState({
-    ...emptyTechnology,
-  });
+  const buildForm = () =>
+    technology
+      ? { ...emptyTechnology, ...technology }
+      : { ...emptyTechnology };
 
+  const [form, setForm] = useState(buildForm);
 
   const [saving, setSaving] = useState(false);
 
+  const [syncKey, setSyncKey] = useState({ technology, open });
 
-
-
-
-  useEffect(() => {
-
-    if (technology) {
-
-      setForm({
-        ...emptyTechnology,
-        ...technology,
-      });
-
-
-    } else {
-
-      setForm({
-        ...emptyTechnology,
-      });
-
-    }
-
-
-  }, [technology, open]);
+  if (syncKey.technology !== technology || syncKey.open !== open) {
+    setSyncKey({ technology, open });
+    setForm(buildForm());
+  }
 
 
 

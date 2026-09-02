@@ -231,6 +231,9 @@ export default function MusicPlayer(){
     }
 
 
+    // On ne relance le chargement qu'au changement de piste ;
+    // la valeur de `playing` est lue à l'instant du changement.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[current]);
 
 

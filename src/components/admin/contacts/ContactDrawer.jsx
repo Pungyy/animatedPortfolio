@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import Drawer from "../ui/Drawer";
@@ -18,87 +18,52 @@ export default function ContactDrawer({
 }) {
 
 
-  const [current, setCurrent] = useState(null);
+  const [current, setCurrent] = useState(() => contact ?? null);
 
   const [saving, setSaving] = useState(false);
 
+  const [syncKey, setSyncKey] = useState({ contact, open });
 
+  const markedRef = useRef(null);
 
-
-
-
+  if (syncKey.contact !== contact || syncKey.open !== open) {
+    setSyncKey({ contact, open });
+    setCurrent(contact ?? null);
+  }
 
 
   useEffect(() => {
 
+    if (!contact || contact.read || markedRef.current === contact.id) {
+      return;
+    }
 
-    if (contact) {
+    markedRef.current = contact.id;
 
+    let ignore = false;
 
-      setCurrent(contact);
+    (async () => {
+      try {
+        const updated = await updateContact({
+          ...contact,
+          read: true,
+        });
 
+        if (!ignore) {
+          setCurrent(updated);
+          onUpdated(updated);
+        }
 
-
-      if (!contact.read) {
-
-        markAsRead(contact);
-
+      } catch (error) {
+        console.error(error);
       }
+    })();
 
+    return () => {
+      ignore = true;
+    };
 
-    } else {
-
-
-      setCurrent(null);
-
-
-    }
-
-
-  }, [contact, open]);
-
-
-
-
-
-
-
-
-
-  async function markAsRead(item) {
-
-
-    try {
-
-
-      const updated = await updateContact({
-
-        ...item,
-
-        read: true,
-
-      });
-
-
-
-      setCurrent(updated);
-
-
-
-      onUpdated(updated);
-
-
-
-    } catch(error) {
-
-
-      console.error(error);
-
-
-    }
-
-
-  }
+  }, [contact, open, onUpdated]);
 
 
 

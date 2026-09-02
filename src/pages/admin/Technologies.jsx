@@ -34,7 +34,39 @@ export default function Technologies() {
 
   useEffect(() => {
 
-    loadTechnologies();
+    let ignore = false;
+
+    (async () => {
+
+      try {
+
+        const data = await getTechnologies();
+
+        if (!ignore) {
+          setTechnologies(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les technologies."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
 
@@ -42,43 +74,6 @@ export default function Technologies() {
 
 
 
-
-
-  async function loadTechnologies() {
-
-    try {
-
-      setLoading(true);
-
-
-      const data =
-        await getTechnologies();
-
-
-      setTechnologies(data);
-
-
-
-    } catch (error) {
-
-
-      console.error(error);
-
-
-      toast.error(
-        "Impossible de charger les technologies."
-      );
-
-
-    } finally {
-
-
-      setLoading(false);
-
-
-    }
-
-  }
 
 
 

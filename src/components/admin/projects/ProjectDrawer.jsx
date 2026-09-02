@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useState,
 } from "react";
 
@@ -123,105 +122,41 @@ export default function ProjectDrawer({
 }) {
 
 
+  const buildForm = () => {
+
+    if (!project) {
+      return { ...emptyProject };
+    }
+
+    return {
+      ...emptyProject,
+      ...project,
+      technologies:
+        project.technologies?.map((tech) =>
+          typeof tech === "object" ? tech.id : tech
+        ) || [],
+      features: project.features || [],
+      gallery: project.gallery || [],
+    };
+
+  };
+
   const [
     form,
     setForm,
-  ] = useState({
-    ...emptyProject,
-  });
-
-
+  ] = useState(buildForm);
 
   const [
     saving,
     setSaving,
   ] = useState(false);
 
+  const [syncKey, setSyncKey] = useState({ project, open });
 
-
-
-
-
-
-
-
-  useEffect(() => {
-
-
-    if(project){
-
-
-      setForm({
-
-
-        ...emptyProject,
-
-
-        ...project,
-
-
-
-        technologies:
-
-
-          project.technologies?.map(
-
-            (tech)=>
-
-              typeof tech === "object"
-
-                ?
-
-                tech.id
-
-                :
-
-                tech
-
-          )
-
-          ||
-
-          [],
-
-
-
-        features:
-
-          project.features || [],
-
-
-
-        gallery:
-
-          project.gallery || [],
-
-
-
-      });
-
-
-
-    }
-
-
-    else{
-
-
-      setForm({
-
-        ...emptyProject,
-
-      });
-
-
-    }
-
-
-  },[
-    project,
-    open,
-  ]);
+  if (syncKey.project !== project || syncKey.open !== open) {
+    setSyncKey({ project, open });
+    setForm(buildForm());
+  }
 
 
 

@@ -37,7 +37,39 @@ export default function Contacts() {
 
   useEffect(() => {
 
-    loadContacts();
+    let ignore = false;
+
+    (async () => {
+
+      try {
+
+        const data = await getContacts();
+
+        if (!ignore) {
+          setContacts(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les messages."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
 
@@ -47,47 +79,6 @@ export default function Contacts() {
 
 
 
-
-
-  async function loadContacts() {
-
-
-    try {
-
-
-      setLoading(true);
-
-
-      const data =
-        await getContacts();
-
-
-      setContacts(data);
-
-
-
-    } catch(error) {
-
-
-      console.error(error);
-
-
-
-      toast.error(
-        "Impossible de charger les messages."
-      );
-
-
-    } finally {
-
-
-      setLoading(false);
-
-
-    }
-
-
-  }
 
 
 

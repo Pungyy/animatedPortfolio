@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import Drawer from "../ui/Drawer";
@@ -48,51 +48,21 @@ export default function ExperienceDrawer({
 }) {
 
 
-  const [form, setForm] = useState({
-    ...emptyExperience,
-  });
+  const buildForm = () =>
+    experience
+      ? { ...emptyExperience, ...experience }
+      : { ...emptyExperience };
 
+  const [form, setForm] = useState(buildForm);
 
   const [saving, setSaving] = useState(false);
 
+  const [syncKey, setSyncKey] = useState({ experience, open });
 
-
-
-
-
-
-
-
-  useEffect(() => {
-
-
-    if (experience) {
-
-
-      setForm({
-
-        ...emptyExperience,
-
-        ...experience,
-
-      });
-
-
-
-    } else {
-
-
-      setForm({
-
-        ...emptyExperience,
-
-      });
-
-
-    }
-
-
-  }, [experience, open]);
+  if (syncKey.experience !== experience || syncKey.open !== open) {
+    setSyncKey({ experience, open });
+    setForm(buildForm());
+  }
 
 
 

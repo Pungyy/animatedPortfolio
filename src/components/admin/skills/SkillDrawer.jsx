@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import Drawer from "../ui/Drawer";
@@ -31,32 +31,21 @@ export default function SkillDrawer({
 }) {
 
 
-  const [form, setForm] = useState(emptySkill);
+  const buildForm = () =>
+    skill
+      ? { ...emptySkill, ...skill }
+      : { ...emptySkill };
+
+  const [form, setForm] = useState(buildForm);
 
   const [saving, setSaving] = useState(false);
 
+  const [syncKey, setSyncKey] = useState({ skill, open });
 
-
-
-
-  useEffect(() => {
-
-    if (skill) {
-
-      setForm({
-        ...emptySkill,
-        ...skill,
-      });
-
-    } else {
-
-      setForm({
-        ...emptySkill,
-      });
-
-    }
-
-  }, [skill, open]);
+  if (syncKey.skill !== skill || syncKey.open !== open) {
+    setSyncKey({ skill, open });
+    setForm(buildForm());
+  }
 
 
 

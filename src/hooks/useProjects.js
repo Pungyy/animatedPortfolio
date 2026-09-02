@@ -29,8 +29,33 @@ export default function useProjects() {
   }, []);
 
   useEffect(() => {
-    loadProjects();
-  }, [loadProjects]);
+    let ignore = false;
+
+    (async () => {
+      try {
+        const data = await getProjects();
+
+        if (!ignore) {
+          setProjects(data);
+          setError(null);
+        }
+      } catch (err) {
+        console.error(err);
+
+        if (!ignore) {
+          setError(err);
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const addProject = async (project) => {
     const created = await createProject(project);

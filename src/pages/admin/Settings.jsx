@@ -30,7 +30,39 @@ export default function Settings() {
 
   useEffect(() => {
 
-    loadSettings();
+    let ignore = false;
+
+    (async () => {
+
+      try {
+
+        const data = await getSettings();
+
+        if (!ignore) {
+          setSettings(data);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Impossible de charger les paramètres."
+        );
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+
+    })();
+
+    return () => {
+      ignore = true;
+    };
 
   }, []);
 
@@ -38,32 +70,6 @@ export default function Settings() {
 
 
 
-
-  async function loadSettings() {
-
-    try {
-
-      const data = await getSettings();
-
-      setSettings(data);
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      toast.error(
-        "Impossible de charger les paramètres."
-      );
-
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  }
 
 
 
