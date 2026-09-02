@@ -155,8 +155,6 @@ function MarqueeRow({ items, repeat, reverse, speed }) {
 
   return (
 
-    <div className="tech-marquee overflow-hidden py-1">
-
       <div
 
         className={
@@ -188,8 +186,6 @@ function MarqueeRow({ items, repeat, reverse, speed }) {
         }
 
       </div>
-
-    </div>
 
   );
 
@@ -256,7 +252,9 @@ export default function TechMarquee() {
 
   return (
 
-    <div className="space-y-4">
+    <div className="tech-marquee-viewport">
+
+      <div className="space-y-4">
 
       {
         rows.map((items, index) => (
@@ -280,6 +278,8 @@ export default function TechMarquee() {
 
         ))
       }
+
+      </div>
 
     </div>
 
