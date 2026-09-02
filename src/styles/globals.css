@@ -116,3 +116,85 @@ section {
 .yarl__slide img {
   border-radius: 18px;
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Defilement infini des technologies (section Competences)            */
+/* ------------------------------------------------------------------ */
+
+@keyframes tech-marquee {
+  to {
+    transform: translate3d(calc(-100% / var(--marquee-repeat, 2)), 0, 0);
+  }
+}
+
+.tech-marquee {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+}
+
+.tech-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: tech-marquee var(--marquee-duration, 42s) linear infinite;
+  will-change: transform;
+}
+
+.tech-marquee__track--reverse {
+  animation-direction: reverse;
+}
+
+.tech-marquee:hover .tech-marquee__track,
+.tech-marquee:focus-within .tech-marquee__track {
+  animation-play-state: paused;
+}
+
+.tech-pill {
+  border-color: var(--border);
+  transition:
+    transform .4s cubic-bezier(.22, 1, .36, 1),
+    border-color .4s ease,
+    box-shadow .4s ease;
+}
+
+.tech-pill:hover {
+  transform: translateY(-5px) scale(1.05);
+  border-color: color-mix(
+    in srgb,
+    var(--pill-color, var(--text-primary)) 55%,
+    var(--border)
+  );
+  box-shadow: 0 18px 44px -14px color-mix(
+    in srgb,
+    var(--pill-color, #000) 42%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-marquee__track {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tech-marquee__track .tech-pill[data-dup="true"] {
+    display: none;
+  }
+  .tech-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

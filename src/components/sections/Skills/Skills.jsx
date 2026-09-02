@@ -1,22 +1,11 @@
-import { useContext } from "react";
-
-import PortfolioContext from "../../../contexts/PortfolioContext";
-
 import Container from "../../ui/Container";
 import Heading from "../../ui/Heading";
 
-import SkillCard from "./SkillCard";
+import TechMarquee from "./TechMarquee";
 
 
 
 export default function Skills() {
-
-
-  const {
-    skills,
-  } = useContext(PortfolioContext);
-
-
 
 
   return (
@@ -52,49 +41,16 @@ export default function Skills() {
         />
 
 
-
-
-
-
-        <div
-
-          className="
-            mt-24
-            grid
-            gap-6
-            sm:grid-cols-2
-            lg:grid-cols-3
-          "
-
-        >
-
-
-          {
-            skills?.map(
-
-              (skill,index)=>(
-
-                <SkillCard
-
-                  key={skill.id}
-
-                  skill={skill}
-
-                  index={index}
-
-                />
-
-              )
-
-            )
-          }
-
-
-        </div>
-
-
-
       </Container>
+
+
+
+
+      <div className="mt-20">
+
+        <TechMarquee />
+
+      </div>
 
 
     </section>
