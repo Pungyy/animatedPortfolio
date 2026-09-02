@@ -145,6 +145,9 @@ export default function Navbar() {
             href="/"
 
             className="
+              flex
+              items-center
+              gap-2
               text-lg
               font-semibold
               tracking-tight
@@ -161,6 +164,19 @@ export default function Navbar() {
                 "IA."
             }
 
+            {
+              settings?.available && (
+
+                <span
+                  className="relative flex h-2 w-2"
+                  title="Disponible pour un poste"
+                >
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+
+              )
+            }
 
           </a>
 

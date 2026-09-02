@@ -4,6 +4,7 @@ import {
 
 
 import Button from "../../ui/Button";
+import AvailabilityBadge from "../../ui/AvailabilityBadge";
 
 import usePortfolio from "../../../hooks/usePortfolio";
 
@@ -58,26 +59,27 @@ export default function HeroContent() {
 
 
 
-      <p
-
-        className="
-          mb-6
-          text-sm
-          font-medium
-          uppercase
-          tracking-[0.4em]
-
-          text-[var(--text-secondary)]
-
-          opacity-70
-        "
-
-      >
-
-        Portfolio
-
-
-      </p>
+      {
+        settings.available
+          ? (
+            <AvailabilityBadge className="mb-8" />
+          )
+          : (
+            <p
+              className="
+                mb-6
+                text-sm
+                font-medium
+                uppercase
+                tracking-[0.4em]
+                text-[var(--text-secondary)]
+                opacity-70
+              "
+            >
+              Portfolio
+            </p>
+          )
+      }
 
 
 

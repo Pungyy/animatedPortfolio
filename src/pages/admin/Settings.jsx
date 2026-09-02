@@ -11,6 +11,7 @@ import Textarea from "../../components/admin/ui/Textarea";
 import Button from "../../components/admin/ui/Button";
 import SectionTitle from "../../components/admin/ui/SectionTitle";
 import ProfileUploader from "../../components/admin/upload/ProfileUploader";
+import Toggle from "../../components/admin/ui/Toggle";
 
 import { toast } from "sonner";
 
@@ -82,6 +83,8 @@ export default function Settings() {
     const {
       name,
       value,
+      type,
+      checked,
     } = e.target;
 
 
@@ -90,7 +93,7 @@ export default function Settings() {
 
       ...prev,
 
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
 
     }));
 
@@ -205,6 +208,33 @@ export default function Settings() {
         "
 
       />
+
+
+
+
+
+
+
+      {/* DISPONIBILITE */}
+
+
+      <Card title="🟢 Disponibilité">
+
+        <Toggle
+
+          label="Disponible pour un poste"
+
+          description="Affiche un badge « Disponible » dans la navbar et le hero du portfolio."
+
+          name="available"
+
+          checked={!!settings.available}
+
+          onChange={handleChange}
+
+        />
+
+      </Card>
 
 
 
