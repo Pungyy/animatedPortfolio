@@ -73,8 +73,8 @@ export default function ExperienceItem({ experience, index }) {
       <div
         className={
           left
-            ? "md:order-1 md:flex md:justify-end"
-            : "md:order-2 md:flex md:justify-start"
+            ? "md:col-start-1 md:flex md:justify-end"
+            : "md:col-start-2 md:flex md:justify-start"
         }
       >
         <Content experience={experience} />

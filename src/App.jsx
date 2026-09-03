@@ -13,6 +13,9 @@ import Loader from "./components/ui/Loader";
 import PageTracker from "./components/analytics/PageTracker";
 
 
+import ScrollManager from "./components/common/ScrollManager";
+
+
 import {
   updateSessionDuration,
   endSession,
@@ -168,6 +171,8 @@ export default function App(){
   return (
 
     <>
+
+      <ScrollManager />
 
       <PageTracker />
 
