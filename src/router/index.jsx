@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import Project from "../pages/Project";
 import NotFound from "../pages/NotFound";
 import Coulisses from "../pages/Coulisses";
+import Uses from "../pages/Uses";
 import Blog from "../pages/Blog";
 import BlogPost from "../pages/BlogPost";
 
@@ -86,6 +87,17 @@ export default function Router() {
 
         element={
           <Coulisses />
+        }
+
+      />
+
+
+      <Route
+
+        path="/uses"
+
+        element={
+          <Uses />
         }
 
       />

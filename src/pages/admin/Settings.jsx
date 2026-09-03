@@ -665,7 +665,27 @@ export default function Settings() {
 
 
 
+      <Card title="🧰 Uses / Setup">
 
+        <Textarea
+
+          label="Contenu (Markdown)"
+
+          name="uses_md"
+
+          rows={12}
+
+          value={settings.uses_md || ""}
+
+          onChange={handleChange}
+
+          placeholder={"## Éditeur\n\n- VS Code\n- ..."}
+
+          hint="Affiché sur /uses. Vide = la page reste accessible mais montre « Bientôt »."
+
+        />
+
+      </Card>
 
 
 

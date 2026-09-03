@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prebuild": "node scripts/generate-sitemap.mjs"
+    "prebuild": "node scripts/generate-sitemap.mjs && node scripts/generate-rss.mjs"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",

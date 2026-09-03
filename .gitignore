@@ -44,3 +44,4 @@ Thumbs.db
 coverage/
 # generated at build
 public/sitemap.xml
+public/rss.xml
