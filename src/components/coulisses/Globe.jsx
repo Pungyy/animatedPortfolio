@@ -1,4 +1,11 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import GlobeGL from "react-globe.gl";
 import * as THREE from "three";
 
@@ -94,6 +101,49 @@ export default function Globe({ countries = [] }) {
     []
   );
 
+  // Halo doux (dégradé radial) partagé par tous les marqueurs.
+  const glowTexture = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const ctx = c.getContext("2d");
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+    g.addColorStop(0.28, `rgba(${accentRgb}, 0.55)`);
+    g.addColorStop(1, `rgba(${accentRgb}, 0)`);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  }, [accentRgb]);
+
+  // Marqueur : cœur blanc lumineux + halo coloré additif (rendu « étoile »).
+  const buildMarker = useCallback(
+    (d) => {
+      const group = new THREE.Group();
+
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.8 + d.weight * 0.7, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0xffffff })
+      );
+      group.add(core);
+
+      const glow = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: glowTexture,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          opacity: dark ? 0.95 : 0.7,
+        })
+      );
+      const s = 6 + d.weight * 5;
+      glow.scale.set(s, s, 1);
+      group.add(glow);
+
+      return group;
+    },
+    [glowTexture, dark]
+  );
+
   useEffect(() => {
     let ignore = false;
     fetch("/world-110m.geojson")
@@ -174,24 +224,21 @@ export default function Globe({ countries = [] }) {
           arcDashInitialGap={() => Math.random()}
           arcDashAnimateTime={reduceMotion ? 0 : 3000}
           arcsTransitionDuration={reduceMotion ? 0 : 1200}
-          pointsData={globePoints}
-          pointLat="lat"
-          pointLng="lng"
-          pointColor={() => accent}
-          pointAltitude={(d) => 0.015 + d.weight * 0.16}
-          pointRadius={(d) => 0.32 + d.weight * 0.55}
-          pointResolution={14}
-          pointsMerge={false}
-          pointLabel={(d) =>
+          objectsData={globePoints}
+          objectLat="lat"
+          objectLng="lng"
+          objectAltitude={0.008}
+          objectThreeObject={buildMarker}
+          objectLabel={(d) =>
             d.count ? `${d.country} · ${d.count}` : d.country
           }
-          ringsData={globePoints}
+          ringsData={reduceMotion ? [] : globePoints}
           ringLat="lat"
           ringLng="lng"
-          ringColor={() => (t) => `rgba(${accentRgb}, ${1 - t})`}
-          ringMaxRadius={(d) => 2.5 + d.weight * 3.5}
-          ringPropagationSpeed={1.6}
-          ringRepeatPeriod={1500}
+          ringColor={() => (t) => `rgba(${accentRgb}, ${0.45 * (1 - t)})`}
+          ringMaxRadius={(d) => 1.8 + d.weight * 2.2}
+          ringPropagationSpeed={1.1}
+          ringRepeatPeriod={2200}
         />
       )}
     </div>
