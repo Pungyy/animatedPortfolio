@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import Drawer from "../ui/Drawer";
-import Button from "../ui/Button";
+import DrawerFooter from "../ui/DrawerFooter";
 
 import SkillForm from "./SkillForm";
 
@@ -209,59 +209,11 @@ export default function SkillDrawer({
 
 
 
-      <div
-        className="
-          mt-10
-          flex
-          justify-end
-          gap-4
-        "
-      >
-
-
-        <button
-
-          onClick={onClose}
-
-          className="
-            rounded-xl
-            border
-            border-[var(--border)]
-            px-6
-            py-3
-            text-[var(--text-secondary)]
-            hover:bg-[var(--surface-muted)]
-          "
-
-        >
-
-          Annuler
-
-        </button>
-
-
-
-
-
-        <Button
-
-          onClick={handleSubmit}
-
-          disabled={saving}
-
-        >
-
-          {
-            saving
-              ? "Enregistrement..."
-              : "Enregistrer"
-          }
-
-
-        </Button>
-
-
-      </div>
+      <DrawerFooter
+        onCancel={onClose}
+        onSubmit={handleSubmit}
+        saving={saving}
+      />
 
 
     </Drawer>

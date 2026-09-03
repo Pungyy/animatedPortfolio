@@ -286,26 +286,9 @@ export default function ContactDrawer({
 
 
 
-          <button
-
-            onClick={onClose}
-
-            className="
-              rounded-xl
-              border
-              border-[var(--border)]
-              px-5
-              py-3
-              text-[var(--text-secondary)]
-              transition
-              hover:bg-[var(--surface-muted)]
-            "
-
-          >
-
+          <Button variant="secondary" onClick={onClose}>
             Fermer
-
-          </button>
+          </Button>
 
 
 

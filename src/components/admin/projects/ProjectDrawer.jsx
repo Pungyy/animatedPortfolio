@@ -701,33 +701,9 @@ export default function ProjectDrawer({
 
 
 
-          <button
-
-
-            onClick={onClose}
-
-
-            className="
-              w-full
-              rounded-xl
-              border
-              border-[var(--border)]
-              px-6
-              py-3
-              text-[var(--text-secondary)]
-              transition
-              hover:bg-[var(--surface-muted)]
-
-              sm:w-auto
-            "
-
-
-          >
-
+          <Button variant="secondary" onClick={onClose} className="w-full sm:w-auto">
             Annuler
-
-
-          </button>
+          </Button>
 
 
 
