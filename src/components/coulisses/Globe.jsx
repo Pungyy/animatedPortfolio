@@ -8,6 +8,11 @@ import { COUNTRY_COORDS } from "./countryCoords";
 const ACCENT_DARK = "#a78bfa";
 const ACCENT_LIGHT = "#2563eb";
 
+// Point d'ancrage : toutes les lignes convergent vers la France.
+const HOME = { lat: 46.6, lng: 2.2 };
+const isHome = (p) =>
+  Math.abs(p.lat - HOME.lat) < 1.5 && Math.abs(p.lng - HOME.lng) < 1.5;
+
 export default function Globe({ countries = [] }) {
   const wrapRef = useRef(null);
   const globeRef = useRef(null);
@@ -15,6 +20,12 @@ export default function Globe({ countries = [] }) {
   const dark = theme === "dark";
   const accent = dark ? ACCENT_DARK : ACCENT_LIGHT;
   const accentRgb = dark ? "167, 139, 250" : "37, 99, 235";
+
+  const [reduceMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 
   const [size, setSize] = useState(0);
   const [land, setLand] = useState([]);
@@ -44,6 +55,31 @@ export default function Globe({ countries = [] }) {
       })
       .filter(Boolean);
   }, [countries]);
+
+  // Un point visible pour le hub, même s'il n'y a pas de visiteur français.
+  const globePoints = useMemo(() => {
+    if (points.some(isHome)) return points;
+    return [
+      ...points,
+      { lat: HOME.lat, lng: HOME.lng, country: "France", count: 0, weight: 1 },
+    ];
+  }, [points]);
+
+  // Une ligne de chaque pays visiteur vers le hub.
+  const arcs = useMemo(
+    () =>
+      points
+        .filter((p) => !isHome(p))
+        .slice(0, 24)
+        .map((p) => ({
+          startLat: p.lat,
+          startLng: p.lng,
+          endLat: HOME.lat,
+          endLng: HOME.lng,
+          weight: p.weight,
+        })),
+    [points]
+  );
 
   // Matériau sombre (dark uniquement) — sphère éclairée pour détacher les
   // continents en pointillés du fond. En clair on garde la vraie texture.
@@ -84,21 +120,17 @@ export default function Globe({ countries = [] }) {
     const g = globeRef.current;
     if (!g || !ready) return;
 
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
     const controls = g.controls();
     controls.enableZoom = true;
     controls.minDistance = 185;
     controls.maxDistance = 460;
     controls.enablePan = false;
-    controls.autoRotate = !reduce;
+    controls.autoRotate = !reduceMotion;
     controls.autoRotateSpeed = 0.5;
     controls.rotateSpeed = 0.6;
 
     g.pointOfView({ lat: 20, lng: 6, altitude: 2.4 }, 0);
-  }, [ready]);
+  }, [ready, reduceMotion]);
 
   return (
     <div
@@ -126,7 +158,23 @@ export default function Globe({ countries = [] }) {
           hexPolygonUseDots
           hexPolygonAltitude={0.003}
           hexPolygonColor={() => `rgba(${accentRgb}, 0.55)`}
-          pointsData={points}
+          arcsData={arcs}
+          arcStartLat="startLat"
+          arcStartLng="startLng"
+          arcEndLat="endLat"
+          arcEndLng="endLng"
+          arcColor={() => [
+            `rgba(${accentRgb}, 0.05)`,
+            `rgba(${accentRgb}, 0.55)`,
+          ]}
+          arcStroke={(d) => 0.28 + d.weight * 0.4}
+          arcAltitudeAutoScale={0.42}
+          arcDashLength={0.45}
+          arcDashGap={1}
+          arcDashInitialGap={() => Math.random()}
+          arcDashAnimateTime={reduceMotion ? 0 : 3000}
+          arcsTransitionDuration={reduceMotion ? 0 : 1200}
+          pointsData={globePoints}
           pointLat="lat"
           pointLng="lng"
           pointColor={() => accent}
@@ -134,8 +182,10 @@ export default function Globe({ countries = [] }) {
           pointRadius={(d) => 0.32 + d.weight * 0.55}
           pointResolution={14}
           pointsMerge={false}
-          pointLabel={(d) => `${d.country} · ${d.count}`}
-          ringsData={points}
+          pointLabel={(d) =>
+            d.count ? `${d.country} · ${d.count}` : d.country
+          }
+          ringsData={globePoints}
           ringLat="lat"
           ringLng="lng"
           ringColor={() => (t) => `rgba(${accentRgb}, ${1 - t})`}
