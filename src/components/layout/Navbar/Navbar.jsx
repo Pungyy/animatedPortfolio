@@ -47,6 +47,10 @@ const navigation = [
     href:"/blog",
   },
   {
+    label:"Coulisses",
+    href:"/coulisses",
+  },
+  {
     label:"Contact",
     href:"#contact",
   },
@@ -199,7 +203,7 @@ export default function Navbar() {
             className="
               hidden
               items-center
-              gap-8
+              gap-6
               lg:flex
             "
 
