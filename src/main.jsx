@@ -9,6 +9,8 @@ import {
   Toaster,
 } from "sonner";
 
+import { MotionConfig } from "framer-motion";
+
 
 import App from "./App";
 
@@ -34,6 +36,8 @@ ReactDOM.createRoot(
 .render(
 
   <React.StrictMode>
+
+    <MotionConfig reducedMotion="user">
 
 
     <BrowserRouter>
@@ -73,6 +77,7 @@ ReactDOM.createRoot(
 
     </BrowserRouter>
 
+    </MotionConfig>
 
   </React.StrictMode>
 

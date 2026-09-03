@@ -19,6 +19,8 @@ import {
   getProjectBySlug,
 } from "../services/projects.service";
 
+import Seo from "../components/common/Seo";
+
 
 
 import ProjectHero from "../components/projects/ProjectHero";
@@ -238,6 +240,13 @@ export default function Project() {
       "
 
     >
+
+      <Seo
+        title={project.title}
+        description={project.short_description || undefined}
+        image={project.cover_image || undefined}
+        type="article"
+      />
 
 
 

@@ -7,6 +7,7 @@ import MainLayout from "../layouts/MainLayout";
 import Container from "../components/ui/Container";
 import Loader from "../components/ui/Loader";
 import Markdown from "../components/blog/Markdown";
+import Seo from "../components/common/Seo";
 
 import { getPostBySlug } from "../services/posts.service";
 import useAnalytics from "../hooks/useAnalytics";
@@ -60,6 +61,13 @@ export default function BlogPost() {
 
   return (
     <MainLayout>
+      <Seo
+        title={post.title}
+        description={post.excerpt || undefined}
+        image={post.cover_image || undefined}
+        type="article"
+      />
+
       <article className="bg-[var(--background)] py-20 sm:py-32">
         <Container>
           <div className="mx-auto max-w-2xl">

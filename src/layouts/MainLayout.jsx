@@ -5,9 +5,11 @@ import MusicPlayer from "../components/ui/MusicPlayer";
 export default function MainLayout({ children }) {
   return (
     <>
+      <a href="#main" className="skip-link">Aller au contenu</a>
+
       <Navbar />
 
-      <main>
+      <main id="main">
         {children}
       </main>
 

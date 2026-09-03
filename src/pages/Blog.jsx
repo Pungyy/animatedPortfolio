@@ -6,6 +6,7 @@ import MainLayout from "../layouts/MainLayout";
 import Container from "../components/ui/Container";
 import Heading from "../components/ui/Heading";
 
+import Seo from "../components/common/Seo";
 import { getPublishedPosts } from "../services/posts.service";
 import useAnalytics from "../hooks/useAnalytics";
 
@@ -45,6 +46,11 @@ export default function Blog() {
 
   return (
     <MainLayout>
+      <Seo
+        title="Blog"
+        description="Notes techniques : dev, produit, outillage. Ce que j'apprends en construisant des choses."
+      />
+
       <section className="bg-[var(--background)] py-24 sm:py-40">
         <Container>
           <Heading

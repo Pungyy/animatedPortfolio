@@ -5,6 +5,7 @@ import MainLayout from "../layouts/MainLayout";
 import Container from "../components/ui/Container";
 import Heading from "../components/ui/Heading";
 
+import Seo from "../components/common/Seo";
 import { getPublicStats } from "../services/stats.service";
 import useAnalytics from "../hooks/useAnalytics";
 
@@ -59,6 +60,11 @@ export default function Coulisses() {
 
   return (
     <MainLayout>
+      <Seo
+        title="Coulisses"
+        description="L'analytics maison de ce portfolio, en lecture seule  sans Google Analytics, sans cookie tiers."
+      />
+
       <section className="bg-[var(--background)] py-24 sm:py-40">
         <Container>
           <Heading

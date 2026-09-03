@@ -5,12 +5,15 @@ import MainLayout from "../layouts/MainLayout";
 import Container from "../components/ui/Container";
 import Button from "../components/ui/Button";
 import useAnalytics from "../hooks/useAnalytics";
+import Seo from "../components/common/Seo";
 
 export default function NotFound() {
   useAnalytics("/404");
 
   return (
     <MainLayout>
+      <Seo title="Page introuvable" noindex />
+
       <section className="flex min-h-[75vh] items-center bg-[var(--background)] py-32">
         <Container>
           <motion.div
