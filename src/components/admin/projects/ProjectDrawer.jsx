@@ -90,6 +90,15 @@ const emptyProject = {
   status: "",
 
 
+  context: "",
+
+
+  contribution: "",
+
+
+  outcome: "",
+
+
   technologies: [],
 
 

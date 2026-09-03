@@ -312,6 +312,37 @@ export default function ProjectForm({
 
 
 
+      <Divider title="Étude de cas" />
+
+      <Textarea
+        label="Contexte"
+        name="context"
+        rows={3}
+        value={project.context || ""}
+        onChange={onChange}
+        placeholder="Le problème / la situation de départ."
+      />
+
+      <Textarea
+        label="Ma contribution"
+        name="contribution"
+        rows={3}
+        value={project.contribution || ""}
+        onChange={onChange}
+        placeholder="Ton rôle, ce que tu as fait concrètement."
+      />
+
+      <Textarea
+        label="Résultat"
+        name="outcome"
+        rows={3}
+        value={project.outcome || ""}
+        onChange={onChange}
+        placeholder="L'impact, idéalement avec des chiffres."
+      />
+
+
+
       <Divider title="Publication" />
 
 

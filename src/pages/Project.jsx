@@ -394,11 +394,26 @@ export default function Project() {
           </section>
 
 
-
-
-
-
-
+          {(project.context || project.contribution || project.outcome) && (
+            <section className="grid gap-10 md:grid-cols-3">
+              {[
+                { label: "Contexte", value: project.context },
+                { label: "Ma contribution", value: project.contribution },
+                { label: "Résultat", value: project.outcome },
+              ]
+                .filter((x) => x.value)
+                .map((x) => (
+                  <div key={x.label}>
+                    <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+                      {x.label}
+                    </h3>
+                    <p className="mt-3 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">
+                      {x.value}
+                    </p>
+                  </div>
+                ))}
+            </section>
+          )}
 
 
           <ProjectTechnologies
