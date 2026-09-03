@@ -46,8 +46,9 @@ export async function getContacts() {
 export async function createContact(contact) {
 
 
+  // Pas de `.select()` après l'insert : l'anon n'a pas le droit de relire
+  // la table contacts (RLS). On vérifie seulement l'absence d'erreur.
   const {
-    data,
     error,
   } = await supabase
 
@@ -63,11 +64,7 @@ export async function createContact(contact) {
 
       read: false,
 
-    })
-
-    .select()
-
-    .single();
+    });
 
 
 
@@ -78,10 +75,6 @@ export async function createContact(contact) {
     throw error;
 
   }
-
-
-
-  return data;
 
 }
 

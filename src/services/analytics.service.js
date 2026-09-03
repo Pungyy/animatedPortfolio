@@ -161,24 +161,13 @@ export async function getSession() {
       data,
       error,
     } =
-      await supabase
-
-        .from(
-          "analytics_sessions"
-        )
-
-        .select("id")
-
-        .eq(
-          "id",
-          sessionId
-        )
-
-        .single();
+      await supabase.rpc("session_exists", {
+        p_id: sessionId,
+      });
 
 
     if (
-      data &&
+      data === true &&
       !error
     ) {
 
@@ -246,8 +235,13 @@ async function createSession() {
     await getLocation();
 
 
+  // On génère l'id côté client : l'anon n'a plus le droit de relire la
+  // table analytics_sessions, donc pas de `.select()` après l'insert.
+  const sessionId =
+    crypto.randomUUID();
+
+
   const {
-    data,
     error,
   } =
     await supabase
@@ -257,6 +251,9 @@ async function createSession() {
       )
 
       .insert({
+
+        id:
+          sessionId,
 
         visitor_id:
           getVisitorId(),
@@ -303,11 +300,7 @@ async function createSession() {
         region:
           location.region,
 
-      })
-
-      .select()
-
-      .single();
+      });
 
 
   if (error) {
@@ -325,7 +318,7 @@ async function createSession() {
 
   localStorage.setItem(
     "analytics_session",
-    data.id
+    sessionId
   );
 
 
@@ -335,7 +328,7 @@ async function createSession() {
   );
 
 
-  return data.id;
+  return sessionId;
 
 }
 
@@ -578,20 +571,11 @@ export function trackAction(event_type, detail = null, project_id = null) {
 export function endSession() {
   try {
     const sessionId = localStorage.getItem("analytics_session");
-    const started = Number(localStorage.getItem("analytics_started"));
+    if (!sessionId) return;
 
-    if (!sessionId || !started) return;
-
-    const duration = Math.max(
-      0,
-      Math.round((Date.now() - started) / 1000)
-    );
-
-    keepaliveFetch(
-      "analytics_sessions?id=eq." + sessionId,
-      "PATCH",
-      { duration, ended_at: new Date().toISOString() }
-    );
+    // La durée est calculée côté serveur (now() - started_at) via la RPC :
+    // l'anon ne peut plus modifier analytics_sessions directement.
+    keepaliveFetch("rpc/close_session", "POST", { p_session_id: sessionId });
   } catch (error) {
     console.error("endSession error", error);
   }
@@ -599,111 +583,19 @@ export function endSession() {
 
 
 /**
- * Mise à jour durée session
+ * Mise à jour durée session — la RPC recalcule la durée côté serveur.
  */
 export async function updateSessionDuration() {
+  const sessionId = localStorage.getItem("analytics_session");
+  if (!sessionId) return;
 
-  const sessionId =
-    localStorage.getItem(
-      "analytics_session"
-    );
+  const { error } = await supabase.rpc("touch_session", {
+    p_session_id: sessionId,
+  });
 
-
-  if (!sessionId)
-    return;
-
-
-  const {
-    data: session,
-    error: fetchError,
+  if (error) {
+    console.error("❌ Duration update error", error);
   }
-    =
-    await supabase
-
-      .from(
-        "analytics_sessions"
-      )
-
-      .select(
-        "started_at"
-      )
-
-      .eq(
-        "id",
-        sessionId
-      )
-
-      .single();
-
-
-  if (
-    fetchError ||
-    !session
-  ) {
-
-    console.error(
-      "❌ Impossible de récupérer la session",
-      fetchError
-    );
-
-
-    return;
-
-  }
-
-
-  const duration =
-    Math.floor(
-
-      (
-        Date.now()
-        -
-        new Date(
-          session.started_at
-        ).getTime()
-      )
-      /
-      1000
-
-    );
-
-
-  const {
-    error: updateError,
-  }
-    =
-    await supabase
-
-      .from(
-        "analytics_sessions"
-      )
-
-      .update({
-
-        duration,
-
-      })
-
-      .eq(
-        "id",
-        sessionId
-      )
-
-      .select();
-
-
-  if (updateError) {
-
-    console.error(
-      "❌ Duration update error",
-      updateError
-    );
-
-
-    return;
-
-  }
-
 }
 
 
