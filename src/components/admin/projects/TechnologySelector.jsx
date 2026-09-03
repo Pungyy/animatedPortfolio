@@ -1,101 +1,73 @@
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
+
 import { getTechnologies } from "../../../services/technologies.service";
+import TechnologyIcon from "../../ui/TechnologyIcon";
 
-
-export default function TechnologySelector({
-  selected = [],
-  onChange,
-}) {
+export default function TechnologySelector({ selected = [], onChange }) {
   const [technologies, setTechnologies] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
-    async function load() {
+    let ignore = false;
+
+    (async () => {
       try {
         const data = await getTechnologies();
-        setTechnologies(data);
+        if (!ignore) setTechnologies(data);
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
-    }
+    })();
 
-    load();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
-
-
-  function toggleTechnology(id) {
-    if (selected.includes(id)) {
-      onChange(
-        selected.filter((techId) => techId !== id)
-      );
-    } else {
-      onChange([
-        ...selected,
-        id,
-      ]);
-    }
-  }
-
-
-
-  if (loading) {
-    return (
-      <div className="text-sm text-[var(--text-secondary)]">
-        Chargement des technologies...
-      </div>
+  function toggle(id) {
+    onChange(
+      selected.includes(id)
+        ? selected.filter((techId) => techId !== id)
+        : [...selected, id]
     );
   }
 
-
+  if (loading) {
+    return (
+      <p className="text-sm text-[var(--text-muted)]">
+        Chargement des technologies...
+      </p>
+    );
+  }
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-wrap gap-2">
+      {technologies.map((tech) => {
+        const active = selected.includes(tech.id);
 
-      <h3 className="text-sm font-medium text-[var(--text-primary)]">
-        Technologies utilisées
-      </h3>
-
-
-      <div className="grid gap-3 md:grid-cols-2">
-
-        {technologies.map((tech) => (
-          <label
+        return (
+          <button
             key={tech.id}
-            className="
-              flex
-              cursor-pointer
-              items-center
-              gap-3
-              rounded-xl
-              border
-              border-[var(--border)]
-              bg-[var(--surface)]
-              p-3
-              transition
-              hover:border-[var(--border)]
-            "
+            type="button"
+            onClick={() => toggle(tech.id)}
+            className={
+              "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition " +
+              (active
+                ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]"
+                : "border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--text-muted)]")
+            }
           >
-
-            <input
-              type="checkbox"
-              checked={selected.includes(tech.id)}
-              onChange={() => toggleTechnology(tech.id)}
-            />
-
-
-            <span className="text-sm text-[var(--text-primary)]">
-              {tech.name}
+            <span style={{ color: active ? undefined : tech.color }}>
+              <TechnologyIcon name={tech.icon} size={14} />
             </span>
-
-          </label>
-        ))}
-
-      </div>
-
+            {tech.name}
+            {active && <Check size={13} />}
+          </button>
+        );
+      })}
     </div>
   );
 }
