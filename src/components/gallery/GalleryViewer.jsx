@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useCallback } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-import GalleryControls from "./GalleryControls";
-import GalleryCounter from "./GalleryCounter";
+// Fond sombre + bord clair : le bouton reste visible même par-dessus une
+// image à fond blanc.
+const BTN =
+  "flex items-center justify-center rounded-full bg-black/60 text-white ring-1 ring-white/25 shadow-[0_2px_14px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:bg-black/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white";
 
 export default function GalleryViewer({
   open,
@@ -12,267 +15,169 @@ export default function GalleryViewer({
   setCurrentIndex,
   close,
 }) {
-  const totalImages = images.length;
+  const total = images.length;
+  const currentImage =
+    currentIndex >= 0 && currentIndex < total ? images[currentIndex] : null;
 
-  const currentImage = useMemo(() => {
-    if (currentIndex < 0 || currentIndex >= totalImages) {
-      return null;
-    }
+  const previous = useCallback(
+    () => setCurrentIndex((i) => (i <= 0 ? total - 1 : i - 1)),
+    [setCurrentIndex, total]
+  );
 
-    return images[currentIndex];
-  }, [images, currentIndex, totalImages]);
-
-  const previous = useCallback(() => {
-    setCurrentIndex((index) =>
-      index <= 0 ? totalImages - 1 : index - 1
-    );
-  }, [setCurrentIndex, totalImages]);
-
-  const next = useCallback(() => {
-    setCurrentIndex((index) =>
-      index >= totalImages - 1 ? 0 : index + 1
-    );
-  }, [setCurrentIndex, totalImages]);
+  const next = useCallback(
+    () => setCurrentIndex((i) => (i >= total - 1 ? 0 : i + 1)),
+    [setCurrentIndex, total]
+  );
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
+    if (!open) return;
 
-    const handleKeyDown = (event) => {
-      switch (event.key) {
-        case "Escape":
-          close();
-          break;
-
-        case "ArrowLeft":
-          previous();
-          break;
-
-        case "ArrowRight":
-          next();
-          break;
-
-        default:
-          break;
-      }
+    const onKey = (event) => {
+      if (event.key === "Escape") close();
+      else if (event.key === "ArrowLeft") previous();
+      else if (event.key === "ArrowRight") next();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open, close, previous, next]);
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
+    if (!open) return;
 
     const previousOverflow = document.body.style.overflow;
-
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
 
   useEffect(() => {
-    if (!currentImage) {
-      return;
-    }
+    if (!currentImage || total < 2) return;
 
-    const preload = [];
+    [(currentIndex + 1) % total, (currentIndex - 1 + total) % total].forEach(
+      (i) => {
+        const img = new Image();
+        img.src = images[i].image_url;
+      }
+    );
+  }, [currentImage, currentIndex, images, total]);
 
-    const previousIndex =
-      currentIndex === 0
-        ? totalImages - 1
-        : currentIndex - 1;
-
-    const nextIndex =
-      currentIndex === totalImages - 1
-        ? 0
-        : currentIndex + 1;
-
-    [previousIndex, nextIndex].forEach((index) => {
-      const img = new Image();
-      img.src = images[index].image_url;
-      preload.push(img);
-    });
-
-    return () => {
-      preload.length = 0;
-    };
-  }, [currentImage, currentIndex, images, totalImages]);
-
-  if (typeof document === "undefined") {
-    return null;
-  }
+  if (typeof document === "undefined") return null;
 
   return createPortal(
     <AnimatePresence>
       {open && currentImage && (
-                <motion.div
-          className="
-            fixed
-            inset-0
-            z-[9999]
-            flex
-            items-center
-            justify-center
-            bg-black/75
-            backdrop-blur-2xl
-            p-6
-          "
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galerie du projet"
+          className="fixed inset-0 z-[9999] flex flex-col bg-black/95"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{
-            duration: 0.25,
-          }}
+          transition={{ duration: 0.2 }}
           onClick={close}
         >
-          <motion.div
-            className="
-              relative
-              flex
-              h-full
-              w-full
-              max-w-7xl
-              items-center
-              justify-center
-            "
-            initial={{
-              opacity: 0,
-              scale: 0.95,
-              y: 30,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.95,
-              y: 20,
-            }}
-            transition={{
-              duration: 0.35,
-              ease: "easeOut",
-            }}
+          {/* Barre du haut */}
+          <div
+            className="flex shrink-0 items-center justify-between px-4 py-3 sm:px-6"
             onClick={(event) => event.stopPropagation()}
           >
-            <GalleryControls
-              onPrevious={previous}
-              onNext={next}
-              onClose={close}
-            />
+            <span className="text-xs font-medium tabular-nums tracking-[0.15em] text-white/55">
+              {String(currentIndex + 1).padStart(2, "0")}
+              <span className="mx-1.5 text-white/25">/</span>
+              {String(total).padStart(2, "0")}
+            </span>
 
-            <GalleryCounter
-              current={currentIndex + 1}
-              total={totalImages}
-            />
-
-            <motion.div
-              key={currentImage.id ?? currentImage.image_url}
-              className="
-                relative
-                flex
-                max-h-full
-                max-w-full
-                items-center
-                justify-center
-                overflow-hidden
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/[0.03]
-                shadow-2xl
-              "
-              initial={{
-                opacity: 0,
-                scale: 0.96,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.96,
-              }}
-              transition={{
-                duration: 0.25,
-              }}
+            <button
+              type="button"
+              onClick={close}
+              className={`${BTN} h-9 w-9`}
+              aria-label="Fermer"
             >
-              <img
-                src={currentImage.image_url}
-                alt={
-                  currentImage.alt ??
-                  currentImage.title ??
-                  `Image ${currentIndex + 1}`
-                }
-                draggable={false}
-                className="
-                  max-h-[85vh]
-                  max-w-[92vw]
-                  select-none
-                  object-contain
-                "
-              />
-            </motion.div>
-                        {totalImages > 1 && (
-              <div
-                className="
-                  absolute
-                  bottom-8
-                  left-1/2
-                  flex
-                  -translate-x-1/2
-                  gap-3
-                  overflow-x-auto
-                  rounded-2xl
-                  border
-                  border-white/10
-                  bg-black/40
-                  p-3
-                  backdrop-blur-xl
-                "
-              >
-                {images.map((image, index) => (
+              <X size={17} />
+            </button>
+          </div>
+
+          {/* Image */}
+          <div
+            className="relative flex min-h-0 flex-1 items-center justify-center px-3 pb-2 sm:px-20"
+            onClick={close}
+          >
+            <motion.img
+              key={currentImage.id ?? currentImage.image_url}
+              src={currentImage.image_url}
+              alt={currentImage.alt ?? `Aperçu ${currentIndex + 1}`}
+              draggable={false}
+              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.985 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className="max-h-full max-w-full select-none rounded-lg object-contain shadow-2xl"
+            />
+
+            {total > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    previous();
+                  }}
+                  className={`${BTN} absolute left-1.5 top-1/2 h-10 w-10 -translate-y-1/2 sm:left-6 sm:h-11 sm:w-11`}
+                  aria-label="Image précédente"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    next();
+                  }}
+                  className={`${BTN} absolute right-1.5 top-1/2 h-10 w-10 -translate-y-1/2 sm:right-6 sm:h-11 sm:w-11`}
+                  aria-label="Image suivante"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Miniatures */}
+          {total > 1 && (
+            <div
+              className="shrink-0 overflow-x-auto px-4 py-3 sm:px-6"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="mx-auto flex w-max gap-2">
+                {images.map((image, i) => (
                   <button
                     key={image.id ?? image.image_url}
                     type="button"
-                    onClick={() => setCurrentIndex(index)}
-                    className={`
-                      relative
-                      h-16
-                      w-24
-                      overflow-hidden
-                      rounded-xl
-                      transition-all
-                      duration-300
-                      ${
-                        currentIndex === index
-                          ? "ring-2 ring-white scale-105"
-                          : "opacity-60 hover:opacity-100 hover:scale-105"
-                      }
-                    `}
+                    onClick={() => setCurrentIndex(i)}
+                    aria-label={`Aperçu ${i + 1}`}
+                    aria-current={i === currentIndex}
+                    className={
+                      "h-12 w-16 shrink-0 overflow-hidden rounded-md transition sm:h-14 sm:w-20 " +
+                      (i === currentIndex
+                        ? "ring-2 ring-white"
+                        : "opacity-40 hover:opacity-80")
+                    }
                   >
                     <img
                       src={image.image_url}
-                      alt={`Miniature ${index + 1}`}
+                      alt=""
                       draggable={false}
                       className="h-full w-full object-cover"
                     />
                   </button>
                 ))}
               </div>
-            )}
-          </motion.div>
+            </div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>,

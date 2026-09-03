@@ -107,34 +107,6 @@ section {
   scroll-margin-top: 120px;
 }
 
-.yarl__container {
-  backdrop-filter: blur(20px);
-}
-
-.yarl__backdrop {
-  background: rgba(10, 10, 10, 0.92) !important;
-}
-
-.yarl__toolbar {
-  padding: 20px;
-}
-
-.yarl__button {
-  transition: transform .25s ease;
-}
-
-.yarl__button:hover {
-  transform: scale(1.08);
-}
-
-.yarl__thumbnails_thumbnail {
-  border-radius: 12px;
-}
-
-.yarl__slide img {
-  border-radius: 18px;
-}
-
 
 /* ------------------------------------------------------------------ */
 /* Defilement infini des technologies (section Competences)            */
