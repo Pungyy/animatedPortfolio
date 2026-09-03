@@ -23,7 +23,7 @@ export default function Contact() {
       className="
         relative
         overflow-hidden
-        py-40
+        py-24 sm:py-40
         bg-[var(--background)]
       "
 

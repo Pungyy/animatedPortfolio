@@ -15,7 +15,7 @@ export default function Skills() {
       id="skills"
 
       className="
-        py-40
+        py-24 sm:py-40
         bg-[var(--background)]
       "
 

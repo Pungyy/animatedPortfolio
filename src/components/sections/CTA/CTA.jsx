@@ -36,7 +36,7 @@ export default function CTA() {
       className="
         relative
         overflow-hidden
-        py-40
+        py-24 sm:py-40
         bg-[var(--background)]
       "
 
@@ -194,9 +194,9 @@ export default function CTA() {
 
 
             className="
-              mt-8
+              mt-6
 
-              text-5xl
+              text-4xl
 
               font-semibold
 
@@ -205,6 +205,9 @@ export default function CTA() {
               tracking-tight
 
               text-[var(--text-primary)]
+
+              sm:mt-8
+              sm:text-5xl
 
               md:text-7xl
             "

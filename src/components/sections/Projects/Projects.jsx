@@ -34,7 +34,7 @@ export default function Projects() {
         mx-auto
         max-w-7xl
         px-6
-        py-40
+        py-24 sm:py-40
         bg-[var(--background)]
       "
 

@@ -75,7 +75,7 @@ export default function Stats() {
       className="
         relative
         overflow-hidden
-        py-32
+        py-20 sm:py-32
         bg-[var(--background)]
       "
 

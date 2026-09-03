@@ -60,7 +60,7 @@ export default function BlogPost() {
 
   return (
     <MainLayout>
-      <article className="bg-[var(--background)] py-32">
+      <article className="bg-[var(--background)] py-20 sm:py-32">
         <Container>
           <div className="mx-auto max-w-2xl">
             <Link

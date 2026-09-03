@@ -59,7 +59,7 @@ export default function Coulisses() {
 
   return (
     <MainLayout>
-      <section className="bg-[var(--background)] py-40">
+      <section className="bg-[var(--background)] py-24 sm:py-40">
         <Container>
           <Heading
             eyebrow="COULISSES"

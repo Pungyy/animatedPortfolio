@@ -305,7 +305,8 @@ export default function HeroVisual() {
 
                   absolute
 
-                  flex
+                  hidden
+                  lg:flex
                   items-center
                   gap-2
 
