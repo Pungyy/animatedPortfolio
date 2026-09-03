@@ -103,7 +103,7 @@ export default function Globe({ countries = [] }) {
   return (
     <div
       ref={wrapRef}
-      className="mx-auto aspect-square w-full max-w-[460px] overflow-hidden [&_canvas]:cursor-grab [&_canvas:active]:cursor-grabbing"
+      className="mx-auto aspect-square w-full max-w-[460px] overflow-hidden rounded-full [&_canvas]:cursor-grab [&_canvas:active]:cursor-grabbing"
     >
       {size > 0 && (
         <GlobeGL
