@@ -4,16 +4,17 @@ import createGlobe from "cobe";
 import ThemeContext from "../../contexts/ThemeContext";
 import { COUNTRY_COORDS } from "./countryCoords";
 
-const ACCENT_DARK = [0.545, 0.361, 0.965]; // #8b5cf6
+const ACCENT_DARK = [0.65, 0.5, 1]; // ~#8b5cf6, un peu poussé pour rester lisible
 const ACCENT_LIGHT = [0.145, 0.388, 0.922]; // #2563eb
 
 export default function Globe({ countries = [] }) {
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const { theme } = useContext(ThemeContext);
 
   const pointerInteracting = useRef(null);
   const pointerMovement = useRef(0);
-  const phiRef = useRef(4.2);
+  const phiRef = useRef(0.2);
 
   const [supported] = useState(() => {
     try {
@@ -25,15 +26,15 @@ export default function Globe({ countries = [] }) {
   });
 
   useEffect(() => {
-    if (!canvasRef.current || !supported) return;
+    if (!canvasRef.current || !containerRef.current || !supported) return;
 
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    let width = canvasRef.current.offsetWidth || 400;
+    let width = containerRef.current.offsetWidth || 380;
     const onResize = () => {
-      if (canvasRef.current) width = canvasRef.current.offsetWidth;
+      if (containerRef.current) width = containerRef.current.offsetWidth;
     };
     window.addEventListener("resize", onResize);
 
@@ -46,7 +47,7 @@ export default function Globe({ countries = [] }) {
         if (!loc) return null;
         return {
           location: loc,
-          size: 0.045 + ((c.count || 1) / maxCount) * 0.07,
+          size: 0.04 + ((c.count || 1) / maxCount) * 0.06,
         };
       })
       .filter(Boolean);
@@ -58,18 +59,18 @@ export default function Globe({ countries = [] }) {
         width: width * 2,
         height: width * 2,
         phi: phiRef.current,
-        theta: 0.28,
+        theta: 0.25,
         dark: dark ? 1 : 0,
-        diffuse: 1.1,
-        mapSamples: 14000,
-        mapBrightness: dark ? 5 : 8,
-        baseColor: dark ? [0.24, 0.24, 0.27] : [0.86, 0.86, 0.89],
+        diffuse: 1.2,
+        mapSamples: 16000,
+        mapBrightness: dark ? 6 : 3.2,
+        baseColor: dark ? [0.32, 0.32, 0.36] : [0.92, 0.92, 0.95],
         markerColor: dark ? ACCENT_DARK : ACCENT_LIGHT,
-        glowColor: dark ? [0.09, 0.09, 0.11] : [1, 1, 1],
+        glowColor: dark ? [0.55, 0.55, 0.62] : [0.85, 0.85, 0.9],
         markers,
         onRender: (state) => {
           if (!pointerInteracting.current && !reduce) {
-            phiRef.current += 0.0028;
+            phiRef.current += 0.0035;
           }
           state.phi = phiRef.current + pointerMovement.current;
           state.width = width * 2;
@@ -96,13 +97,15 @@ export default function Globe({ countries = [] }) {
   if (!supported) return null;
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[420px]">
+    <div
+      ref={containerRef}
+      className="relative mx-auto aspect-square w-full max-w-[380px]"
+    >
       <canvas
         ref={canvasRef}
         aria-label="Carte des visiteurs"
         onPointerDown={(e) => {
-          pointerInteracting.current =
-            e.clientX - pointerMovement.current;
+          pointerInteracting.current = e.clientX - pointerMovement.current;
           if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
         }}
         onPointerUp={() => {
@@ -120,7 +123,6 @@ export default function Globe({ countries = [] }) {
           }
         }}
         className="h-full w-full cursor-grab opacity-0 transition-opacity duration-700"
-        style={{ contain: "layout paint size" }}
       />
     </div>
   );
