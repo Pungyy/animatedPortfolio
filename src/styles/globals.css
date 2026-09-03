@@ -107,6 +107,14 @@ section {
   scroll-margin-top: 120px;
 }
 
+/* Scroll sans barre visible (filmstrip de la galerie, etc.) */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 
 /* ------------------------------------------------------------------ */
 /* Defilement infini des technologies (section Competences)            */

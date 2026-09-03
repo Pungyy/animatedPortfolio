@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -18,6 +18,8 @@ export default function GalleryViewer({
   const total = images.length;
   const currentImage =
     currentIndex >= 0 && currentIndex < total ? images[currentIndex] : null;
+
+  const activeThumbRef = useRef(null);
 
   const previous = useCallback(
     () => setCurrentIndex((i) => (i <= 0 ? total - 1 : i - 1)),
@@ -51,6 +53,15 @@ export default function GalleryViewer({
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
+
+  // Recentre la vignette active dans la bande.
+  useEffect(() => {
+    activeThumbRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [currentIndex]);
 
   useEffect(() => {
     if (!currentImage || total < 2) return;
@@ -98,7 +109,7 @@ export default function GalleryViewer({
 
           {/* Image */}
           <div
-            className="flex h-full w-full items-center justify-center px-4 py-16 sm:px-20"
+            className="absolute inset-0 flex items-center justify-center px-4 pb-28 pt-16 sm:px-24"
             onClick={close}
           >
             <motion.img
@@ -110,36 +121,73 @@ export default function GalleryViewer({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.18 }}
-              className="max-h-full w-auto max-w-5xl select-none rounded-lg object-contain shadow-2xl"
+              className="max-h-full w-auto max-w-4xl select-none rounded-xl object-contain shadow-2xl"
             />
+
+            {total > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    previous();
+                  }}
+                  className={`${BTN} absolute left-3 top-1/2 z-20 h-10 w-10 -translate-y-1/2 sm:left-5 sm:h-11 sm:w-11`}
+                  aria-label="Image précédente"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    next();
+                  }}
+                  className={`${BTN} absolute right-3 top-1/2 z-20 h-10 w-10 -translate-y-1/2 sm:right-5 sm:h-11 sm:w-11`}
+                  aria-label="Image suivante"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
           </div>
 
+          {/* Bande de vignettes */}
           {total > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  previous();
-                }}
-                className={`${BTN} absolute left-3 top-1/2 z-20 h-10 w-10 -translate-y-1/2 sm:left-6 sm:h-11 sm:w-11`}
-                aria-label="Image précédente"
-              >
-                <ChevronLeft size={20} />
-              </button>
-
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  next();
-                }}
-                className={`${BTN} absolute right-3 top-1/2 z-20 h-10 w-10 -translate-y-1/2 sm:right-6 sm:h-11 sm:w-11`}
-                aria-label="Image suivante"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </>
+            <div
+              className="absolute inset-x-0 bottom-0 z-20 pb-5 pt-2"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="no-scrollbar mx-auto flex max-w-[min(100%,32rem)] gap-1.5 overflow-x-auto px-4">
+                {images.map((image, i) => {
+                  const active = i === currentIndex;
+                  return (
+                    <button
+                      key={image.id ?? image.image_url}
+                      ref={active ? activeThumbRef : undefined}
+                      type="button"
+                      onClick={() => setCurrentIndex(i)}
+                      aria-label={`Aperçu ${i + 1}`}
+                      aria-current={active}
+                      className={
+                        "h-10 w-14 shrink-0 overflow-hidden rounded-md transition sm:h-11 sm:w-16 " +
+                        (active
+                          ? "opacity-100 ring-2 ring-white"
+                          : "opacity-35 hover:opacity-70")
+                      }
+                    >
+                      <img
+                        src={image.image_url}
+                        alt=""
+                        draggable={false}
+                        className="h-full w-full object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           )}
         </motion.div>
       )}
