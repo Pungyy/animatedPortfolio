@@ -23,7 +23,7 @@ export default function AboutCard() {
       {/* IMAGE */}
       <div className="overflow-hidden rounded-[40px] border border-[var(--border)] bg-[var(--surface-muted)] shadow-[var(--shadow-card)] sm:rounded-[48px]">
         {settings.profile_image ? (
-          <img
+          <img loading="lazy" decoding="async"
             src={settings.profile_image}
             alt="Profil"
             className="aspect-[4/5] w-full object-cover"

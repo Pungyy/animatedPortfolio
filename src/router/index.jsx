@@ -1,347 +1,73 @@
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 
-
-// Public
 import Home from "../pages/Home";
-import Project from "../pages/Project";
 import NotFound from "../pages/NotFound";
-import Coulisses from "../pages/Coulisses";
-import Uses from "../pages/Uses";
-import Blog from "../pages/Blog";
-import BlogPost from "../pages/BlogPost";
-
-
-// Auth
 import Login from "../pages/admin/Login";
-
-
-// Admin pages
-import Dashboard from "../pages/admin/Dashboard";
-import Projects from "../pages/admin/Projects";
-import Settings from "../pages/admin/Settings";
-import Skills from "../pages/admin/Skills";
-import Experiences from "../pages/admin/Experiences";
-import Contacts from "../pages/admin/Contacts";
-import Technologies from "../pages/admin/Technologies";
-import Analytics from "../pages/admin/Analytics";
-import Posts from "../pages/admin/Posts";
-import Testimonials from "../pages/admin/Testimonials";
-
-
-// Admin components
 import ProtectedRoute from "../components/admin/ProtectedRoute";
 
+// Public — split
+const Project = lazy(() => import("../pages/Project"));
+const Coulisses = lazy(() => import("../pages/Coulisses"));
+const Uses = lazy(() => import("../pages/Uses"));
+const Blog = lazy(() => import("../pages/Blog"));
+const BlogPost = lazy(() => import("../pages/BlogPost"));
 
-// Layout
-import AdminLayout from "../layouts/AdminLayout";
+// Admin — split (never loaded for public visitors)
+const AdminLayout = lazy(() => import("../layouts/AdminLayout"));
+const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
+const Projects = lazy(() => import("../pages/admin/Projects"));
+const Settings = lazy(() => import("../pages/admin/Settings"));
+const Skills = lazy(() => import("../pages/admin/Skills"));
+const Experiences = lazy(() => import("../pages/admin/Experiences"));
+const Contacts = lazy(() => import("../pages/admin/Contacts"));
+const Technologies = lazy(() => import("../pages/admin/Technologies"));
+const Analytics = lazy(() => import("../pages/admin/Analytics"));
+const Posts = lazy(() => import("../pages/admin/Posts"));
+const Testimonials = lazy(() => import("../pages/admin/Testimonials"));
 
-
-
-
-
+function Fallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
+      <span className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--border)] border-t-[var(--accent)]" />
+    </div>
+  );
+}
 
 export default function Router() {
-
-
   return (
-
-
-    <Routes>
-
-
-      {/* =========================
-          Portfolio public
-      ========================== */}
-
-
-      <Route
-
-        path="/"
-
-        element={
-          <Home />
-        }
-
-      />
-
-
-
-      <Route
-
-        path="/project/:slug"
-
-        element={
-          <Project />
-        }
-
-      />
-
-
-
-      <Route
-
-        path="/coulisses"
-
-        element={
-          <Coulisses />
-        }
-
-      />
-
-
-      <Route
-
-        path="/uses"
-
-        element={
-          <Uses />
-        }
-
-      />
-
-
-      <Route
-
-        path="/blog"
-
-        element={
-          <Blog />
-        }
-
-      />
-
-
-      <Route
-
-        path="/blog/:slug"
-
-        element={
-          <BlogPost />
-        }
-
-      />
-
-
-
-
-
-
-
-
-      {/* =========================
-          Authentication
-      ========================== */}
-
-
-      <Route
-
-        path="/admin/login"
-
-        element={
-          <Login />
-        }
-
-      />
-
-
-
-
-
-
-
-
-
-
-      {/* =========================
-          Administration protégée
-      ========================== */}
-
-
-      <Route
-
-
-        element={
-
-          <ProtectedRoute>
-
-            <AdminLayout />
-
-          </ProtectedRoute>
-
-        }
-
-
-      >
-
-
+    <Suspense fallback={<Fallback />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/project/:slug" element={<Project />} />
+        <Route path="/coulisses" element={<Coulisses />} />
+        <Route path="/uses" element={<Uses />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+
+        <Route path="/admin/login" element={<Login />} />
 
         <Route
-
-          path="/admin"
-
           element={
-            <Dashboard />
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
           }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/projects"
-
-          element={
-            <Projects />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/technologies"
-
-          element={
-            <Technologies />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/settings"
-
-          element={
-            <Settings />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/skills"
-
-          element={
-            <Skills />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/experiences"
-
-          element={
-            <Experiences />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/contacts"
-
-          element={
-            <Contacts />
-          }
-
-        />
-
-
-
-
-
-        <Route
-
-          path="/admin/analytics"
-
-          element={
-            <Analytics />
-          }
-
-        />
-
-
-
-        <Route
-
-          path="/admin/posts"
-
-          element={
-            <Posts />
-          }
-
-        />
-
-
-        <Route
-
-          path="/admin/testimonials"
-
-          element={
-            <Testimonials />
-          }
-
-        />
-
-
-
-      </Route>
-
-
-
-
-
-
-
-
-
-      {/* =========================
-          404
-      ========================== */}
-
-
-      <Route
-
-        path="*"
-
-        element={
-          <NotFound />
-        }
-
-      />
-
-
-
-    </Routes>
-
-
+        >
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/projects" element={<Projects />} />
+          <Route path="/admin/technologies" element={<Technologies />} />
+          <Route path="/admin/settings" element={<Settings />} />
+          <Route path="/admin/skills" element={<Skills />} />
+          <Route path="/admin/experiences" element={<Experiences />} />
+          <Route path="/admin/contacts" element={<Contacts />} />
+          <Route path="/admin/analytics" element={<Analytics />} />
+          <Route path="/admin/posts" element={<Posts />} />
+          <Route path="/admin/testimonials" element={<Testimonials />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
-
-
 }

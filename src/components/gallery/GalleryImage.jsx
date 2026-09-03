@@ -50,7 +50,7 @@ export default function GalleryImage({
       `}
     >
       {/* Image */}
-      <img
+      <img 
         src={image.image_url}
         alt={image.alt ?? `Image ${index + 1}`}
         loading="lazy"

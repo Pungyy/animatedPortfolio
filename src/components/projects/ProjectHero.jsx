@@ -337,7 +337,7 @@ export default function ProjectHero({
 
 
 
-              <img
+              <img loading="lazy" decoding="async"
 
 
                 src={project.cover_image}

@@ -81,7 +81,7 @@ export default function Blog() {
                 >
                   {post.cover_image && (
                     <div className="aspect-[16/9] overflow-hidden bg-[var(--surface-muted)]">
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={post.cover_image}
                         alt={post.title}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"

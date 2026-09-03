@@ -71,7 +71,7 @@ export default function Testimonials() {
 
               <figcaption className="mt-6 flex items-center gap-3">
                 {t.avatar_url ? (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={t.avatar_url}
                     alt={t.name}
                     className="h-10 w-10 rounded-full object-cover"

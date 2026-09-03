@@ -470,6 +470,8 @@ export default function MusicPlayer(){
 
       <audio
 
+        preload="none"
+
         ref={audioRef}
 
         src={track.src}

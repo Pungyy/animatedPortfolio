@@ -136,7 +136,7 @@ export default function BlogPost() {
             </motion.header>
 
             {post.cover_image && (
-              <img
+              <img loading="lazy" decoding="async"
                 src={post.cover_image}
                 alt={post.title}
                 className="mt-10 w-full rounded-[28px] border border-[var(--border)]"

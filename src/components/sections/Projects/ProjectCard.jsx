@@ -152,7 +152,7 @@ export default function ProjectCard({
             project.cover_image ? (
 
 
-              <motion.img
+              <motion.img loading="lazy" decoding="async"
 
 
                 src={project.cover_image}
