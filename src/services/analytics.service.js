@@ -508,21 +508,66 @@ export async function trackEvent({
 
 
 
-/**
- * Raccourci pour tracker une action (clic CV, lien projet, envoi contact...).
- */
+const REST_URL = import.meta.env.VITE_SUPABASE_URL;
+const REST_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+// A request that survives navigation (outbound link click, tab close...).
+// A normal supabase-js fetch is aborted when the page unloads, hence keepalive.
+function keepaliveFetch(pathAndQuery, method, body) {
+  if (!REST_URL || !REST_KEY) return false;
+
+  try {
+    fetch(REST_URL + "/rest/v1/" + pathAndQuery, {
+      method,
+      keepalive: true,
+      headers: {
+        apikey: REST_KEY,
+        Authorization: "Bearer " + REST_KEY,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify(body),
+    }).catch(() => {});
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Track a user action (CV click, project link, contact submit...).
+// Reads the session id synchronously and sends a keepalive request so it
+// still lands even if the page navigates right after the click.
 export function trackAction(event_type, detail = null, project_id = null) {
+  try {
+    const page = typeof window !== "undefined" ? window.location.pathname : "/";
+    const sessionId = localStorage.getItem("analytics_session");
+    const visitorId = localStorage.getItem("visitor_id");
 
-  return trackEvent({
-    event_type,
-    page:
-      typeof window !== "undefined"
-        ? window.location.pathname
-        : "/",
-    project_id,
-    detail,
-  });
+    const key = [sessionId, event_type, page, project_id || "none", detail || "none"].join("|");
+    const now = Date.now();
+    let last = null;
+    try { last = JSON.parse(localStorage.getItem("analytics_last_action") || "null"); } catch { last = null; }
+    if (last && last.key === key && now - last.time < 5000) return;
+    try { localStorage.setItem("analytics_last_action", JSON.stringify({ key, time: now })); } catch { /* ignore */ }
 
+    const payload = {
+      session_id: sessionId,
+      visitor_id: visitorId || null,
+      event_type,
+      page,
+      project_id,
+      detail,
+      referrer: document.referrer || "Direct",
+    };
+
+    if (sessionId && keepaliveFetch("analytics_events", "POST", payload)) {
+      return;
+    }
+
+    trackEvent({ event_type, page, project_id, detail });
+  } catch (error) {
+    console.error("trackAction error", error);
+  }
 }
 
 
@@ -530,47 +575,27 @@ export function trackAction(event_type, detail = null, project_id = null) {
 /**
  * Fermeture session
  */
-export async function endSession() {
+export function endSession() {
+  try {
+    const sessionId = localStorage.getItem("analytics_session");
+    const started = Number(localStorage.getItem("analytics_started"));
 
-  const sessionId =
-    localStorage.getItem(
-      "analytics_session"
+    if (!sessionId || !started) return;
+
+    const duration = Math.max(
+      0,
+      Math.round((Date.now() - started) / 1000)
     );
 
-
-  if (!sessionId)
-    return;
-
-
-  const {
-    error,
-  } =
-    await supabase.rpc(
-      "close_session",
-      {
-        session_id:
-          sessionId,
-
-        ended_time:
-          new Date(),
-      }
+    keepaliveFetch(
+      "analytics_sessions?id=eq." + sessionId,
+      "PATCH",
+      { duration, ended_at: new Date().toISOString() }
     );
-
-
-  if (error) {
-
-    console.error(
-      "❌ Fermeture session impossible",
-      error
-    );
-
-
-    return;
-
+  } catch (error) {
+    console.error("endSession error", error);
   }
-
 }
-
 
 
 /**

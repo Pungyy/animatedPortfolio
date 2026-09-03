@@ -84,7 +84,7 @@ export default function App(){
         document.visibilityState === "hidden"
       ){
 
-        updateSessionDuration();
+        endSession();
 
       }
 
