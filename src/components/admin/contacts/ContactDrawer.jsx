@@ -179,7 +179,7 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-[var(--text-primary)]0">
+          <p className="text-sm text-[var(--text-muted)]">
             Nom
           </p>
 
@@ -198,7 +198,7 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-[var(--text-primary)]0">
+          <p className="text-sm text-[var(--text-muted)]">
             Email
           </p>
 
@@ -219,7 +219,7 @@ export default function ContactDrawer({
 
           <div>
 
-            <p className="text-sm text-[var(--text-primary)]0">
+            <p className="text-sm text-[var(--text-muted)]">
               Sujet
             </p>
 
@@ -242,7 +242,7 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-[var(--text-primary)]0">
+          <p className="text-sm text-[var(--text-muted)]">
             Message
           </p>
 

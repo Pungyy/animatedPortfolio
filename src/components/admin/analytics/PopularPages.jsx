@@ -58,7 +58,7 @@ export default function PopularPages({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -94,7 +94,7 @@ export default function PopularPages({
 
               className="
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >

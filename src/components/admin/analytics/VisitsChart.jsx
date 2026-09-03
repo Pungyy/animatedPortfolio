@@ -72,7 +72,7 @@ export default function VisitsChart({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -103,7 +103,7 @@ export default function VisitsChart({
               h-64
               items-center
               justify-center
-              text-[var(--text-primary)]0
+              text-[var(--text-muted)]
             "
 
           >

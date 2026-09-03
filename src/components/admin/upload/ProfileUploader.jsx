@@ -176,7 +176,7 @@ export default function ProfileUploader({
                 h-full
                 items-center
                 justify-center
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
             >
 
@@ -268,7 +268,7 @@ export default function ProfileUploader({
                 text-sm
                 text-[var(--danger)]
                 transition
-                hover:opacity-90/10
+                hover:opacity-90
               "
 
             >

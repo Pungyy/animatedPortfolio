@@ -50,7 +50,7 @@ export default function BrowserStats({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -87,7 +87,7 @@ export default function BrowserStats({
 
               className="
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >

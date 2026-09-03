@@ -1,18 +1,19 @@
-import ProjectCard from "./ProjectCard";
-import EmptyProjects from "./EmptyProjects";
+import { FolderKanban } from "lucide-react";
 
-export default function ProjectList({
-  projects = [],
-  onEdit,
-  onDelete,
-}) {
+import ProjectCard from "./ProjectCard";
+import EmptyState from "../ui/EmptyState";
+
+export default function ProjectList({ projects = [], onEdit, onDelete }) {
   if (!projects.length) {
-    return <EmptyProjects />;
+    return (
+      <EmptyState icon={FolderKanban} title="Aucun projet">
+        Crée ton premier projet pour l'afficher sur le portfolio.
+      </EmptyState>
+    );
   }
 
-
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {projects.map((project) => (
         <ProjectCard
           key={project.id}

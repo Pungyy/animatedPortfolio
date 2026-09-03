@@ -150,7 +150,7 @@ export default function RecentVisits({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -200,7 +200,7 @@ export default function RecentVisits({
             py-3
             text-xs
             font-medium
-            text-[var(--text-primary)]0
+            text-[var(--text-muted)]
           "
 
         >
@@ -244,7 +244,7 @@ export default function RecentVisits({
               className="
                 p-5
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >
@@ -349,7 +349,7 @@ export default function RecentVisits({
                       className="
                         mt-1
                         text-xs
-                        text-[var(--text-primary)]0
+                        text-[var(--text-muted)]
                       "
 
                     >
@@ -508,7 +508,7 @@ export default function RecentVisits({
                         className="
                           mt-1
                           text-xs
-                          text-[var(--text-primary)]0
+                          text-[var(--text-muted)]
                         "
 
                       >
@@ -703,7 +703,7 @@ function Info({
 
         className="
           text-[11px]
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >

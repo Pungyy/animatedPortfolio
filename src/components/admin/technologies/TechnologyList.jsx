@@ -1,70 +1,27 @@
+import { Boxes } from "lucide-react";
+
 import TechnologyCard from "./TechnologyCard";
+import EmptyState from "../ui/EmptyState";
 
-
-export default function TechnologyList({
-  technologies,
-  onEdit,
-  onDelete,
-}) {
-
-
+export default function TechnologyList({ technologies = [], onEdit, onDelete }) {
   if (!technologies.length) {
-
     return (
-
-      <div
-        className="
-          rounded-2xl
-          border
-          border-[var(--border)]
-          bg-[var(--surface)]
-          p-10
-          text-center
-          text-[var(--text-secondary)]
-        "
-      >
-
-        Aucune technologie.
-
-      </div>
-
+      <EmptyState icon={Boxes} title="Aucune technologie">
+        Les technologies servent à tagger tes projets.
+      </EmptyState>
     );
-
   }
 
-
-
-
-
   return (
-
-    <div
-      className="
-        grid
-        gap-6
-        md:grid-cols-2
-        xl:grid-cols-3
-      "
-    >
-
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {technologies.map((technology) => (
-
         <TechnologyCard
-
           key={technology.id}
-
           technology={technology}
-
           onEdit={onEdit}
-
           onDelete={onDelete}
-
         />
-
       ))}
-
     </div>
-
   );
-
 }

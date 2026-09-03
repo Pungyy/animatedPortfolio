@@ -68,7 +68,7 @@ export default function DeviceStats({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -102,7 +102,7 @@ export default function DeviceStats({
 
               className="
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >

@@ -72,7 +72,7 @@ export default function LocationStats({
         className="
           mt-1
           text-sm
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
@@ -107,7 +107,7 @@ export default function LocationStats({
 
               className="
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >

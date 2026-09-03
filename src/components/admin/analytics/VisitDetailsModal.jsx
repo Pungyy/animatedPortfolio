@@ -157,7 +157,7 @@ export default function VisitDetailsModal({
               className="
                 mt-1
                 text-sm
-                text-[var(--text-primary)]0
+                text-[var(--text-muted)]
               "
 
             >
@@ -497,7 +497,7 @@ function Info({
 
         className="
           text-xs
-          text-[var(--text-primary)]0
+          text-[var(--text-muted)]
         "
 
       >
