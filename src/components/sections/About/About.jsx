@@ -11,7 +11,11 @@ export default function About() {
   const { settings, loading } = usePortfolio();
 
   if (loading || !settings) {
-    return null;
+    return (
+      <section className="bg-[var(--background)] py-28 sm:py-40">
+        <div className="mx-auto h-64 max-w-3xl animate-pulse rounded-3xl bg-[var(--surface-muted)]" />
+      </section>
+    );
   }
 
   return (

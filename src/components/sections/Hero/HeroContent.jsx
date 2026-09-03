@@ -21,7 +21,15 @@ export default function HeroContent() {
 
 
   if (loading || !settings) {
-    return null;
+    return (
+      <div className="max-w-2xl animate-pulse space-y-6">
+        <div className="h-3 w-28 rounded bg-[var(--surface-muted)]" />
+        <div className="h-14 w-full rounded-lg bg-[var(--surface-muted)]" />
+        <div className="h-14 w-2/3 rounded-lg bg-[var(--surface-muted)]" />
+        <div className="h-20 w-full rounded-lg bg-[var(--surface-muted)]" />
+        <div className="h-11 w-48 rounded-full bg-[var(--surface-muted)]" />
+      </div>
+    );
   }
 
 
