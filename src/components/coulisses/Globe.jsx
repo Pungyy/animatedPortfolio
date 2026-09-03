@@ -20,6 +20,14 @@ export default function Globe({ countries = [] }) {
   const [land, setLand] = useState([]);
   const [ready, setReady] = useState(false);
 
+  // Le globe est remonté (key) quand le thème change — on remet `ready` à
+  // zéro dans la phase de rendu pour que l'effet des contrôles se rejoue.
+  const [prevDark, setPrevDark] = useState(dark);
+  if (prevDark !== dark) {
+    setPrevDark(dark);
+    setReady(false);
+  }
+
   const points = useMemo(() => {
     const max = Math.max(...countries.map((c) => c.count || 1), 1);
     return countries
@@ -37,15 +45,17 @@ export default function Globe({ countries = [] }) {
       .filter(Boolean);
   }, [countries]);
 
-  const globeMaterial = useMemo(
+  // Matériau sombre (dark uniquement) — sphère éclairée pour détacher les
+  // continents en pointillés du fond. En clair on garde la vraie texture.
+  const darkMaterial = useMemo(
     () =>
       new THREE.MeshPhongMaterial({
-        color: dark ? "#0e0e1a" : "#ececf3",
-        emissive: dark ? "#0e0e1a" : "#000000",
-        emissiveIntensity: dark ? 0.35 : 0,
-        shininess: dark ? 1 : 0,
+        color: "#0e0e1a",
+        emissive: "#0e0e1a",
+        emissiveIntensity: 0.35,
+        shininess: 1,
       }),
-    [dark]
+    []
   );
 
   useEffect(() => {
@@ -80,8 +90,8 @@ export default function Globe({ countries = [] }) {
 
     const controls = g.controls();
     controls.enableZoom = true;
-    controls.minDistance = 190;
-    controls.maxDistance = 520;
+    controls.minDistance = 185;
+    controls.maxDistance = 460;
     controls.enablePan = false;
     controls.autoRotate = !reduce;
     controls.autoRotateSpeed = 0.5;
@@ -93,28 +103,29 @@ export default function Globe({ countries = [] }) {
   return (
     <div
       ref={wrapRef}
-      className="mx-auto aspect-square w-full max-w-[460px] [&_canvas]:cursor-grab [&_canvas:active]:cursor-grabbing"
+      className="mx-auto aspect-square w-full max-w-[460px] overflow-hidden [&_canvas]:cursor-grab [&_canvas:active]:cursor-grabbing"
     >
       {size > 0 && (
         <GlobeGL
+          key={dark ? "dark" : "light"}
           ref={globeRef}
           width={size}
           height={size}
           animateIn={false}
           onGlobeReady={() => setReady(true)}
           backgroundColor="rgba(0,0,0,0)"
-          globeMaterial={globeMaterial}
+          globeImageUrl={dark ? undefined : "/textures/earth-day.jpg"}
+          bumpImageUrl={dark ? undefined : "/textures/earth-topology.png"}
+          globeMaterial={dark ? darkMaterial : undefined}
           showAtmosphere
           atmosphereColor={accent}
-          atmosphereAltitude={0.24}
-          hexPolygonsData={land}
+          atmosphereAltitude={dark ? 0.24 : 0.14}
+          hexPolygonsData={dark ? land : []}
           hexPolygonResolution={3}
           hexPolygonMargin={0.32}
           hexPolygonUseDots
           hexPolygonAltitude={0.003}
-          hexPolygonColor={() =>
-            `rgba(${accentRgb}, ${dark ? 0.55 : 0.32})`
-          }
+          hexPolygonColor={() => `rgba(${accentRgb}, 0.55)`}
           pointsData={points}
           pointLat="lat"
           pointLng="lng"
