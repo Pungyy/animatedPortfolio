@@ -318,6 +318,58 @@ export default function MusicPlayer(){
 
 
 
+  // Certains navigateurs mettent l'audio en pause quand l'onglet passe en
+  // arrière-plan. Si l'utilisateur a bien activé la musique, on relance la
+  // lecture dès qu'il revient sur l'onglet.
+  useEffect(()=>{
+
+
+    const audio =
+      audioRef.current;
+
+
+    if(!audio)
+      return;
+
+
+    function resumeIfNeeded(){
+
+      if(
+        document.visibilityState === "visible" &&
+        playing &&
+        audio.paused
+      ){
+
+        audio.play()
+          .catch(()=>{});
+
+      }
+
+    }
+
+
+    document.addEventListener(
+      "visibilitychange",
+      resumeIfNeeded
+    );
+
+
+    return ()=>{
+
+      document.removeEventListener(
+        "visibilitychange",
+        resumeIfNeeded
+      );
+
+    };
+
+
+  },[playing]);
+
+
+
+
+
 
   function togglePlay(){
 

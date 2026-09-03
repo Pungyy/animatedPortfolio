@@ -4,10 +4,16 @@ import {
 } from "react";
 
 
+import { useLocation } from "react-router-dom";
+
+
 import Router from "./router";
 
 
 import Loader from "./components/ui/Loader";
+
+
+import MusicPlayer from "./components/ui/MusicPlayer";
 
 
 import PageTracker from "./components/analytics/PageTracker";
@@ -26,6 +32,12 @@ import {
 
 
 export default function App(){
+
+
+  const { pathname } = useLocation();
+
+  const isAdmin =
+    pathname.startsWith("/admin");
 
 
   const [
@@ -177,6 +189,10 @@ export default function App(){
       <PageTracker />
 
       <Router />
+
+      {/* Monté une seule fois, hors du Router : la musique ne se coupe
+          plus quand on navigue entre les pages. Masqué sur l'admin. */}
+      {!isAdmin && <MusicPlayer />}
 
     </>
 
