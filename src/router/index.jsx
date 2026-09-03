@@ -27,6 +27,7 @@ import Contacts from "../pages/admin/Contacts";
 import Technologies from "../pages/admin/Technologies";
 import Analytics from "../pages/admin/Analytics";
 import Posts from "../pages/admin/Posts";
+import Testimonials from "../pages/admin/Testimonials";
 
 
 // Admin components
@@ -281,6 +282,17 @@ export default function Router() {
 
           element={
             <Posts />
+          }
+
+        />
+
+
+        <Route
+
+          path="/admin/testimonials"
+
+          element={
+            <Testimonials />
           }
 
         />

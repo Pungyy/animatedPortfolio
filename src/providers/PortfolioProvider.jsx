@@ -27,6 +27,10 @@ import {
   getSkills,
 } from "../services/skills.service";
 
+import {
+  getTestimonials,
+} from "../services/testimonials.service";
+
 
 
 
@@ -46,6 +50,8 @@ export default function PortfolioProvider({
   const [technologies, setTechnologies] = useState([]);
 
   const [skills, setSkills] = useState([]);
+
+  const [testimonials, setTestimonials] = useState([]);
 
 
 
@@ -73,6 +79,7 @@ export default function PortfolioProvider({
           experiencesData,
           technologiesData,
           skillsData,
+          testimonialsData,
         ] = await Promise.all([
 
           getSettings(),
@@ -84,6 +91,8 @@ export default function PortfolioProvider({
           getTechnologies(),
 
           getSkills(),
+
+          getTestimonials(),
 
         ]);
 
@@ -99,6 +108,8 @@ export default function PortfolioProvider({
         setTechnologies(technologiesData);
 
         setSkills(skillsData);
+
+        setTestimonials(testimonialsData);
 
 
 
@@ -155,6 +166,8 @@ export default function PortfolioProvider({
 
 
     skills,
+
+    testimonials,
 
 
     loading,

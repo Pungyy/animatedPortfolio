@@ -11,6 +11,7 @@ import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
 import Skills from "../components/sections/Skills";
 import CTA from "../components/sections/CTA";
+import Testimonials from "../components/sections/Testimonials";
 
 export default function Home() {
   const { settings } = usePortfolio();
@@ -56,6 +57,7 @@ export default function Home() {
       <Experience />
       <Skills />
       <Projects />
+      <Testimonials />
       <CTA />
       <Contact />
     </MainLayout>
