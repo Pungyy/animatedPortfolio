@@ -6,6 +6,7 @@ import Container from "../components/ui/Container";
 import Heading from "../components/ui/Heading";
 import Seo from "../components/common/Seo";
 
+import Globe from "../components/coulisses/Globe";
 import { getPublicStats } from "../services/stats.service";
 import useAnalytics from "../hooks/useAnalytics";
 
@@ -149,7 +150,16 @@ export default function Coulisses() {
             </p>
           ) : (
             <>
-              <div className="mx-auto mt-20 grid max-w-4xl gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              {stats && stats.top_countries?.length > 0 && (
+                <div className="mt-14 sm:mt-20">
+                  <Globe countries={stats.top_countries} />
+                  <p className="mt-3 text-center text-xs text-[var(--text-muted)]">
+                    Chaque point marque un pays d’où le site a été consulté. Glisse pour faire tourner.
+                  </p>
+                </div>
+              )}
+
+              <div className="mx-auto mt-16 grid max-w-4xl gap-x-8 gap-y-12 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
                 {(cards.length ? cards : Array.from({ length: 8 })).map(
                   (card, i) => (
                     <motion.div
