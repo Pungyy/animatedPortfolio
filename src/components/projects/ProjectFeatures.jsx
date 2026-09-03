@@ -358,25 +358,11 @@ export default function ProjectFeatures({
 
 
 
-                  <p
-
-                    className="
-                      mt-4
-
-                      text-sm
-
-                      leading-7
-
-                      text-[var(--text-secondary)]
-                    "
-
-                  >
-
-                    Une fonctionnalité pensée et développée
-                    pour améliorer l'expérience utilisateur.
-
-
-                  </p>
+                  {feature.description && (
+                    <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
+                      {feature.description}
+                    </p>
+                  )}
 
 
 

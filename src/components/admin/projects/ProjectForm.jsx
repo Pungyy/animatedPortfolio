@@ -104,8 +104,8 @@ export default function ProjectForm({
 
       {
         id: Date.now(),
-
         title: "",
+        description: "",
       },
 
     ];
@@ -134,7 +134,7 @@ export default function ProjectForm({
 
 
 
-  function updateFeature(index,value){
+  function updateFeature(index, field, value) {
 
 
     const features = [
@@ -149,7 +149,7 @@ export default function ProjectForm({
 
       ...features[index],
 
-      title:value,
+      [field]: value,
 
     };
 
@@ -491,63 +491,41 @@ export default function ProjectForm({
 
       <div className="space-y-4">
 
-
-        {
-          (project.features || []).map(
-
-            (feature,index)=>(
-
-              <div
-                key={feature.id}
-                className="flex gap-3"
+        {(project.features || []).map((feature, index) => (
+          <div
+            key={feature.id}
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-4"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm font-medium text-[var(--text-secondary)]">
+                Fonctionnalité {index + 1}
+              </p>
+              <button
+                type="button"
+                onClick={() => removeFeature(index)}
+                className="rounded-lg px-2 py-1 text-sm text-[var(--text-muted)] transition hover:bg-[var(--danger-soft)] hover:text-[var(--danger)]"
               >
+                Retirer
+              </button>
+            </div>
 
-
-                <Input
-
-                  label={`Fonctionnalité ${index + 1}`}
-
-                  value={feature.title}
-
-                  onChange={(e)=>
-
-                    updateFeature(
-                      index,
-                      e.target.value
-                    )
-
-                  }
-
-                />
-
-
-
-                <button
-
-                  type="button"
-
-                  onClick={()=>removeFeature(index)}
-
-                  className="
-                    mt-8
-                    rounded-xl
-                    px-4
-                    text-[var(--danger)]
-                  "
-
-                >
-
-                  ×
-
-                </button>
-
-
-              </div>
-
-
-            )
-          )
-        }
+            <div className="mt-3 space-y-3">
+              <Input
+                name={`feature_title_${index}`}
+                value={feature.title}
+                placeholder="Titre de la fonctionnalité"
+                onChange={(e) => updateFeature(index, "title", e.target.value)}
+              />
+              <Textarea
+                name={`feature_desc_${index}`}
+                rows={2}
+                value={feature.description || ""}
+                placeholder="Explique brièvement le problème résolu ou l'impact."
+                onChange={(e) => updateFeature(index, "description", e.target.value)}
+              />
+            </div>
+          </div>
+        ))}
 
 
 

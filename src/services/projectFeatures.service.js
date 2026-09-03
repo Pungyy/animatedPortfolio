@@ -62,19 +62,12 @@ export async function syncProjectFeatures(
 
 
 
-  const rows = cleanFeatures.map(
-
-    (feature,index)=>({
-
-      project_id: projectId,
-
-      title: feature.title.trim(),
-
-      display_order:index,
-
-    })
-
-  );
+  const rows = cleanFeatures.map((feature, index) => ({
+    project_id: projectId,
+    title: feature.title.trim(),
+    description: feature.description?.trim() || null,
+    display_order: index,
+  }));
 
 
 
