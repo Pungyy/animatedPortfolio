@@ -93,11 +93,11 @@ export default function VisitDetailsModal({
           max-w-xl
           flex-col
           overflow-hidden
-          rounded-[32px]
+          rounded-2xl
           border
           border-[var(--border)]
           bg-[var(--background)]
-          shadow-2xl
+          shadow-[var(--shadow-card)]
         "
 
 

@@ -34,13 +34,12 @@ export default function DeviceStats({
     <div
 
       className="
-        rounded-[32px]
+        rounded-2xl
         border
         border-[var(--border)]
         bg-[var(--surface)]
         p-8
-        shadow-lg
-        shadow-black/20
+        shadow-[var(--shadow-card)]
       "
 
     >

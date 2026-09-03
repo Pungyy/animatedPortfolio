@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-
+import { useEffect, useState } from "react";
 import {
   Eye,
   Users,
@@ -11,956 +6,128 @@ import {
   Clock,
   CalendarDays,
   Layers,
-  ChevronDown,
 } from "lucide-react";
 
-
+import SectionTitle from "../../components/admin/ui/SectionTitle";
+import Select from "../../components/admin/ui/Select";
+import Spinner from "../../components/admin/ui/Spinner";
 
 import AnalyticsCard from "../../components/admin/analytics/AnalyticsCard";
-
 import VisitsChart from "../../components/admin/analytics/VisitsChart";
 import RecentVisits from "../../components/admin/analytics/RecentVisits";
 import TopProjects from "../../components/admin/analytics/TopProjects";
 import PopularPages from "../../components/admin/analytics/PopularPages";
 import BrowserStats from "../../components/admin/analytics/BrowserStats";
-
 import DeviceStats from "../../components/admin/analytics/DeviceStats";
 import LocationStats from "../../components/admin/analytics/LocationStats";
 
+import { getAnalyticsStats } from "../../services/analytics.service";
 
+const PERIODS = [
+  { value: "today", label: "Aujourd'hui" },
+  { value: "7d", label: "7 derniers jours" },
+  { value: "30d", label: "30 derniers jours" },
+  { value: "all", label: "Tout" },
+];
 
-import {
-  getAnalyticsStats,
-} from "../../services/analytics.service";
+function formatDuration(seconds = 0) {
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}min ${seconds % 60}s`;
+}
 
-
-
-
-
-
-
+function toSortedList(record = {}, keyName) {
+  return Object.entries(record)
+    .map(([k, total]) => ({ [keyName]: k, total }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+}
 
 export default function Analytics() {
-
-
-  const [
-    stats,
-    setStats,
-  ] = useState(null);
-
-
-
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
-
-
-
-  const [
-    period,
-    setPeriod,
-  ] = useState("30d");
-
-
-
-  const [
-    openPeriod,
-    setOpenPeriod,
-  ] = useState(false);
-
-
-
-
-
-
-
-
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [period, setPeriod] = useState("30d");
 
   useEffect(() => {
+    let ignore = false;
 
-
-    async function loadAnalytics(){
-
-
+    (async () => {
       try {
-
-
-        setLoading(true);
-
-
-
-        const data =
-          await getAnalyticsStats(
-            period
-          );
-
-
-
-        setStats(
-          data
-        );
-
-
+        const data = await getAnalyticsStats(period);
+        if (!ignore) setStats(data);
+      } catch (error) {
+        console.error("Analytics loading error :", error);
+      } finally {
+        if (!ignore) setLoading(false);
       }
-
-
-      catch(error){
-
-
-        console.error(
-          "Analytics loading error :",
-          error
-        );
-
-
-      }
-
-
-      finally {
-
-
-        setLoading(false);
-
-
-      }
-
-
-    }
-
-
-
-
-    loadAnalytics();
-
-
-
-  },[
-    period,
-  ]);
-
-
-
-
-
-
-
-
-
-  if(loading){
-
-
-    return (
-
-      <main
-
-        className="
-          flex
-          min-h-screen
-          items-center
-          justify-center
-          bg-[#050505]
-          text-[var(--text-secondary)]
-        "
-
-      >
-
-        Chargement analytics...
-
-
-      </main>
-
-    );
-
-
-  }
-
-
-
-
-
-
-
-  if(!stats)
-    return null;
-
-
-
-
-
-
-
-
-
-  function formatDuration(seconds = 0){
-
-
-    if(seconds < 60)
-
-      return `${seconds}s`;
-
-
-
-    const minutes =
-      Math.floor(
-        seconds / 60
-      );
-
-
-
-    const rest =
-      seconds % 60;
-
-
-
-    return `${minutes}min ${rest}s`;
-
-
-  }
-
-
-
-
-
-
-
-
-
-  function getPeriodLabel(){
-
-
-    switch(period){
-
-
-      case "today":
-
-        return "Aujourd'hui";
-
-
-      case "7d":
-
-        return "7 derniers jours";
-
-
-      case "30d":
-
-        return "30 derniers jours";
-
-
-      case "all":
-
-        return "Tout";
-
-
-      default:
-
-        return "30 derniers jours";
-
-
-    }
-
-
-  }
-
-
-
-
-
-
-
-
-
-  const projects =
-
-    Object.entries(
-      stats.projects || {}
-    )
-
-    .map(
-      ([title,total]) => ({
-
-        title,
-
-        total,
-
-      })
-    )
-
-    .sort(
-      (a,b)=>
-        b.total - a.total
-    )
-
-    .slice(
-      0,
-      5
-    );
-
-
-
-
-
-
-
-
-
-  const pages =
-
-    Object.entries(
-      stats.pages || {}
-    )
-
-    .map(
-      ([page,total]) => ({
-
-        page,
-
-        total,
-
-      })
-    )
-
-    .sort(
-      (a,b)=>
-        b.total - a.total
-    )
-
-    .slice(
-      0,
-      5
-    );
-
-
-
-
-
-
-
-
-
-  const browsers =
-
-    Object.entries(
-      stats.browsers || {}
-    )
-
-    .map(
-      ([name,total]) => ({
-
-        name,
-
-        total,
-
-      })
-    );
-
-
-
-
-
-
-
-
+    })();
+
+    return () => {
+      ignore = true;
+    };
+  }, [period]);
+
+  const cards = stats
+    ? [
+        { title: "Visiteurs uniques", value: stats.visitors || 0, icon: Users },
+        { title: "Aujourd'hui", value: stats.visitorsToday || 0, icon: CalendarDays },
+        { title: "Pages vues", value: stats.views || 0, icon: Eye },
+        { title: "Sessions", value: stats.sessions || 0, icon: Activity },
+        { title: "Pages / session", value: stats.pagesPerSession || 0, icon: Layers },
+        { title: "Durée moyenne", value: formatDuration(stats.averageDuration), icon: Clock },
+      ]
+    : [];
 
   return (
+    <div className="space-y-6">
+      <SectionTitle
+        title="Analytics"
+        description="Analyse la fréquentation de ton portfolio."
+        actions={
+          <div className="w-52">
+            <Select
+              name="period"
+              value={period}
+              onChange={(e) => setPeriod(e.target.value)}
+              options={PERIODS}
+              placeholder={null}
+            />
+          </div>
+        }
+      />
 
-
-    <main
-
-      className="
-        min-h-screen
-        bg-[#050505]
-        p-8
-        text-[var(--text-primary)]
-      "
-
-    >
-
-
-
-      <div
-
-        className="
-          mx-auto
-          max-w-7xl
-        "
-
-      >
-
-
-
-
-
-
-
-
-
-        <header
-
-          className="
-            mb-10
-            flex
-            items-start
-            justify-between
-            gap-6
-          "
-
-        >
-
-
-
-          <div>
-
-
-            <h1
-
-              className="
-                text-4xl
-                font-bold
-                tracking-tight
-              "
-
-            >
-
-              Analytics
-
-
-            </h1>
-
-
-
-
-
-            <p
-
-              className="
-                mt-2
-                text-[var(--text-secondary)]
-              "
-
-            >
-
-              Analyse les performances de ton portfolio.
-
-
-            </p>
-
-
+      {loading || !stats ? (
+        <Spinner label="Chargement des statistiques..." />
+      ) : (
+        <>
+          <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-6">
+            {cards.map((c) => (
+              <AnalyticsCard key={c.title} {...c} />
+            ))}
           </div>
 
-
-
-
-
-
-
-
-          <div
-
-            className="
-              relative
-            "
-
-          >
-
-
-
-            <button
-
-              onClick={() =>
-                setOpenPeriod(
-                  !openPeriod
-                )
-              }
-
-
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-2xl
-                border
-                border-[var(--border)]
-                bg-[var(--surface)]
-                px-5
-                py-3
-                text-sm
-                font-medium
-                text-[var(--text-primary)]
-                transition
-                duration-300
-                hover:border-[var(--accent)]
-                hover:bg-[var(--surface-muted)]
-              "
-
-            >
-
-
-              <CalendarDays
-
-                size={18}
-
-                className="
-                  text-[var(--accent)]
-                "
-
-              />
-
-
-
-              <span>
-
-                {getPeriodLabel()}
-
-              </span>
-
-
-
-              <ChevronDown
-
-                size={16}
-
-                className={`
-                  text-[var(--text-secondary)]
-                  transition
-                  duration-300
-
-                  ${
-                    openPeriod
-                      ?
-                      "rotate-180"
-                      :
-                      ""
-                  }
-                `}
-
-              />
-
-
-            </button>
-
-
-
-
-
-
-
-            {
-              openPeriod && (
-
-
-                <div
-
-                  className="
-                    absolute
-                    right-0
-                    z-50
-                    mt-3
-                    w-56
-                    rounded-2xl
-                    border
-                    border-[var(--border)]
-                    bg-[var(--background)]
-                    p-2
-                    shadow-xl
-                    shadow-black/40
-                  "
-
-                >
-
-
-
-                  {
-                    [
-                      {
-                        label:"Aujourd'hui",
-                        value:"today",
-                      },
-
-                      {
-                        label:"7 derniers jours",
-                        value:"7d",
-                      },
-
-                      {
-                        label:"30 derniers jours",
-                        value:"30d",
-                      },
-
-                      {
-                        label:"Tout",
-                        value:"all",
-                      },
-
-                    ]
-
-                    .map(option => (
-
-
-                      <button
-
-                        key={
-                          option.value
-                        }
-
-
-                        onClick={() => {
-
-
-                          setPeriod(
-                            option.value
-                          );
-
-
-                          setOpenPeriod(
-                            false
-                          );
-
-
-                        }}
-
-
-                        className={`
-                          flex
-                          w-full
-                          rounded-xl
-                          px-4
-                          py-3
-                          text-left
-                          text-sm
-                          transition
-                          duration-200
-
-                          ${
-                            period === option.value
-
-                              ?
-
-                              "bg-[var(--accent-soft)] text-[var(--accent)]"
-
-                              :
-
-                              "text-[var(--text-secondary)] hover:bg-[var(--surface-muted)]"
-                          }
-                        `}
-
-                      >
-
-                        {option.label}
-
-
-                      </button>
-
-
-                    ))
-
-                  }
-
-
-
-                </div>
-
-
-              )
-
-            }
-
-
-
+          <VisitsChart activity={stats.activity || []} />
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <RecentVisits visits={stats.latestVisits || []} />
+            <TopProjects projects={toSortedList(stats.projects, "title")} />
           </div>
 
-
-
-
-
-
-        </header>
-
-
-
-
-
-
-
-
-
-        <section
-
-          className="
-            grid
-            gap-6
-            md:grid-cols-3
-            xl:grid-cols-6
-          "
-
-        >
-
-
-
-          <AnalyticsCard
-
-            title="Visiteurs uniques"
-
-            value={
-              stats.visitors || 0
-            }
-
-            icon={Users}
-
-          />
-
-
-
-
-
-          <AnalyticsCard
-
-            title="Visiteurs aujourd'hui"
-
-            value={
-              stats.visitorsToday || 0
-            }
-
-            icon={CalendarDays}
-
-          />
-
-
-
-
-
-          <AnalyticsCard
-
-            title="Pages vues"
-
-            value={
-              stats.views || 0
-            }
-
-            icon={Eye}
-
-          />
-
-
-
-
-
-          <AnalyticsCard
-
-            title="Sessions"
-
-            value={
-              stats.sessions || 0
-            }
-
-            icon={Activity}
-
-          />
-
-
-
-
-
-          <AnalyticsCard
-
-            title="Pages / session"
-
-            value={
-              stats.pagesPerSession || 0
-            }
-
-            icon={Layers}
-
-          />
-
-
-
-
-
-          <AnalyticsCard
-
-            title="Durée moyenne"
-
-            value={
-              formatDuration(
-                stats.averageDuration
-              )
-            }
-
-            icon={Clock}
-
-          />
-
-
-
-        </section>
-
-
-
-
-
-
-
-
-
-        <div className="mt-8">
-
-
-          <VisitsChart
-
-            activity={
-              stats.activity || []
-            }
-
-          />
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-        <div
-
-          className="
-            mt-8
-            grid
-            gap-8
-            lg:grid-cols-2
-          "
-
-        >
-
-
-
-          <RecentVisits
-
-            visits={
-              stats.latestVisits || []
-            }
-
-          />
-
-
-
-
-
-          <TopProjects
-
-            projects={
-              projects
-            }
-
-          />
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-        <div
-
-          className="
-            mt-8
-            grid
-            gap-8
-            lg:grid-cols-2
-          "
-
-        >
-
-
-
-          <PopularPages
-
-            pages={
-              pages
-            }
-
-          />
-
-
-
-
-
-          <BrowserStats
-
-            browsers={
-              browsers
-            }
-
-          />
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-        <div
-
-          className="
-            mt-8
-            grid
-            gap-8
-            lg:grid-cols-2
-          "
-
-        >
-
-
-
-          <DeviceStats
-
-            devices={
-              stats.devices || {}
-            }
-
-          />
-
-
-
-
-
-          <LocationStats
-
-            locations={
-              stats.locations || {}
-            }
-
-          />
-
-
-        </div>
-
-
-
-
-
-
-      </div>
-
-
-    </main>
-
-
+          <div className="grid gap-6 lg:grid-cols-2">
+            <PopularPages pages={toSortedList(stats.pages, "page")} />
+            <BrowserStats
+              browsers={Object.entries(stats.browsers || {}).map(([name, total]) => ({
+                name,
+                total,
+              }))}
+            />
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <DeviceStats devices={stats.devices || {}} />
+            <LocationStats locations={stats.locations || {}} />
+          </div>
+        </>
+      )}
+    </div>
   );
-
-
 }

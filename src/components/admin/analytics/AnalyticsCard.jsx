@@ -1,133 +1,16 @@
-export default function AnalyticsCard({
-
-  title,
-
-  value,
-
-  icon: Icon,
-
-}) {
-
-
-
+export default function AnalyticsCard({ title, value, icon: Icon }) {
   return (
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-card)]">
+      {Icon && (
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+          <Icon size={16} />
+        </span>
+      )}
 
-
-    <div
-
-      className="
-        rounded-[28px]
-        border
-        border-[var(--border)]
-        bg-[var(--surface)]
-        p-6
-        shadow-lg
-        shadow-black/20
-      "
-
-    >
-
-
-
-
-
-      <div
-
-        className="
-          flex
-          items-center
-          justify-between
-        "
-
-      >
-
-
-
-        <p
-
-          className="
-            text-sm
-            text-[var(--text-secondary)]
-          "
-
-        >
-
-          {title}
-
-
-        </p>
-
-
-
-
-
-
-
-        {
-          Icon && (
-
-
-            <div
-
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-xl
-                bg-[var(--accent-soft)]
-                text-[var(--accent)]
-              "
-
-            >
-
-
-              <Icon size={20}/>
-
-
-            </div>
-
-
-          )
-        }
-
-
-
-      </div>
-
-
-
-
-
-
-
-
-      <p
-
-        className="
-          mt-6
-          text-4xl
-          font-bold
-          tracking-tight
-          text-[var(--text-primary)]
-        "
-
-      >
-
+      <p className="mt-4 text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
         {value}
-
-
       </p>
-
-
-
-
-
+      <p className="mt-0.5 text-sm text-[var(--text-secondary)]">{title}</p>
     </div>
-
-
   );
-
-
 }
