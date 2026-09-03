@@ -21,6 +21,7 @@ import Button from "../../ui/Button";
 import ThemeToggle from "../../ui/ThemeToggle";
 
 import usePortfolio from "../../../hooks/usePortfolio";
+import { trackAction } from "../../../services/analytics.service";
 
 
 
@@ -266,6 +267,8 @@ export default function Navbar() {
 
                   href={settings.cv_url}
 
+                  onClick={() => trackAction("cv_download")}
+
                   target="_blank"
 
                   rel="noreferrer"
@@ -497,6 +500,8 @@ export default function Navbar() {
                     <a
 
                       href={settings.cv_url}
+
+                      onClick={() => trackAction("cv_download")}
 
                       target="_blank"
 

@@ -352,6 +352,8 @@ export async function trackEvent({
 
   project_id = null,
 
+  detail = null,
+
 }) {
 
   try {
@@ -388,6 +390,7 @@ export async function trackEvent({
         event_type,
         page,
         project_id || "none",
+        detail || "none",
       ].join("|");
 
 
@@ -479,6 +482,8 @@ export async function trackEvent({
 
           project_id,
 
+          detail,
+
           referrer:
             document.referrer ||
             "Direct",
@@ -498,6 +503,25 @@ export async function trackEvent({
     );
 
   }
+
+}
+
+
+
+/**
+ * Raccourci pour tracker une action (clic CV, lien projet, envoi contact...).
+ */
+export function trackAction(event_type, detail = null, project_id = null) {
+
+  return trackEvent({
+    event_type,
+    page:
+      typeof window !== "undefined"
+        ? window.location.pathname
+        : "/",
+    project_id,
+    detail,
+  });
 
 }
 
@@ -1320,6 +1344,35 @@ export async function getAnalyticsStats(
       );
 
 
+  const ENGAGEMENT_LABELS = {
+    cv_download: "Téléchargements du CV",
+    contact_submit: "Messages de contact envoyés",
+    cta_click: "Clics sur les appels à l'action",
+    "project_link_click:github": "Clics « Code source »",
+    "project_link_click:demo": "Clics « Voir la démo »",
+  };
+
+  const engagementRaw = {};
+
+  filteredEvents.forEach((event) => {
+    if (event.event_type === "page_view" || event.event_type === "project_view") {
+      return;
+    }
+    const key = event.detail
+      ? `${event.event_type}:${event.detail}`
+      : event.event_type;
+    engagementRaw[key] = (engagementRaw[key] || 0) + 1;
+  });
+
+  const engagement = Object.entries(engagementRaw)
+    .map(([key, total]) => ({
+      key,
+      label: ENGAGEMENT_LABELS[key] || key,
+      total,
+    }))
+    .sort((a, b) => b.total - a.total);
+
+
   return {
 
     visitors:
@@ -1351,6 +1404,8 @@ export async function getAnalyticsStats(
     activity,
 
     latestVisits,
+
+    engagement,
 
   };
 

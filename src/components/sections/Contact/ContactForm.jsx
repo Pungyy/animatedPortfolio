@@ -14,6 +14,7 @@ import Button from "../../ui/Button";
 import {
   createContact,
 } from "../../../services/contacts.service";
+import { trackAction } from "../../../services/analytics.service";
 
 
 
@@ -75,6 +76,8 @@ export default function ContactForm() {
 
 
       await createContact(form);
+
+      trackAction("contact_submit");
 
 
 

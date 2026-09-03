@@ -19,6 +19,7 @@ import TopProjects from "../../components/admin/analytics/TopProjects";
 import PopularPages from "../../components/admin/analytics/PopularPages";
 import BrowserStats from "../../components/admin/analytics/BrowserStats";
 import DeviceStats from "../../components/admin/analytics/DeviceStats";
+import EngagementStats from "../../components/admin/analytics/EngagementStats";
 import LocationStats from "../../components/admin/analytics/LocationStats";
 
 import { getAnalyticsStats } from "../../services/analytics.service";
@@ -108,9 +109,11 @@ export default function Analytics() {
           <VisitsChart activity={stats.activity || []} />
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <RecentVisits visits={stats.latestVisits || []} />
+            <EngagementStats engagement={stats.engagement || []} />
             <TopProjects projects={toSortedList(stats.projects, "title")} />
           </div>
+
+          <RecentVisits visits={stats.latestVisits || []} />
 
           <div className="grid gap-6 lg:grid-cols-2">
             <PopularPages pages={toSortedList(stats.pages, "page")} />

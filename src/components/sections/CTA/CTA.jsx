@@ -9,6 +9,7 @@ import {
 
 
 import usePortfolio from "../../../hooks/usePortfolio";
+import { trackAction } from "../../../services/analytics.service";
 
 
 import Container from "../../ui/Container";
@@ -290,6 +291,8 @@ export default function CTA() {
 
               href="#contact"
 
+              onClick={() => trackAction("cta_click", "cta_contact")}
+
             >
 
 
@@ -336,6 +339,9 @@ export default function CTA() {
 
 
                   href={settings.cv_url}
+
+
+                  onClick={() => trackAction("cv_download")}
 
 
                   target="_blank"

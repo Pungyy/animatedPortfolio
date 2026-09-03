@@ -12,6 +12,8 @@ import {
   FaGithub,
 } from "react-icons/fa";
 
+import { trackAction } from "../../services/analytics.service";
+
 
 
 
@@ -219,6 +221,10 @@ export default function ProjectLinks({
 
 
 
+                onClick={() => trackAction("project_link_click", "demo", project.id)}
+
+
+
                 target="_blank"
 
 
@@ -305,6 +311,10 @@ export default function ProjectLinks({
 
 
                 href={project.github_url}
+
+
+
+                onClick={() => trackAction("project_link_click", "github", project.id)}
 
 
 
