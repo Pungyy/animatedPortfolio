@@ -9,6 +9,8 @@ import Home from "../pages/Home";
 import Project from "../pages/Project";
 import NotFound from "../pages/NotFound";
 import Coulisses from "../pages/Coulisses";
+import Blog from "../pages/Blog";
+import BlogPost from "../pages/BlogPost";
 
 
 // Auth
@@ -24,6 +26,7 @@ import Experiences from "../pages/admin/Experiences";
 import Contacts from "../pages/admin/Contacts";
 import Technologies from "../pages/admin/Technologies";
 import Analytics from "../pages/admin/Analytics";
+import Posts from "../pages/admin/Posts";
 
 
 // Admin components
@@ -82,6 +85,28 @@ export default function Router() {
 
         element={
           <Coulisses />
+        }
+
+      />
+
+
+      <Route
+
+        path="/blog"
+
+        element={
+          <Blog />
+        }
+
+      />
+
+
+      <Route
+
+        path="/blog/:slug"
+
+        element={
+          <BlogPost />
         }
 
       />
@@ -244,6 +269,18 @@ export default function Router() {
 
           element={
             <Analytics />
+          }
+
+        />
+
+
+
+        <Route
+
+          path="/admin/posts"
+
+          element={
+            <Posts />
           }
 
         />

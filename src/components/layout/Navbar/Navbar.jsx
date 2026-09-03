@@ -43,6 +43,10 @@ const navigation = [
     href:"#projects",
   },
   {
+    label:"Blog",
+    href:"/blog",
+  },
+  {
     label:"Contact",
     href:"#contact",
   },
