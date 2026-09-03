@@ -95,8 +95,8 @@ export default function VisitDetailsModal({
           overflow-hidden
           rounded-[32px]
           border
-          border-zinc-800
-          bg-zinc-950
+          border-[var(--border)]
+          bg-[var(--background)]
           shadow-2xl
         "
 
@@ -121,7 +121,7 @@ export default function VisitDetailsModal({
             justify-between
             gap-4
             border-b
-            border-zinc-800
+            border-[var(--border)]
             px-5
             py-5
             sm:px-8
@@ -139,7 +139,7 @@ export default function VisitDetailsModal({
               className="
                 text-xl
                 font-semibold
-                text-white
+                text-[var(--text-primary)]
                 sm:text-2xl
               "
 
@@ -157,7 +157,7 @@ export default function VisitDetailsModal({
               className="
                 mt-1
                 text-sm
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
 
             >
@@ -189,11 +189,11 @@ export default function VisitDetailsModal({
               items-center
               justify-center
               rounded-full
-              bg-zinc-900
-              text-zinc-400
+              bg-[var(--surface)]
+              text-[var(--text-secondary)]
               transition
-              hover:bg-zinc-800
-              hover:text-white
+              hover:bg-[var(--surface-muted)]
+              hover:text-[var(--text-primary)]
             "
 
 
@@ -478,12 +478,12 @@ function Info({
         min-w-0
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         px-4
         py-3
         transition
-        hover:border-violet-500/30
+        hover:border-[var(--accent)]
       "
 
 
@@ -497,7 +497,7 @@ function Info({
 
         className="
           text-xs
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -520,7 +520,7 @@ function Info({
           truncate
           text-sm
           font-medium
-          text-white
+          text-[var(--text-primary)]
         "
 
       >

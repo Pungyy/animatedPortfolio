@@ -13,8 +13,8 @@ export default function BrowserStats({
       className="
         rounded-[32px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-8
         shadow-lg
         shadow-black/20
@@ -31,7 +31,7 @@ export default function BrowserStats({
         className="
           text-xl
           font-semibold
-          text-white
+          text-[var(--text-primary)]
         "
 
       >
@@ -50,7 +50,7 @@ export default function BrowserStats({
         className="
           mt-1
           text-sm
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -87,7 +87,7 @@ export default function BrowserStats({
 
               className="
                 text-sm
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
 
             >
@@ -117,8 +117,8 @@ export default function BrowserStats({
                 justify-between
                 rounded-2xl
                 border
-                border-zinc-800
-                bg-zinc-950
+                border-[var(--border)]
+                bg-[var(--background)]
                 px-5
                 py-4
               "
@@ -131,7 +131,7 @@ export default function BrowserStats({
 
                 className="
                   font-medium
-                  text-white
+                  text-[var(--text-primary)]
                 "
 
               >
@@ -150,7 +150,7 @@ export default function BrowserStats({
 
                 className="
                   text-sm
-                  text-zinc-400
+                  text-[var(--text-secondary)]
                 "
 
               >

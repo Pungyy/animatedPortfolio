@@ -20,11 +20,11 @@ export default function ExperienceCard({
       className="
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-5
         transition
-        hover:border-zinc-700
+        hover:border-[var(--border)]
       "
     >
 
@@ -48,7 +48,7 @@ export default function ExperienceCard({
             className="
               text-xl
               font-semibold
-              text-white
+              text-[var(--text-primary)]
             "
           >
 
@@ -61,7 +61,7 @@ export default function ExperienceCard({
           <p
             className="
               mt-1
-              text-violet-400
+              text-[var(--accent)]
             "
           >
 
@@ -84,7 +84,7 @@ export default function ExperienceCard({
               px-3
               py-1
               text-xs
-              text-green-400
+              text-[var(--success)]
             "
           >
 
@@ -108,7 +108,7 @@ export default function ExperienceCard({
           mt-5
           space-y-2
           text-sm
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
       >
 
@@ -179,7 +179,7 @@ export default function ExperienceCard({
             mt-5
             text-sm
             leading-relaxed
-            text-zinc-400
+            text-[var(--text-secondary)]
           "
         >
 
@@ -205,11 +205,11 @@ export default function ExperienceCard({
             mt-5
             inline-block
             rounded-full
-            bg-zinc-800
+            bg-[var(--surface-muted)]
             px-3
             py-1
             text-xs
-            text-zinc-300
+            text-[var(--text-secondary)]
           "
         >
 
@@ -234,7 +234,7 @@ export default function ExperienceCard({
           justify-end
           gap-3
           border-t
-          border-zinc-800
+          border-[var(--border)]
           pt-4
         "
       >
@@ -249,12 +249,12 @@ export default function ExperienceCard({
             items-center
             gap-2
             rounded-xl
-            bg-zinc-800
+            bg-[var(--surface-muted)]
             px-4
             py-2
             text-sm
-            text-white
-            hover:bg-zinc-700
+            text-[var(--text-primary)]
+            hover:bg-[var(--surface-muted)]
           "
 
         >
@@ -278,12 +278,12 @@ export default function ExperienceCard({
             items-center
             gap-2
             rounded-xl
-            bg-red-600/20
+            bg-[var(--danger-soft)]
             px-4
             py-2
             text-sm
-            text-red-400
-            hover:bg-red-600/30
+            text-[var(--danger)]
+            hover:opacity-90/30
           "
 
         >

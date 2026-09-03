@@ -327,12 +327,12 @@ export default function ExperienceDrawer({
           className="
             rounded-xl
             border
-            border-zinc-700
+            border-[var(--border)]
             px-6
             py-3
-            text-zinc-300
+            text-[var(--text-secondary)]
             transition
-            hover:bg-zinc-800
+            hover:bg-[var(--surface-muted)]
           "
 
         >

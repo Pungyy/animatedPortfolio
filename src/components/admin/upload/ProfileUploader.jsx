@@ -141,8 +141,8 @@ export default function ProfileUploader({
           overflow-hidden
           rounded-[32px]
           border
-          border-zinc-800
-          bg-zinc-900
+          border-[var(--border)]
+          bg-[var(--surface)]
         "
       >
 
@@ -176,7 +176,7 @@ export default function ProfileUploader({
                 h-full
                 items-center
                 justify-center
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
             >
 
@@ -212,14 +212,14 @@ export default function ProfileUploader({
             items-center
             gap-2
             rounded-xl
-            bg-violet-600
+            bg-[var(--accent)]
             px-5
             py-3
             text-sm
             font-medium
-            text-white
+            text-[var(--accent-foreground)]
             transition
-            hover:bg-violet-700
+            hover:opacity-90
           "
 
         >
@@ -262,13 +262,13 @@ export default function ProfileUploader({
                 gap-2
                 rounded-xl
                 border
-                border-red-500/30
+                border-[var(--danger)]
                 px-5
                 py-3
                 text-sm
-                text-red-400
+                text-[var(--danger)]
                 transition
-                hover:bg-red-500/10
+                hover:opacity-90/10
               "
 
             >

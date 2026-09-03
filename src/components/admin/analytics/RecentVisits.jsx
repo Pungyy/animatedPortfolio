@@ -112,8 +112,8 @@ export default function RecentVisits({
       className="
         rounded-[32px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-5
         sm:p-8
         shadow-lg
@@ -131,7 +131,7 @@ export default function RecentVisits({
         className="
           text-xl
           font-semibold
-          text-white
+          text-[var(--text-primary)]
         "
 
       >
@@ -150,7 +150,7 @@ export default function RecentVisits({
         className="
           mt-1
           text-sm
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -175,7 +175,7 @@ export default function RecentVisits({
           overflow-hidden
           rounded-3xl
           border
-          border-zinc-800
+          border-[var(--border)]
         "
 
       >
@@ -195,12 +195,12 @@ export default function RecentVisits({
             hidden
             md:grid
             grid-cols-4
-            bg-zinc-950
+            bg-[var(--background)]
             px-5
             py-3
             text-xs
             font-medium
-            text-zinc-500
+            text-[var(--text-primary)]0
           "
 
         >
@@ -244,7 +244,7 @@ export default function RecentVisits({
               className="
                 p-5
                 text-sm
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
 
             >
@@ -287,12 +287,12 @@ export default function RecentVisits({
                 className="
                   cursor-pointer
                   border-t
-                  border-zinc-800
+                  border-[var(--border)]
                   px-5
                   py-4
                   transition
                   duration-300
-                  hover:bg-zinc-800/40
+                  hover:bg-[var(--surface-muted)]
                 "
 
               >
@@ -329,7 +329,7 @@ export default function RecentVisits({
                         truncate
                         text-sm
                         font-medium
-                        text-white
+                        text-[var(--text-primary)]
                       "
 
                     >
@@ -349,7 +349,7 @@ export default function RecentVisits({
                       className="
                         mt-1
                         text-xs
-                        text-zinc-500
+                        text-[var(--text-primary)]0
                       "
 
                     >
@@ -377,7 +377,7 @@ export default function RecentVisits({
                     className="
                       truncate
                       text-sm
-                      text-zinc-300
+                      text-[var(--text-secondary)]
                     "
 
                   >
@@ -407,7 +407,7 @@ export default function RecentVisits({
 
                     className="
                       text-sm
-                      text-zinc-300
+                      text-[var(--text-secondary)]
                     "
 
                   >
@@ -430,7 +430,7 @@ export default function RecentVisits({
                     className="
                       text-sm
                       font-semibold
-                      text-violet-400
+                      text-[var(--accent)]
                     "
 
                   >
@@ -490,7 +490,7 @@ export default function RecentVisits({
                         className="
                           text-sm
                           font-semibold
-                          text-white
+                          text-[var(--text-primary)]
                         "
 
                       >
@@ -508,7 +508,7 @@ export default function RecentVisits({
                         className="
                           mt-1
                           text-xs
-                          text-zinc-500
+                          text-[var(--text-primary)]0
                         "
 
                       >
@@ -533,12 +533,12 @@ export default function RecentVisits({
 
                       className="
                         rounded-full
-                        bg-violet-500/10
+                        bg-[var(--accent-soft)]
                         px-3
                         py-1
                         text-xs
                         font-medium
-                        text-violet-400
+                        text-[var(--accent)]
                       "
 
                     >
@@ -690,8 +690,8 @@ function Info({
       className="
         rounded-xl
         border
-        border-zinc-800
-        bg-zinc-950
+        border-[var(--border)]
+        bg-[var(--background)]
         px-3
         py-2
       "
@@ -703,7 +703,7 @@ function Info({
 
         className="
           text-[11px]
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -721,7 +721,7 @@ function Info({
           mt-1
           truncate
           text-xs
-          text-zinc-300
+          text-[var(--text-secondary)]
         "
 
       >

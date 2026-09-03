@@ -20,11 +20,11 @@ export default function ContactCard({
       className="
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-5
         transition
-        hover:border-zinc-700
+        hover:border-[var(--border)]
       "
 
     >
@@ -47,7 +47,7 @@ export default function ContactCard({
           <h3
             className="
               font-semibold
-              text-white
+              text-[var(--text-primary)]
             "
           >
 
@@ -64,7 +64,7 @@ export default function ContactCard({
               items-center
               gap-2
               text-sm
-              text-zinc-400
+              text-[var(--text-secondary)]
             "
           >
 
@@ -87,11 +87,11 @@ export default function ContactCard({
 
             className="
               rounded-full
-              bg-violet-600/20
+              bg-[var(--accent-soft)]
               px-3
               py-1
               text-xs
-              text-violet-400
+              text-[var(--accent)]
             "
 
           >
@@ -120,7 +120,7 @@ export default function ContactCard({
             mt-5
             text-sm
             font-medium
-            text-zinc-200
+            text-[var(--text-primary)]
           "
 
         >
@@ -143,7 +143,7 @@ export default function ContactCard({
           mt-3
           line-clamp-3
           text-sm
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
 
       >
@@ -166,7 +166,7 @@ export default function ContactCard({
           justify-end
           gap-3
           border-t
-          border-zinc-800
+          border-[var(--border)]
           pt-4
         "
 
@@ -183,13 +183,13 @@ export default function ContactCard({
             items-center
             gap-2
             rounded-xl
-            bg-zinc-800
+            bg-[var(--surface-muted)]
             px-4
             py-2
             text-sm
-            text-white
+            text-[var(--text-primary)]
             transition
-            hover:bg-zinc-700
+            hover:bg-[var(--surface-muted)]
           "
 
         >
@@ -214,13 +214,13 @@ export default function ContactCard({
             items-center
             gap-2
             rounded-xl
-            bg-red-600/20
+            bg-[var(--danger-soft)]
             px-4
             py-2
             text-sm
-            text-red-400
+            text-[var(--danger)]
             transition
-            hover:bg-red-600/30
+            hover:opacity-90/30
           "
 
         >

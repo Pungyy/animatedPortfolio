@@ -30,8 +30,8 @@ export default function VisitsChart({
       className="
         rounded-[32px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-8
         shadow-lg
         shadow-black/20
@@ -50,7 +50,7 @@ export default function VisitsChart({
         className="
           text-xl
           font-semibold
-          text-white
+          text-[var(--text-primary)]
         "
 
       >
@@ -72,7 +72,7 @@ export default function VisitsChart({
         className="
           mt-1
           text-sm
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -103,7 +103,7 @@ export default function VisitsChart({
               h-64
               items-center
               justify-center
-              text-zinc-500
+              text-[var(--text-primary)]0
             "
 
           >

@@ -8,12 +8,12 @@ export default function Toggle({
   return (
     <label className="flex cursor-pointer items-start justify-between gap-6">
       <span>
-        <span className="block font-medium text-white">
+        <span className="block text-sm font-medium text-[var(--text-primary)]">
           {label}
         </span>
 
         {description && (
-          <span className="mt-1 block text-sm text-zinc-400">
+          <span className="mt-1 block text-sm text-[var(--text-secondary)]">
             {description}
           </span>
         )}
@@ -23,14 +23,14 @@ export default function Toggle({
         <input
           type="checkbox"
           name={name}
-          checked={checked}
+          checked={!!checked}
           onChange={onChange}
           className="peer sr-only"
         />
 
-        <span className="absolute inset-0 rounded-full bg-zinc-700 transition-colors peer-checked:bg-emerald-500" />
+        <span className="absolute inset-0 rounded-full bg-[var(--surface-muted)] ring-1 ring-inset ring-[var(--border)] transition-colors peer-checked:bg-[var(--success)] peer-checked:ring-[var(--success)]" />
 
-        <span className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5" />
+        <span className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
       </span>
     </label>
   );

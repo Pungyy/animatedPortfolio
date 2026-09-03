@@ -274,7 +274,7 @@ export default function Experiences() {
 
       <div
         className="
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
       >
 

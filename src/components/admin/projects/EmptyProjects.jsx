@@ -8,9 +8,9 @@ export default function EmptyProjects() {
         justify-center
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
-        text-zinc-400
+        border-[var(--border)]
+        bg-[var(--surface)]
+        text-[var(--text-secondary)]
       "
     >
       Aucun projet disponible.

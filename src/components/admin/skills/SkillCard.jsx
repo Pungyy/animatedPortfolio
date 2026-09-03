@@ -20,11 +20,11 @@ export default function SkillCard({
       className="
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-5
         transition
-        hover:border-zinc-700
+        hover:border-[var(--border)]
       "
     >
 
@@ -84,7 +84,7 @@ export default function SkillCard({
             <h3
               className="
                 font-semibold
-                text-white
+                text-[var(--text-primary)]
               "
             >
               {skill.name}
@@ -94,7 +94,7 @@ export default function SkillCard({
             <p
               className="
                 text-xs
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
             >
               {skill.category}
@@ -143,7 +143,7 @@ export default function SkillCard({
           h-2
           overflow-hidden
           rounded-full
-          bg-zinc-800
+          bg-[var(--surface-muted)]
       "
       >
 
@@ -181,7 +181,7 @@ export default function SkillCard({
           justify-end
           gap-3
           border-t
-          border-zinc-800
+          border-[var(--border)]
           pt-4
         "
       >
@@ -196,13 +196,13 @@ export default function SkillCard({
             items-center
             gap-2
             rounded-xl
-            bg-zinc-800
+            bg-[var(--surface-muted)]
             px-4
             py-2
             text-sm
-            text-white
+            text-[var(--text-primary)]
             transition
-            hover:bg-zinc-700
+            hover:bg-[var(--surface-muted)]
           "
 
         >
@@ -226,13 +226,13 @@ export default function SkillCard({
             items-center
             gap-2
             rounded-xl
-            bg-red-600/20
+            bg-[var(--danger-soft)]
             px-4
             py-2
             text-sm
-            text-red-400
+            text-[var(--danger)]
             transition
-            hover:bg-red-600/30
+            hover:opacity-90/30
           "
 
         >

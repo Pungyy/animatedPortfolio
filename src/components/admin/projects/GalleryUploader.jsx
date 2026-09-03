@@ -255,13 +255,13 @@ export default function GalleryUploader({
           rounded-xl
           border
           border-dashed
-          border-zinc-700
-          bg-zinc-900
+          border-[var(--border)]
+          bg-[var(--surface)]
           p-6
-          text-zinc-400
+          text-[var(--text-secondary)]
           transition
-          hover:border-violet-500
-          hover:text-white
+          hover:border-[var(--accent)]
+          hover:text-[var(--text-primary)]
         "
       >
 
@@ -327,7 +327,7 @@ export default function GalleryUploader({
                     overflow-hidden
                     rounded-xl
                     border
-                    border-zinc-800
+                    border-[var(--border)]
                   "
 
                 >
@@ -360,9 +360,9 @@ export default function GalleryUploader({
                       right-2
                       top-2
                       rounded-lg
-                      bg-red-600/80
+                      bg-[var(--danger-soft)]
                       p-2
-                      text-white
+                      text-[var(--text-primary)]
                       opacity-0
                       transition
                       group-hover:opacity-100

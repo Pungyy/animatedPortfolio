@@ -685,8 +685,8 @@ export default function ProjectDrawer({
             flex-col
             gap-3
             border-t
-            border-zinc-800
-            bg-zinc-950
+            border-[var(--border)]
+            bg-[var(--background)]
             pt-5
 
             sm:flex-row
@@ -711,12 +711,12 @@ export default function ProjectDrawer({
               w-full
               rounded-xl
               border
-              border-zinc-700
+              border-[var(--border)]
               px-6
               py-3
-              text-zinc-300
+              text-[var(--text-secondary)]
               transition
-              hover:bg-zinc-800
+              hover:bg-[var(--surface-muted)]
 
               sm:w-auto
             "

@@ -14,8 +14,17 @@
 
   --text-primary: #111111;
   --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
 
   --accent: #2563eb;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+
+  --danger: #dc2626;
+  --danger-foreground: #ffffff;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+
+  --success: #059669;
 
   /* Radius */
   --radius-sm: 12px;
@@ -41,8 +50,17 @@
 
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
 
   --accent: #8b5cf6;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgba(139, 92, 246, 0.14);
+
+  --danger: #f87171;
+  --danger-foreground: #1a1a1a;
+  --danger-soft: rgba(248, 113, 113, 0.14);
+
+  --success: #34d399;
 
   --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
 

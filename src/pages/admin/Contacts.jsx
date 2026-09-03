@@ -216,7 +216,7 @@ export default function Contacts() {
 
       <div
         className="
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
       >
 

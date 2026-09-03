@@ -227,7 +227,7 @@ export default function Technologies() {
 
     return (
 
-      <div className="text-zinc-400">
+      <div className="text-[var(--text-secondary)]">
 
         Chargement...
 

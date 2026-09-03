@@ -18,8 +18,8 @@ export default function AnalyticsCard({
       className="
         rounded-[28px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-6
         shadow-lg
         shadow-black/20
@@ -47,7 +47,7 @@ export default function AnalyticsCard({
 
           className="
             text-sm
-            text-zinc-400
+            text-[var(--text-secondary)]
           "
 
         >
@@ -76,8 +76,8 @@ export default function AnalyticsCard({
                 items-center
                 justify-center
                 rounded-xl
-                bg-violet-500/10
-                text-violet-400
+                bg-[var(--accent-soft)]
+                text-[var(--accent)]
               "
 
             >
@@ -110,7 +110,7 @@ export default function AnalyticsCard({
           text-4xl
           font-bold
           tracking-tight
-          text-white
+          text-[var(--text-primary)]
         "
 
       >

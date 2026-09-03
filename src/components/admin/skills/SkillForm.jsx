@@ -21,12 +21,12 @@ export default function SkillForm({
         className="
           w-full
           rounded-xl
-          bg-zinc-900
+          bg-[var(--surface)]
           border
-          border-zinc-800
+          border-[var(--border)]
           px-4
           py-3
-          text-white
+          text-[var(--text-primary)]
         "
       />
 
@@ -40,12 +40,12 @@ export default function SkillForm({
         className="
           w-full
           rounded-xl
-          bg-zinc-900
+          bg-[var(--surface)]
           border
-          border-zinc-800
+          border-[var(--border)]
           px-4
           py-3
-          text-white
+          text-[var(--text-primary)]
         "
       />
 
@@ -62,12 +62,12 @@ export default function SkillForm({
         className="
           w-full
           rounded-xl
-          bg-zinc-900
+          bg-[var(--surface)]
           border
-          border-zinc-800
+          border-[var(--border)]
           px-4
           py-3
-          text-white
+          text-[var(--text-primary)]
         "
       />
 
@@ -81,12 +81,12 @@ export default function SkillForm({
         className="
           w-full
           rounded-xl
-          bg-zinc-900
+          bg-[var(--surface)]
           border
-          border-zinc-800
+          border-[var(--border)]
           px-4
           py-3
-          text-white
+          text-[var(--text-primary)]
         "
       />
 
@@ -94,7 +94,7 @@ export default function SkillForm({
 
       <div>
 
-        <label className="text-sm text-zinc-400">
+        <label className="text-sm text-[var(--text-secondary)]">
           Couleur
         </label>
 
@@ -125,12 +125,12 @@ export default function SkillForm({
         className="
           w-full
           rounded-xl
-          bg-zinc-900
+          bg-[var(--surface)]
           border
-          border-zinc-800
+          border-[var(--border)]
           px-4
           py-3
-          text-white
+          text-[var(--text-primary)]
         "
       />
 

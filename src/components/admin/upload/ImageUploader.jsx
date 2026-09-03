@@ -63,8 +63,8 @@ export default function ImageUploader({
         }}
         className={`group relative flex min-h-[320px] cursor-pointer items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-all duration-200 ${
           dragging
-            ? "border-violet-500 bg-violet-500/10"
-            : "border-zinc-700 hover:border-violet-500"
+            ? "border-[var(--accent)] bg-[var(--accent-soft)]"
+            : "border-[var(--border)] hover:border-[var(--accent)]"
         }`}
       >
         {value ? (
@@ -76,14 +76,14 @@ export default function ImageUploader({
             />
 
             <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition group-hover:opacity-100">
-              <div className="flex flex-col items-center gap-3 text-white">
+              <div className="flex flex-col items-center gap-3 text-[var(--text-primary)]">
                 <ImagePlus size={42} />
                 <p>Cliquer pour remplacer l'image</p>
               </div>
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center gap-5 text-zinc-400">
+          <div className="flex flex-col items-center gap-5 text-[var(--text-secondary)]">
             {uploading ? (
               <>
                 <Loader2
@@ -98,11 +98,11 @@ export default function ImageUploader({
                 <UploadCloud size={52} />
 
                 <div className="text-center">
-                  <p className="font-medium text-white">
+                  <p className="font-medium text-[var(--text-primary)]">
                     Dépose ton image ici
                   </p>
 
-                  <p className="mt-2 text-sm text-zinc-400">
+                  <p className="mt-2 text-sm text-[var(--text-secondary)]">
                     ou clique pour sélectionner un fichier
                   </p>
 
@@ -133,7 +133,7 @@ export default function ImageUploader({
           type="button"
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
-          className="flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-3 text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3 text-[var(--accent-foreground)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ImagePlus size={18} />
 
@@ -145,7 +145,7 @@ export default function ImageUploader({
             type="button"
             disabled={uploading}
             onClick={() => onUpload(null)}
-            className="flex items-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-3 text-[var(--danger-foreground)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Trash2 size={18} />
             Supprimer

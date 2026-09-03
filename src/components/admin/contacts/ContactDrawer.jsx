@@ -179,12 +179,12 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-[var(--text-primary)]0">
             Nom
           </p>
 
 
-          <p className="mt-1 text-white">
+          <p className="mt-1 text-[var(--text-primary)]">
             {current.name}
           </p>
 
@@ -198,12 +198,12 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-[var(--text-primary)]0">
             Email
           </p>
 
 
-          <p className="mt-1 text-white">
+          <p className="mt-1 text-[var(--text-primary)]">
             {current.email}
           </p>
 
@@ -219,12 +219,12 @@ export default function ContactDrawer({
 
           <div>
 
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-[var(--text-primary)]0">
               Sujet
             </p>
 
 
-            <p className="mt-1 text-white">
+            <p className="mt-1 text-[var(--text-primary)]">
               {current.subject}
             </p>
 
@@ -242,7 +242,7 @@ export default function ContactDrawer({
 
         <div>
 
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-[var(--text-primary)]0">
             Message
           </p>
 
@@ -252,12 +252,12 @@ export default function ContactDrawer({
               mt-2
               rounded-xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-[var(--border)]
+              bg-[var(--surface)]
               p-4
               text-sm
               leading-relaxed
-              text-zinc-300
+              text-[var(--text-secondary)]
             "
           >
 
@@ -293,12 +293,12 @@ export default function ContactDrawer({
             className="
               rounded-xl
               border
-              border-zinc-700
+              border-[var(--border)]
               px-5
               py-3
-              text-zinc-300
+              text-[var(--text-secondary)]
               transition
-              hover:bg-zinc-800
+              hover:bg-[var(--surface-muted)]
             "
 
           >

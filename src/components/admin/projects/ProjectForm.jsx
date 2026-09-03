@@ -532,7 +532,7 @@ export default function ProjectForm({
                     mt-8
                     rounded-xl
                     px-4
-                    text-red-400
+                    text-[var(--danger)]
                   "
 
                 >

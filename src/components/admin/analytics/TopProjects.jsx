@@ -22,8 +22,8 @@ export default function TopProjects({
       className="
         rounded-[32px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-8
         shadow-lg
         shadow-black/20
@@ -38,7 +38,7 @@ export default function TopProjects({
         className="
           text-xl
           font-semibold
-          text-white
+          text-[var(--text-primary)]
         "
 
       >
@@ -56,7 +56,7 @@ export default function TopProjects({
         className="
           mt-1
           text-sm
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -90,7 +90,7 @@ export default function TopProjects({
 
               className="
                 text-sm
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
 
             >
@@ -157,10 +157,10 @@ export default function TopProjects({
                         items-center
                         justify-center
                         rounded-full
-                        bg-violet-600
+                        bg-[var(--accent)]
                         text-sm
                         font-bold
-                        text-white
+                        text-[var(--accent-foreground)]
                       "
 
                     >
@@ -178,7 +178,7 @@ export default function TopProjects({
 
                       className="
                         font-medium
-                        text-white
+                        text-[var(--text-primary)]
                       "
 
                     >
@@ -200,7 +200,7 @@ export default function TopProjects({
 
                     className="
                       text-sm
-                      text-zinc-400
+                      text-[var(--text-secondary)]
                     "
 
                   >
@@ -228,7 +228,7 @@ export default function TopProjects({
                     h-2
                     overflow-hidden
                     rounded-full
-                    bg-zinc-800
+                    bg-[var(--surface-muted)]
                   "
 
                 >
@@ -239,7 +239,7 @@ export default function TopProjects({
                     className="
                       h-full
                       rounded-full
-                      bg-violet-600
+                      bg-[var(--accent)]
                     "
 
                     style={{

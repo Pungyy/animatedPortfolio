@@ -17,11 +17,11 @@ export default function ExperienceList({
         className="
           rounded-2xl
           border
-          border-zinc-800
-          bg-zinc-900
+          border-[var(--border)]
+          bg-[var(--surface)]
           p-10
           text-center
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
       >
 

@@ -160,7 +160,7 @@ export default function Analytics() {
           items-center
           justify-center
           bg-[#050505]
-          text-zinc-400
+          text-[var(--text-secondary)]
         "
 
       >
@@ -371,7 +371,7 @@ export default function Analytics() {
         min-h-screen
         bg-[#050505]
         p-8
-        text-white
+        text-[var(--text-primary)]
       "
 
     >
@@ -435,7 +435,7 @@ export default function Analytics() {
 
               className="
                 mt-2
-                text-zinc-400
+                text-[var(--text-secondary)]
               "
 
             >
@@ -480,17 +480,17 @@ export default function Analytics() {
                 gap-3
                 rounded-2xl
                 border
-                border-zinc-800
-                bg-zinc-900
+                border-[var(--border)]
+                bg-[var(--surface)]
                 px-5
                 py-3
                 text-sm
                 font-medium
-                text-white
+                text-[var(--text-primary)]
                 transition
                 duration-300
-                hover:border-violet-500/50
-                hover:bg-zinc-800
+                hover:border-[var(--accent)]
+                hover:bg-[var(--surface-muted)]
               "
 
             >
@@ -501,7 +501,7 @@ export default function Analytics() {
                 size={18}
 
                 className="
-                  text-violet-400
+                  text-[var(--accent)]
                 "
 
               />
@@ -521,7 +521,7 @@ export default function Analytics() {
                 size={16}
 
                 className={`
-                  text-zinc-400
+                  text-[var(--text-secondary)]
                   transition
                   duration-300
 
@@ -559,8 +559,8 @@ export default function Analytics() {
                     w-56
                     rounded-2xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-[var(--border)]
+                    bg-[var(--background)]
                     p-2
                     shadow-xl
                     shadow-black/40
@@ -636,11 +636,11 @@ export default function Analytics() {
 
                               ?
 
-                              "bg-violet-500/10 text-violet-400"
+                              "bg-[var(--accent-soft)] text-[var(--accent)]"
 
                               :
 
-                              "text-zinc-300 hover:bg-zinc-800"
+                              "text-[var(--text-secondary)] hover:bg-[var(--surface-muted)]"
                           }
                         `}
 

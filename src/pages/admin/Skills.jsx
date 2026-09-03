@@ -231,7 +231,7 @@ export default function Skills() {
 
     return (
 
-      <div className="text-zinc-400">
+      <div className="text-[var(--text-secondary)]">
 
         Chargement...
 

@@ -167,7 +167,7 @@ export default function Settings() {
 
     return (
 
-      <p className="text-white">
+      <p className="text-[var(--text-primary)]">
 
         Chargement...
 
@@ -264,7 +264,7 @@ export default function Settings() {
                 mb-4
                 text-sm
                 font-medium
-                text-zinc-400
+                text-[var(--text-secondary)]
               "
 
             >

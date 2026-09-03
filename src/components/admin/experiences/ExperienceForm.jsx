@@ -8,16 +8,16 @@ export default function ExperienceForm({
     w-full
     rounded-xl
     border
-    border-zinc-800
-    bg-zinc-900
+    border-[var(--border)]
+    bg-[var(--surface)]
     px-4
     py-3
     text-sm
-    text-white
+    text-[var(--text-primary)]
     outline-none
     transition
-    placeholder:text-zinc-600
-    focus:border-violet-500
+    placeholder:text-[var(--text-muted)]
+    focus:border-[var(--accent)]
   `;
 
 
@@ -25,7 +25,7 @@ export default function ExperienceForm({
     mb-2
     block
     text-sm
-    text-zinc-400
+    text-[var(--text-secondary)]
   `;
 
 
@@ -286,7 +286,7 @@ export default function ExperienceForm({
           items-center
           gap-3
           text-sm
-          text-zinc-300
+          text-[var(--text-secondary)]
         "
 
       >
@@ -308,8 +308,8 @@ export default function ExperienceForm({
             h-4
             w-4
             rounded
-            border-zinc-700
-            bg-zinc-900
+            border-[var(--border)]
+            bg-[var(--surface)]
           "
 
         />

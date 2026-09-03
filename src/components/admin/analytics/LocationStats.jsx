@@ -39,8 +39,8 @@ export default function LocationStats({
       className="
         rounded-[32px]
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         p-8
         shadow-lg
         shadow-black/20
@@ -55,7 +55,7 @@ export default function LocationStats({
         className="
           text-xl
           font-semibold
-          text-white
+          text-[var(--text-primary)]
         "
 
       >
@@ -72,7 +72,7 @@ export default function LocationStats({
         className="
           mt-1
           text-sm
-          text-zinc-500
+          text-[var(--text-primary)]0
         "
 
       >
@@ -107,7 +107,7 @@ export default function LocationStats({
 
               className="
                 text-sm
-                text-zinc-500
+                text-[var(--text-primary)]0
               "
 
             >
@@ -137,8 +137,8 @@ export default function LocationStats({
                 justify-between
                 rounded-2xl
                 border
-                border-zinc-800
-                bg-zinc-950
+                border-[var(--border)]
+                bg-[var(--background)]
                 px-5
                 py-4
               "
@@ -151,7 +151,7 @@ export default function LocationStats({
 
                 className="
                   font-medium
-                  text-white
+                  text-[var(--text-primary)]
                 "
 
               >
@@ -169,7 +169,7 @@ export default function LocationStats({
 
                 className="
                   text-sm
-                  text-zinc-400
+                  text-[var(--text-secondary)]
                 "
 
               >

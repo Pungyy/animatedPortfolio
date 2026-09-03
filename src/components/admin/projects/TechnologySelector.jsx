@@ -44,7 +44,7 @@ export default function TechnologySelector({
 
   if (loading) {
     return (
-      <div className="text-sm text-zinc-400">
+      <div className="text-sm text-[var(--text-secondary)]">
         Chargement des technologies...
       </div>
     );
@@ -55,7 +55,7 @@ export default function TechnologySelector({
   return (
     <div className="space-y-4">
 
-      <h3 className="text-sm font-medium text-white">
+      <h3 className="text-sm font-medium text-[var(--text-primary)]">
         Technologies utilisées
       </h3>
 
@@ -72,11 +72,11 @@ export default function TechnologySelector({
               gap-3
               rounded-xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-[var(--border)]
+              bg-[var(--surface)]
               p-3
               transition
-              hover:border-zinc-600
+              hover:border-[var(--border)]
             "
           >
 
@@ -87,7 +87,7 @@ export default function TechnologySelector({
             />
 
 
-            <span className="text-sm text-zinc-200">
+            <span className="text-sm text-[var(--text-primary)]">
               {tech.name}
             </span>
 

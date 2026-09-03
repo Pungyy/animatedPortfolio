@@ -226,11 +226,11 @@ export default function SkillDrawer({
           className="
             rounded-xl
             border
-            border-zinc-700
+            border-[var(--border)]
             px-6
             py-3
-            text-zinc-300
-            hover:bg-zinc-800
+            text-[var(--text-secondary)]
+            hover:bg-[var(--surface-muted)]
           "
 
         >

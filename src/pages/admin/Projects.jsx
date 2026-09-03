@@ -255,7 +255,7 @@ export default function Projects() {
   if (loading) {
 
     return (
-      <div className="text-zinc-400">
+      <div className="text-[var(--text-secondary)]">
         Chargement...
       </div>
     );

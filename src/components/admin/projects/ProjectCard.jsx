@@ -24,10 +24,10 @@ export default function ProjectCard({
         overflow-hidden
         rounded-2xl
         border
-        border-zinc-800
-        bg-zinc-900
+        border-[var(--border)]
+        bg-[var(--surface)]
         transition
-        hover:border-violet-500/40
+        hover:border-[var(--accent)]
       "
     >
 
@@ -40,7 +40,7 @@ export default function ProjectCard({
           relative
           h-52
           overflow-hidden
-          bg-zinc-800
+          bg-[var(--surface-muted)]
         "
       >
 
@@ -69,7 +69,7 @@ export default function ProjectCard({
               items-center
               justify-center
               text-sm
-              text-zinc-500
+              text-[var(--text-primary)]0
             "
           >
             Pas d'image
@@ -98,7 +98,7 @@ export default function ProjectCard({
           >
 
             <Eye
-              className="text-white"
+              className="text-[var(--text-primary)]"
               size={30}
             />
 
@@ -118,12 +118,12 @@ export default function ProjectCard({
                 left-4
                 top-4
                 rounded-full
-                bg-violet-600
+                bg-[var(--accent)]
                 px-3
                 py-1
                 text-xs
                 font-semibold
-                text-white
+                text-[var(--accent-foreground)]
               "
             >
               ⭐ Featured
@@ -165,7 +165,7 @@ export default function ProjectCard({
               className="
                 text-xl
                 font-semibold
-                text-white
+                text-[var(--text-primary)]
               "
             >
               {project.title}
@@ -177,14 +177,14 @@ export default function ProjectCard({
 
               <Eye
                 size={18}
-                className="text-emerald-400"
+                className="text-[var(--success)]"
               />
 
               :
 
               <EyeOff
                 size={18}
-                className="text-zinc-500"
+                className="text-[var(--text-primary)]0"
               />
 
             }
@@ -199,7 +199,7 @@ export default function ProjectCard({
               mt-2
               line-clamp-3
               text-sm
-              text-zinc-400
+              text-[var(--text-secondary)]
             "
           >
             {project.short_description}
@@ -229,11 +229,11 @@ export default function ProjectCard({
               <span
                 className="
                   rounded-full
-                  bg-zinc-800
+                  bg-[var(--surface-muted)]
                   px-3
                   py-1
                   text-xs
-                  text-zinc-300
+                  text-[var(--text-secondary)]
                 "
               >
                 {project.category}
@@ -250,11 +250,11 @@ export default function ProjectCard({
               <span
                 className="
                   rounded-full
-                  bg-zinc-800
+                  bg-[var(--surface-muted)]
                   px-3
                   py-1
                   text-xs
-                  text-zinc-300
+                  text-[var(--text-secondary)]
                 "
               >
                 {project.status}
@@ -271,11 +271,11 @@ export default function ProjectCard({
               <span
                 className="
                   rounded-full
-                  bg-zinc-800
+                  bg-[var(--surface-muted)]
                   px-3
                   py-1
                   text-xs
-                  text-zinc-300
+                  text-[var(--text-secondary)]
                 "
               >
                 {project.year}
@@ -374,10 +374,10 @@ export default function ProjectCard({
                 rel="noreferrer"
                 className="
                   rounded-lg
-                  bg-zinc-800
+                  bg-[var(--surface-muted)]
                   p-2
-                  text-zinc-300
-                  hover:bg-zinc-700
+                  text-[var(--text-secondary)]
+                  hover:bg-[var(--surface-muted)]
                 "
               >
 
@@ -399,10 +399,10 @@ export default function ProjectCard({
                 rel="noreferrer"
                 className="
                   rounded-lg
-                  bg-zinc-800
+                  bg-[var(--surface-muted)]
                   p-2
-                  text-zinc-300
-                  hover:bg-zinc-700
+                  text-[var(--text-secondary)]
+                  hover:bg-[var(--surface-muted)]
                 "
               >
 
@@ -430,7 +430,7 @@ export default function ProjectCard({
             justify-end
             gap-3
             border-t
-            border-zinc-800
+            border-[var(--border)]
             pt-4
           "
         >
@@ -442,13 +442,13 @@ export default function ProjectCard({
               items-center
               gap-2
               rounded-xl
-              bg-zinc-800
+              bg-[var(--surface-muted)]
               px-4
               py-2
               text-sm
-              text-white
+              text-[var(--text-primary)]
               transition
-              hover:bg-zinc-700
+              hover:bg-[var(--surface-muted)]
             "
           >
 
@@ -468,13 +468,13 @@ export default function ProjectCard({
               items-center
               gap-2
               rounded-xl
-              bg-red-500/10
+              bg-[var(--danger-soft)]
               px-4
               py-2
               text-sm
-              text-red-400
+              text-[var(--danger)]
               transition
-              hover:bg-red-500/20
+              hover:opacity-90/20
             "
           >
 

@@ -5,16 +5,16 @@ export default function Checkbox({
   onChange,
 }) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer">
+    <label className="flex cursor-pointer items-center gap-3">
       <input
         type="checkbox"
         name={name}
-        checked={checked}
+        checked={!!checked}
         onChange={onChange}
-        className="h-5 w-5 rounded border-zinc-700 bg-zinc-800 accent-violet-600"
+        className="h-4 w-4 rounded-md border-[var(--border)] bg-[var(--surface-muted)] accent-[var(--accent)]"
       />
 
-      <span className="text-zinc-300">
+      <span className="text-sm text-[var(--text-secondary)]">
         {label}
       </span>
     </label>
