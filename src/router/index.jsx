@@ -8,6 +8,7 @@ import {
 import Home from "../pages/Home";
 import Project from "../pages/Project";
 import NotFound from "../pages/NotFound";
+import Coulisses from "../pages/Coulisses";
 
 
 // Auth
@@ -69,6 +70,18 @@ export default function Router() {
 
         element={
           <Project />
+        }
+
+      />
+
+
+
+      <Route
+
+        path="/coulisses"
+
+        element={
+          <Coulisses />
         }
 
       />

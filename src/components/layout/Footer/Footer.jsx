@@ -14,6 +14,8 @@ import {
 } from "react-icons/fa";
 
 
+import { Link } from "react-router-dom";
+
 import usePortfolio from "../../../hooks/usePortfolio";
 
 
@@ -493,9 +495,10 @@ export default function Footer() {
 
 
 
-        © {year} {settings?.first_name || "Portfolio"}.
-
-        Tous droits réservés.
+        <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span>© {year} {settings?.first_name || "Portfolio"}. Tous droits réservés.</span>
+          <Link to="/coulisses" className="transition hover:text-[var(--text-primary)]">Coulisses</Link>
+        </span>
 
 
 
