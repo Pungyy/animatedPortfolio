@@ -34,11 +34,11 @@ function VisitsBars({ data = [] }) {
         {data.map((d) => (
           <div
             key={d.day}
-            className="group relative flex-1"
+            className="group relative h-full flex-1"
             title={`${d.day} · ${d.count}`}
           >
             <div
-              className="w-full rounded-t bg-[var(--accent)] transition-all"
+              className="absolute inset-x-0 bottom-0 rounded-t bg-[var(--accent)] transition-all"
               style={{ height: `${(d.count / max) * 100}%`, minHeight: 2 }}
             />
           </div>
@@ -118,7 +118,11 @@ export default function Coulisses() {
           value: formatDuration(stats.avg_duration),
           label: "Durée moyenne d'une visite",
         },
-        { value: stats.top_project || "—", label: "Projet le plus consulté" },
+        {
+          value: stats.top_project || "—",
+          label: "Projet le plus consulté",
+          compact: true,
+        },
         { value: nf.format(stats.cv_downloads), label: "Téléchargements du CV" },
         { value: nf.format(stats.technologies), label: "Technologies" },
         {
@@ -170,7 +174,13 @@ export default function Coulisses() {
                       transition={{ duration: 0.5, delay: i * 0.04 }}
                       className="text-center"
                     >
-                      <p className="text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl">
+                      <p
+                        className={
+                          card?.compact
+                            ? "line-clamp-2 text-lg font-semibold leading-snug text-[var(--text-primary)] sm:text-xl"
+                            : "text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl"
+                        }
+                      >
                         {card ? card.value : "—"}
                       </p>
                       <p className="mt-2 text-sm text-[var(--text-secondary)]">
