@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
@@ -34,18 +35,36 @@ function Fallback() {
   );
 }
 
-export default function Router() {
+// Routes publiques : le <Routes> est re-clé sur le pathname pour
+// qu'AnimatePresence détecte le changement de page et anime la transition
+// (voir MainLayout, qui anime son <main>).
+function PublicRoutes() {
+  const location = useLocation();
+
+  return (
+    <Suspense fallback={<Fallback />}>
+      <AnimatePresence mode="wait" initial={false}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/project/:slug" element={<Project />} />
+          <Route path="/coulisses" element={<Coulisses />} />
+          <Route path="/uses" element={<Uses />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AnimatePresence>
+    </Suspense>
+  );
+}
+
+// Routes admin : pas de re-clé ni de transition ici — AdminLayout (sidebar,
+// scroll de la liste...) doit rester monté d'une page du dashboard à l'autre.
+function AdminRoutes() {
   return (
     <Suspense fallback={<Fallback />}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/project/:slug" element={<Project />} />
-        <Route path="/coulisses" element={<Coulisses />} />
-        <Route path="/uses" element={<Uses />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="login" element={<Login />} />
 
         <Route
           element={
@@ -54,20 +73,29 @@ export default function Router() {
             </ProtectedRoute>
           }
         >
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/admin/projects" element={<Projects />} />
-          <Route path="/admin/technologies" element={<Technologies />} />
-          <Route path="/admin/settings" element={<Settings />} />
-          <Route path="/admin/skills" element={<Skills />} />
-          <Route path="/admin/experiences" element={<Experiences />} />
-          <Route path="/admin/contacts" element={<Contacts />} />
-          <Route path="/admin/analytics" element={<Analytics />} />
-          <Route path="/admin/posts" element={<Posts />} />
-          <Route path="/admin/testimonials" element={<Testimonials />} />
+          <Route index element={<Dashboard />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="technologies" element={<Technologies />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="skills" element={<Skills />} />
+          <Route path="experiences" element={<Experiences />} />
+          <Route path="contacts" element={<Contacts />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="posts" element={<Posts />} />
+          <Route path="testimonials" element={<Testimonials />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
+  );
+}
+
+export default function Router() {
+  return (
+    <Routes>
+      <Route path="/admin/*" element={<AdminRoutes />} />
+      <Route path="/*" element={<PublicRoutes />} />
+    </Routes>
   );
 }

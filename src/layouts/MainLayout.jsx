@@ -1,6 +1,10 @@
+import { motion } from "framer-motion";
+
 import Navbar from "../components/layout/Navbar/Navbar";
 import Footer from "../components/layout/Footer/Footer";
 import CommandPalette from "../components/common/CommandPalette";
+
+const EASE = [0.22, 1, 0.36, 1];
 
 export default function MainLayout({ children }) {
   return (
@@ -9,9 +13,15 @@ export default function MainLayout({ children }) {
 
       <Navbar />
 
-      <main id="main">
+      <motion.main
+        id="main"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.22, ease: EASE }}
+      >
         {children}
-      </main>
+      </motion.main>
 
       <Footer />
 

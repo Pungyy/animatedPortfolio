@@ -22,6 +22,9 @@ import PageTracker from "./components/analytics/PageTracker";
 import ScrollManager from "./components/common/ScrollManager";
 
 
+import RoutePrefetcher from "./components/common/RoutePrefetcher";
+
+
 import {
   updateSessionDuration,
   endSession,
@@ -187,6 +190,8 @@ export default function App(){
       <ScrollManager />
 
       <PageTracker />
+
+      <RoutePrefetcher />
 
       <Router />
 
