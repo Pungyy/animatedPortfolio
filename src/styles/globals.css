@@ -90,6 +90,34 @@ body {
     color .3s ease;
 }
 
+/* Scrollbar moderne — suit --text-primary, donc blanche en dark et
+   quasi noire en light, sans bloc .dark séparé. */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text-primary) 30%, transparent)
+    transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--text-primary) 30%, transparent);
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--text-primary) 55%, transparent);
+}
+
 img {
   display: block;
   max-width: 100%;
