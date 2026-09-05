@@ -8,7 +8,11 @@ import {
 
 import usePortfolio from "../../../hooks/usePortfolio";
 
-const FALLBACK_STACK = ["React", "PHP", "Supabase"];
+const FALLBACK_STACK = {
+  frontend: ["React", "TypeScript", "Next.js"],
+  backend: ["PHP", "Node.js"],
+  database: ["Supabase", "PostgreSQL"],
+};
 
 // Petit rendu de code stylisé — pas du vrai code exécuté, juste une mise
 // en couleur façon éditeur pour illustrer le stack sans photo générique.
@@ -25,8 +29,59 @@ const MUTED = "text-[var(--text-muted)]";
 const DIM = "text-[var(--text-secondary)]";
 const TEXT = "text-[var(--text-primary)]";
 
+function bucketFor(category) {
+  const c = (category || "").toLowerCase();
+  if (c.includes("front")) return "frontend";
+  if (c.includes("back")) return "backend";
+  if (c.includes("base") || c.includes("data")) return "database";
+  return null;
+}
+
+// Regroupe les compétences admin par catégorie (ordre = display_order).
+function groupSkills(skills) {
+  const grouped = { frontend: [], backend: [], database: [] };
+
+  (skills || []).forEach((s) => {
+    const bucket = bucketFor(s.category);
+    if (bucket && s.name) grouped[bucket].push(s.name);
+  });
+
+  const hasAny = Object.values(grouped).some((list) => list.length);
+  if (!hasAny) return FALLBACK_STACK;
+
+  return {
+    frontend: grouped.frontend.slice(0, 3),
+    backend: grouped.backend.slice(0, 3),
+    database: grouped.database.slice(0, 3),
+  };
+}
+
+// `["Item", "Item"]` coloré, sur une seule ligne de tokens.
+function arrayTokens(names) {
+  return [
+    <Token key="open" className={DIM}>[</Token>,
+    ...names.flatMap((name, i) => [
+      <Token key={`s${i}`} className={STRING}>{`"${name}"`}</Token>,
+      <Token key={`sep${i}`} className={DIM}>
+        {i < names.length - 1 ? ", " : ""}
+      </Token>,
+    ]),
+    <Token key="close" className={DIM}>]</Token>,
+  ];
+}
+
+function categoryLine(key, names) {
+  return [
+    <Token key="indent" className={DIM}>{"    "}</Token>,
+    <Token key="key" className={ATTR}>{key}</Token>,
+    <Token key="colon" className={DIM}>{": "}</Token>,
+    ...arrayTokens(names),
+    <Token key="comma" className={DIM}>,</Token>,
+  ];
+}
+
 function buildLines(stack) {
-  const names = (stack?.length ? stack : FALLBACK_STACK).slice(0, 3);
+  const { frontend, backend, database } = stack;
 
   return [
     [<Token key="c" className={`${MUTED} italic`}>// ce que je construis</Token>],
@@ -38,18 +93,14 @@ function buildLines(stack) {
     [
       <Token key="1" className={KEYWORD}>{"  const "}</Token>,
       <Token key="2" className={TEXT}>stack</Token>,
-      <Token key="3" className={DIM}> = [</Token>,
+      <Token key="3" className={DIM}> = {"{"}</Token>,
     ],
-    [
-      <Token key="1" className={DIM}>{"    "}</Token>,
-      ...names.flatMap((name, i) => [
-        <Token key={`s${i}`} className={STRING}>{`"${name}"`}</Token>,
-        <Token key={`sep${i}`} className={DIM}>
-          {i < names.length - 1 ? ", " : ""}
-        </Token>,
-      ]),
-    ],
-    [<Token key="1" className={DIM}>{"  ];"}</Token>],
+    ...[
+      frontend.length && categoryLine("frontend", frontend),
+      backend.length && categoryLine("backend", backend),
+      database.length && categoryLine("database", database),
+    ].filter(Boolean),
+    [<Token key="1" className={DIM}>{"  };"}</Token>],
     [],
     [<Token key="1" className={KEYWORD}>{"  return "}</Token>, <Token key="2" className={DIM}>(</Token>],
     [<Token key="1" className={DIM}>{"    <"}</Token>, <Token key="2" className={TAG}>Portfolio</Token>],
@@ -74,8 +125,8 @@ function buildLines(stack) {
 
 export default function HeroVisual() {
   const { skills } = usePortfolio();
-  const stackNames = (skills || []).map((s) => s.name).filter(Boolean);
-  const lines = buildLines(stackNames);
+  const stack = groupSkills(skills);
+  const lines = buildLines(stack);
 
   const cardRef = useRef(null);
   const [reduceMotion] = useState(
